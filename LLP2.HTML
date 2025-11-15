@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Business Law | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <header><h1>Lesson 2 – Legal Terminologies and Documents</h1></header>
+
+  <section class="content">
+
+    <!-- Introduction -->
+    <div class="section-block">
+      <h2>Introduction</h2>
+      <p>
+        Legal offices use many specialized terms and documents in preparing cases, filing paperwork,
+        and communicating with clients and the court. Understanding these terms is essential for anyone
+        working in a law office, as they ensure accuracy, professionalism, and proper handling of legal tasks.
+      </p>
+    </div>
+
+    <!-- Section 1: Common Legal Terms -->
+    <div class="section-block">
+      <h2>Common Legal Terms</h2>
+      <p>
+        These terms are frequently used in legal documents, court procedures, and law office operations.
+        Knowing them helps legal office staff manage documents and communicate correctly.
+      </p>
+
+      <ul>
+        <li><strong>Affidavit</strong> – A written statement of facts sworn before a notary public.</li>
+        <li><strong>Complaint</strong> – A legal document filed by a plaintiff to begin a lawsuit.</li>
+        <li><strong>Defendant</strong> – The person or party being sued or accused in a case.</li>
+        <li><strong>Plaintiff</strong> – The person or party who files the complaint.</li>
+        <li><strong>Subpoena</strong> – A court order requiring a person to appear or present documents.</li>
+        <li><strong>Deposition</strong> – A sworn testimony given outside the courtroom.</li>
+        <li><strong>Summons</strong> – A notice informing the defendant that a case was filed.</li>
+        <li><strong>Verdict</strong> – The formal decision or judgment of a court.</li>
+        <li><strong>Notary Public</strong> – A person authorized to notarize documents and administer oaths.</li>
+        <li><strong>Testimony</strong> – A statement given under oath during court proceedings.</li>
+      </ul>
+    </div>
+
+    <!-- Section 2: Types of Legal Documents -->
+    <div class="section-block">
+      <h2>Types of Legal Documents</h2>
+
+      <h3>1. Pleadings</h3>
+      <p>Formal written statements submitted to the court by the parties involved.</p>
+      <ul>
+        <li><strong>Complaint</strong> – Filed by the plaintiff to begin the case.</li>
+        <li><strong>Answer</strong> – Defendant’s response to the complaint.</li>
+        <li><strong>Reply</strong> – Plaintiff's response to the defendant’s answer.</li>
+      </ul>
+
+      <h3>2. Contracts and Agreements</h3>
+      <p>Legal documents stating mutual obligations between parties.</p>
+      <ul>
+        <li>Employment Contract</li>
+        <li>Lease Agreement</li>
+        <li>Sales Contract</li>
+        <li>Service Agreement</li>
+      </ul>
+
+      <h3>3. Affidavits and Notarized Documents</h3>
+      <p>Sworn written statements signed before a notary public.</p>
+      <ul>
+        <li>Affidavit of Loss</li>
+        <li>Affidavit of Support</li>
+        <li>Affidavit of Undertaking</li>
+      </ul>
+
+      <h3>4. Memoranda and Legal Opinions</h3>
+      <p>Internal or advisory legal documents prepared by lawyers or legal staff.</p>
+      <ul>
+        <li><strong>Memorandum of Law</strong> – Explains legal arguments or case analysis.</li>
+        <li><strong>Legal Opinion</strong> – Provides legal interpretation or advice.</li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Formatting and Preparing Legal Papers -->
+    <div class="section-block">
+      <h2>Formatting and Preparing Legal Papers</h2>
+      <p>
+        Legal documents must follow strict formatting rules to ensure professionalism and compliance
+        with court requirements. Incorrect formatting may result in delays or rejection of filings.
+      </p>
+
+      <ul>
+        <li><strong>Paper Size:</strong> Long bond (8.5 x 13 inches).</li>
+        <li><strong>Margins:</strong> Left – 1.5 inches; Right/Top/Bottom – 1 inch.</li>
+        <li><strong>Font Style & Size:</strong> Times New Roman or Arial, size 12.</li>
+        <li><strong>Spacing:</strong> Double-spaced for pleadings; single-spaced for internal documents.</li>
+        <li><strong>Headings:</strong> Must include court name, case number, and document title.</li>
+        <li><strong>Pagination:</strong> Page number at bottom center or bottom right.</li>
+      </ul>
+    </div>
+
+    <!-- Quick Quiz -->
+    <div class="quiz-block">
+     
+
+      <h3>What is an Affidavit?</h3>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">A court verdict</li>
+        <li onclick="checkAnswer(this,true)">A sworn written statement notarized by a notary public</li>
+        <li onclick="checkAnswer(this,false)">A legal complaint</li>
+        <li onclick="checkAnswer(this,false)">A verbal testimony</li>
+      </ul>
+
+      <h3>Which document begins a lawsuit?</h3>
+      <ul class="options">
+        <li onclick="checkAnswer(this,true)">Complaint</li>
+        <li onclick="checkAnswer(this,false)">Verdict</li>
+        <li onclick="checkAnswer(this,false)">Subpoena</li>
+        <li onclick="checkAnswer(this,false)">Affidavit</li>
+      </ul>
+
+      <h3>A Summons is used to:</h3>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">End a trial</li>
+        <li onclick="checkAnswer(this,true)">Notify a defendant about a filed case</li>
+        <li onclick="checkAnswer(this,false)">Record a testimony</li>
+        <li onclick="checkAnswer(this,false)">Approve a contract</li>
+      </ul>
+
+      <h3>Which is NOT a type of pleading?</h3>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Complaint</li>
+        <li onclick="checkAnswer(this,false)">Answer</li>
+        <li onclick="checkAnswer(this,true)">Lease Agreement</li>
+        <li onclick="checkAnswer(this,false)">Reply</li>
+      </ul>
+
+      <h3>What margin should be used on the left side of a pleading?</h3>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">0.5 inch</li>
+        <li onclick="checkAnswer(this,false)">1 inch</li>
+        <li onclick="checkAnswer(this,true)">1.5 inches</li>
+        <li onclick="checkAnswer(this,false)">2 inches</li>
+      </ul>
+
+      <div id="feedback" class="feedback"></div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section-block">
+      <h2>Summary</h2>
+      <p>
+        Lesson 2 introduced essential legal terms and the main types of legal documents handled in a legal office.
+        Mastery of these concepts helps ensure accuracy, professionalism, and proper preparation of case files.
+        Understanding formatting rules is also important to comply with court standards and avoid filing errors.
+      </p>
+    </div>
+
+    <a class="back" href="LP.html">← Back to Module</a>
+
+  </section>
+
+
+</main>
+
+<script>
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

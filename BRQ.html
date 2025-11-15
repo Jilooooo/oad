@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Management Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;top:0;left:0;height:100%;width:60px;background:#0b1e3f;
+      border-right:1px solid #162b57;transition:width .3s,left .3s;
+      overflow:hidden;z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    /* MAIN */
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;
+      border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+
+    .menu-btn{display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;font-size:18px}
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main">
+<header><h1>Business Report Writing Quiz</h1></header>
+
+<form id="quizForm" class="quiz-container">
+
+<!-- 1 -->
+<div class="quiz-block"><h2>1. You are asked to prepare a report summarizing the monthly sales of your branch without giving recommendations. What type of report should you prepare?</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="A">a) Analytical report</label>
+    <label><input type="radio" name="q1" value="B">b) Informational report</label>
+    <label><input type="radio" name="q1" value="C">c) Proposal report</label>
+    <label><input type="radio" name="q1" value="D">d) Research report</label>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="quiz-block"><h2>2. A laptop was missing in the school inventory before your tenure... This is an example of:</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="A">a) Proposal report</label>
+    <label><input type="radio" name="q2" value="B">b) Justification/Explanation report</label>
+    <label><input type="radio" name="q2" value="C">c) Research report</label>
+    <label><input type="radio" name="q2" value="D">d) Informational report</label>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="quiz-block"><h2>3. Your manager asks for a report analyzing feasibility... Which report?</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="A">a) Informational report</label>
+    <label><input type="radio" name="q3" value="B">b) Analytical report</label>
+    <label><input type="radio" name="q3" value="C">c) Meeting minutes</label>
+    <label><input type="radio" name="q3" value="D">d) Payroll report</label>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="quiz-block"><h2>4. You submit a formal request for unpaid salary... This demonstrates:</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="A">a) Poor communication</label>
+    <label><input type="radio" name="q4" value="B">b) Formal business writing</label>
+    <label><input type="radio" name="q4" value="C">c) Informal correspondence</label>
+    <label><input type="radio" name="q4" value="D">d) A research study</label>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="quiz-block"><h2>5. Your report contains only raw attendance data... This is an example of:</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="A">a) Analytical report</label>
+    <label><input type="radio" name="q5" value="B">b) Informational report</label>
+    <label><input type="radio" name="q5" value="C">c) Proposal report</label>
+    <label><input type="radio" name="q5" value="D">d) Research report</label>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="quiz-block"><h2>6. A brief overview at the beginning of a report is the:</h2>
+  <div class="options">
+    <label><input type="radio" name="q6" value="A">a) Introduction</label>
+    <label><input type="radio" name="q6" value="B">b) Executive Summary</label>
+    <label><input type="radio" name="q6" value="C">c) Body/Discussion</label>
+    <label><input type="radio" name="q6" value="D">d) Conclusion</label>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="quiz-block"><h2>7. You want to propose a new study... The appropriate report is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q7" value="A">a) Informational report</label>
+    <label><input type="radio" name="q7" value="B">b) Proposal report</label>
+    <label><input type="radio" name="q7" value="C">c) Analytical report</label>
+    <label><input type="radio" name="q7" value="D">d) Research report</label>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="quiz-block"><h2>8. Report’s key findings + suggested actions go to:</h2>
+  <div class="options">
+    <label><input type="radio" name="q8" value="A">a) Introduction</label>
+    <label><input type="radio" name="q8" value="B">b) Conclusion and Recommendations</label>
+    <label><input type="radio" name="q8" value="C">c) Executive Summary only</label>
+    <label><input type="radio" name="q8" value="D">d) Table of Contents</label>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="quiz-block"><h2>9. A principal recommending approval of a teacher's study request is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q9" value="A">a) Professional communication</label>
+    <label><input type="radio" name="q9" value="B">b) Casual conversation</label>
+    <label><input type="radio" name="q9" value="C">c) Noncompliance</label>
+    <label><input type="radio" name="q9" value="D">d) Personal opinion</label>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="quiz-block"><h2>10. Meeting minutes are what type of report?</h2>
+  <div class="options">
+    <label><input type="radio" name="q10" value="A">a) Proposal report</label>
+    <label><input type="radio" name="q10" value="B">b) Informational report</label>
+    <label><input type="radio" name="q10" value="C">c) Analytical report</label>
+    <label><input type="radio" name="q10" value="D">d) Research report</label>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="quiz-block"><h2>11. Teacher reports missing equipment with factual evidence. This is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q11" value="A">a) Clear justification</label>
+    <label><input type="radio" name="q11" value="B">b) Irresponsible behavior</label>
+    <label><input type="radio" name="q11" value="C">c) Opinion-based reporting</label>
+    <label><input type="radio" name="q11" value="D">d) Creative writing</label>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="quiz-block"><h2>12. A report on academic performance trends with recommendations is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q12" value="A">a) Informational report</label>
+    <label><input type="radio" name="q12" value="B">b) Analytical report</label>
+    <label><input type="radio" name="q12" value="C">c) Meeting minutes</label>
+    <label><input type="radio" name="q12" value="D">d) Justification report</label>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="quiz-block"><h2>13. A professional, factual, objective report shows:</h2>
+  <div class="options">
+    <label><input type="radio" name="q13" value="A">a) Accuracy and objectivity</label>
+    <label><input type="radio" name="q13" value="B">b) Humor</label>
+    <label><input type="radio" name="q13" value="C">c) Creativity</label>
+    <label><input type="radio" name="q13" value="D">d) Personal opinion</label>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="quiz-block"><h2>14. A report proposing an ELLN program with data and outcomes is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q14" value="A">a) Informational report</label>
+    <label><input type="radio" name="q14" value="B">b) Analytical report</label>
+    <label><input type="radio" name="q14" value="C">c) Research report</label>
+    <label><input type="radio" name="q14" value="D">d) Meeting minutes</label>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="quiz-block"><h2>15. Report documenting study results without recommendations is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q15" value="A">a) Informational report</label>
+    <label><input type="radio" name="q15" value="B">b) Research report</label>
+    <label><input type="radio" name="q15" value="C">c) Proposal report</label>
+    <label><input type="radio" name="q15" value="D">d) Analytical report</label>
+  </div>
+</div>
+
+<!-- 16 -->
+<div class="quiz-block"><h2>16. Missing property explanation before your tenure should be:</h2>
+  <div class="options">
+    <label><input type="radio" name="q16" value="A">a) Ignore the issue</label>
+    <label><input type="radio" name="q16" value="B">b) Provide a factual justification</label>
+    <label><input type="radio" name="q16" value="C">c) Blame previous staff</label>
+    <label><input type="radio" name="q16" value="D">d) Write casually to colleagues</label>
+  </div>
+</div>
+
+<!-- 17 -->
+<div class="quiz-block"><h2>17. Summarizing key points at the end of a report is the:</h2>
+  <div class="options">
+    <label><input type="radio" name="q17" value="A">a) Introduction</label>
+    <label><input type="radio" name="q17" value="B">b) Conclusion</label>
+    <label><input type="radio" name="q17" value="C">c) Table of Contents</label>
+    <label><input type="radio" name="q17" value="D">d) Executive Summary</label>
+  </div>
+</div>
+
+<!-- 18 -->
+<div class="quiz-block"><h2>18. Proposal for a research study must include:</h2>
+  <div class="options">
+    <label><input type="radio" name="q18" value="A">a) Only raw data</label>
+    <label><input type="radio" name="q18" value="B">b) Analysis and recommendations</label>
+    <label><input type="radio" name="q18" value="C">c) Personal opinions</label>
+    <label><input type="radio" name="q18" value="D">d) Informal suggestions</label>
+  </div>
+</div>
+
+<!-- 19 -->
+<div class="quiz-block"><h2>19. A project progress report with only facts is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q19" value="A">a) Analytical report</label>
+    <label><input type="radio" name="q19" value="B">b) Informational report</label>
+    <label><input type="radio" name="q19" value="C">c) Proposal report</label>
+    <label><input type="radio" name="q19" value="D">d) Justification report</label>
+  </div>
+</div>
+
+<!-- 20 -->
+<div class="quiz-block"><h2>20. Formal request for staff payroll inclusion is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q20" value="A">a) Research report</label>
+    <label><input type="radio" name="q20" value="B">b) Formal letter or request</label>
+    <label><input type="radio" name="q20" value="C">c) Informational report</label>
+    <label><input type="radio" name="q20" value="D">d) Proposal report</label>
+  </div>
+</div>
+
+<!-- 21 -->
+<div class="quiz-block"><h2>21. Enrollment trends + suggested solutions is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q21" value="A">a) Informational report</label>
+    <label><input type="radio" name="q21" value="B">b) Analytical report</label>
+    <label><input type="radio" name="q21" value="C">c) Meeting minutes</label>
+    <label><input type="radio" name="q21" value="D">d) Justification report</label>
+  </div>
+</div>
+
+<!-- 22 -->
+<div class="quiz-block"><h2>22. A report with title page, TOC, intro, body, conclusion... demonstrates:</h2>
+  <div class="options">
+    <label><input type="radio" name="q22" value="A">a) Poor report structure</label>
+    <label><input type="radio" name="q22" value="B">b) Proper report organization</label>
+    <label><input type="radio" name="q22" value="C">c) Informal writing style</label>
+    <label><input type="radio" name="q22" value="D">d) Lack of professionalism</label>
+  </div>
+</div>
+
+<!-- 23 -->
+<div class="quiz-block"><h2>23. A study with data, analysis, and conclusions is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q23" value="A">a) Informational report</label>
+    <label><input type="radio" name="q23" value="B">b) Research report</label>
+    <label><input type="radio" name="q23" value="C">c) Proposal report</label>
+    <label><input type="radio" name="q23" value="D">d) Meeting minutes</label>
+  </div>
+</div>
+
+<!-- 24 -->
+<div class="quiz-block"><h2>24. A report recommending new teaching software with justification is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q24" value="A">a) Analytical report</label>
+    <label><input type="radio" name="q24" value="B">b) Informational report</label>
+    <label><input type="radio" name="q24" value="C">c) Meeting minutes</label>
+    <label><input type="radio" name="q24" value="D">d) Payroll report</label>
+  </div>
+</div>
+
+<!-- 25 -->
+<div class="quiz-block"><h2>25. A well-organized, clear, evidence-based report shows:</h2>
+  <div class="options">
+    <label><input type="radio" name="q25" value="A">a) Conciseness and clarity</label>
+    <label><input type="radio" name="q25" value="B">b) Humor</label>
+    <label><input type="radio" name="q25" value="C">c) Subjectivity</label>
+    <label><input type="radio" name="q25" value="D">d) Casual tone</label>
+  </div>
+</div>
+
+<!-- 26 -->
+<div class="quiz-block"><h2>26. Performance graphs + interpretation appear in the:</h2>
+  <div class="options">
+    <label><input type="radio" name="q26" value="A">a) Executive Summary</label>
+    <label><input type="radio" name="q26" value="B">b) Body/Discussion</label>
+    <label><input type="radio" name="q26" value="C">c) Conclusion</label>
+    <label><input type="radio" name="q26" value="D">d) Title Page</label>
+  </div>
+</div>
+
+<!-- 27 -->
+<div class="quiz-block"><h2>27. Principal’s recommendation letter shows:</h2>
+  <div class="options">
+    <label><input type="radio" name="q27" value="A">a) Professional communication</label>
+    <label><input type="radio" name="q27" value="B">b) Casual conversation</label>
+    <label><input type="radio" name="q27" value="C">c) Ignoring procedures</label>
+    <label><input type="radio" name="q27" value="D">d) Opinionated writing</label>
+  </div>
+</div>
+
+<!-- 28 -->
+<div class="quiz-block"><h2>28. Proposal for new library system with data and outcomes is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q28" value="A">a) Analytical report</label>
+    <label><input type="radio" name="q28" value="B">b) Informational report</label>
+    <label><input type="radio" name="q28" value="C">c) Research report</label>
+    <label><input type="radio" name="q28" value="D">d) Justification report</label>
+  </div>
+</div>
+
+<!-- 29 -->
+<div class="quiz-block"><h2>29. Report attendance data only. This is a:</h2>
+  <div class="options">
+    <label><input type="radio" name="q29" value="A">a) Informational report</label>
+    <label><input type="radio" name="q29" value="B">b) Analytical report</label>
+    <label><input type="radio" name="q29" value="C">c) Proposal report</label>
+    <label><input type="radio" name="q29" value="D">d) Research report</label>
+  </div>
+</div>
+
+<!-- 30 -->
+<div class="quiz-block"><h2>30. A report with full structure including references shows:</h2>
+  <div class="options">
+    <label><input type="radio" name="q30" value="A">a) Complete business report structure</label>
+    <label><input type="radio" name="q30" value="B">b) Poorly organized report</label>
+    <label><input type="radio" name="q30" value="C">c) Informal communication</label>
+    <label><input type="radio" name="q30" value="D">d) Missing essential sections</label>
+  </div>
+</div>
+
+
+<!-- ========== END OF QUIZ ========== -->
+
+<div class="controls">
+  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+  <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+</div>
+
+</form>
+</main>
+
+<!-- SCORE MODAL -->
+<div class="modal" id="scoreModal">
+  <div class="modal-content">
+    <h2>Quiz Result</h2>
+    <p id="scoreText"></p>
+    <p id="percentText" style="color:#555"></p>
+    <button onclick="closeModal()">OK — Reset Quiz</button>
+  </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+  <div class="modal-content">
+    <h2>⚠️ Incomplete Quiz</h2>
+    <p>You must answer <b>all 30 questions</b> before submitting.</p>
+    <button onclick="closeWarning()">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+}
+
+const correctAnswers = {
+  q1:"B", q2:"B", q3:"B", q4:"B", q5:"B",
+  q6:"B", q7:"B", q8:"B", q9:"A", q10:"B",
+  q11:"A", q12:"B", q13:"A", q14:"B", q15:"B",
+  q16:"B", q17:"B", q18:"B", q19:"B", q20:"B",
+  q21:"B", q22:"B", q23:"B", q24:"A", q25:"A",
+  q26:"B", q27:"A", q28:"A", q29:"A", q30:"A"
+};
+
+
+function checkAnswers() {
+  const total = 30;
+  const form = document.getElementById('quizForm');
+  let answered = 0, score = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const ans = form.querySelector(`input[name="q${i}"]:checked`);
+    if (ans) {
+      answered++;
+      if (ans.value === correctAnswers[`q${i}`]) score++;
+    }
+  }
+
+  if (answered < total) {
+    document.getElementById('warningModal').style.display = 'flex';
+    return;
+  }
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById('scoreText').innerHTML = `You scored <b>${score}</b> out of <b>${total}</b>`;
+  document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+  document.getElementById('scoreModal').style.display = 'flex';
+}
+
+function closeModal(){
+  document.getElementById('scoreModal').style.display='none';
+  document.getElementById('quizForm').reset();
+}
+
+function closeWarning(){
+  document.getElementById('warningModal').style.display='none';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Customer Analytics | 4B-EBOOK</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON (LEFT SIDE) */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    table { width:100%;border-collapse:collapse;margin:12px 0;overflow-x:auto;display:block; }
+    th,td { border:1px solid #ddd;padding:10px;text-align:left;min-width:150px; }
+    th { background:#e6ecfa;color:#0b1e3f; }
+    ul { margin-left:25px;margin-bottom:10px; }
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar {
+        left: -240px;
+        width: 240px;
+      }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+
+    @media (max-width:480px){
+      .section-block h2{font-size:1rem;}
+      .quiz-block h2{font-size:1rem;}
+      .options li{font-size:.9rem;}
+      .back{padding:8px 14px;font-size:.9rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Toggle Button (Left side for small screens) -->
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+<header><h1>Lesson 1 – Introduction to French Language</h1></header>
+
+<section class="content">
+
+  <!-- Objectives -->
+  <div class="section-block">
+    <h2>Learning Objectives</h2>
+    <p>After completing this lesson, learners should be able to:</p>
+    <ul>
+      <li>Understand basic facts about the French language.</li>
+      <li>Recognize the importance of learning French.</li>
+      <li>Identify where French is spoken around the world.</li>
+      <li>Learn simple French greetings and common expressions.</li>
+      <li>Practice pronouncing basic French words correctly.</li>
+    </ul>
+  </div>
+
+  <!-- What is French -->
+  <div class="section-block">
+    <h2>1.1 What is French?</h2>
+    <p>
+      <strong>French (le français)</strong> is a Romance language spoken by over 
+      <b>300 million people worldwide</b>. It is one of the official languages of the 
+      United Nations and is widely used in diplomacy, art, literature, fashion, and international business.
+    </p>
+  </div>
+
+  <!-- Where is French spoken -->
+  <div class="section-block">
+    <h2>1.2 Where is French Spoken?</h2>
+    <p>French is spoken across many countries and continents. Some of the major French-speaking regions include:</p>
+    <ul>
+      <li>🇫🇷 <b>France</b></li>
+      <li>🇨🇦 <b>Canada</b> (especially Quebec)</li>
+      <li>🇧🇪 <b>Belgium</b></li>
+      <li>🇨🇭 <b>Switzerland</b></li>
+      <li>🇨🇲 <b>Cameroon</b></li>
+      <li>🇸🇳 <b>Senegal</b></li>
+    </ul>
+    <p><strong>French is the official language in 29 countries!</strong></p>
+  </div>
+
+  <!-- Why learn French -->
+  <div class="section-block">
+    <h2>1.3 Why Learn French?</h2>
+    <ul>
+      <li>It is known as the <b>language of love and diplomacy</b>.</li>
+      <li>Opens opportunities for <b>travel, higher education, and work abroad</b>.</li>
+      <li>Helps understand other Romance languages like Spanish or Italian.</li>
+      <li>Widely used in <b>fashion, culinary arts, tourism, and global organizations</b>.</li>
+    </ul>
+  </div>
+
+  <!-- Basic Words Table -->
+  <div class="section-block">
+    <h2>1.4 Basic French Words to Know</h2>
+    <table>
+      <tr>
+        <th>ENGLISH</th>
+        <th>FRENCH</th>
+        <th>PRONUNCIATION</th>
+      </tr>
+      <tr><td>Hello</td><td>Bonjour</td><td>bon-zhoor</td></tr>
+      <tr><td>Good Evening</td><td>Bonsoir</td><td>bon-swahr</td></tr>
+      <tr><td>Goodbye</td><td>Au revoir</td><td>oh ruh-vwar</td></tr>
+      <tr><td>Yes</td><td>Oui</td><td>wee</td></tr>
+      <tr><td>No</td><td>Non</td><td>noh</td></tr>
+      <tr><td>Please</td><td>S’il vous plaît</td><td>seel voo pleh</td></tr>
+      <tr><td>Thank You</td><td>Merci</td><td>mehr-see</td></tr>
+      <tr><td>You’re Welcome</td><td>De rien</td><td>duh ree-ahn</td></tr>
+      <tr><td>Excuse me</td><td>Excusez-moi</td><td>ex-kew-zay mwah</td></tr>
+      <tr><td>I’m sorry</td><td>Je suis désolé(e)</td><td>zhuh swee day-zo-lay</td></tr>
+    </table>
+  </div>
+
+<!-- Quick Break Questions -->
+<div class="quiz-block">
+  <h2>🧠 Quick Break Questions</h2>
+  <p>Choose the correct answer for each item:</p>
+
+  <h3>1. French is a ______ language.</h3>
+  <ul class="options">
+    <li onclick="checkAnswer(this,true)">Romance</li>
+    <li onclick="checkAnswer(this,false)">Slavic</li>
+    <li onclick="checkAnswer(this,false)">Germanic</li>
+  </ul>
+
+  <h3>2. “Bonjour” means ______.</h3>
+  <ul class="options">
+    <li onclick="checkAnswer(this,false)">Goodbye</li>
+    <li onclick="checkAnswer(this,true)">Hello</li>
+    <li onclick="checkAnswer(this,false)">Please</li>
+  </ul>
+
+  <h3>3. “Merci” means ______.</h3>
+  <ul class="options">
+    <li onclick="checkAnswer(this,true)">Thank you</li>
+    <li onclick="checkAnswer(this,false)">Sorry</li>
+    <li onclick="checkAnswer(this,false)">Please</li>
+  </ul>
+
+  <h3>4. How many countries have French as an official language?</h3>
+  <ul class="options">
+    <li onclick="checkAnswer(this,false)">10</li>
+    <li onclick="checkAnswer(this,true)">29</li>
+    <li onclick="checkAnswer(this,false)">50</li>
+  </ul>
+
+  <h3>5. “Oui” means ______.</h3>
+  <ul class="options">
+    <li onclick="checkAnswer(this,false)">No</li>
+    <li onclick="checkAnswer(this,true)">Yes</li>
+    <li onclick="checkAnswer(this,false)">Maybe</li>
+  </ul>
+
+  <div class="feedback" id="feedback"></div>
+</div>
+
+
+  <!-- Summary -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      The French language is one of the most widely spoken and influential languages in the world. 
+      Learning French opens opportunities for communication, travel, career growth, and cultural 
+      exploration. Basic words and greetings help learners gain confidence in starting conversations 
+      and understanding everyday expressions.
+    </p>
+  </div>
+
+  <a class="back" href="FR.html">← Back to Module</a>
+
+</section>
+
+  </main>
+
+  <script>
+    // Quiz function
+    function checkAnswer(element, isCorrect) {
+      const feedback = document.getElementById('feedback');
+      document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+      element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+      feedback.textContent = isCorrect ? "✅ Correct! Customer Analytics helps make data-driven decisions." : "❌ Try again!";
+      feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+    }
+
+    // Toggle sidebar for mobile
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

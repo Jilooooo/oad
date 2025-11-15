@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:75px;
+  background:#0b1e3f;
+  border-right:1px solid #162b57;
+  transition:all .3s ease;
+  overflow:hidden;
+  z-index:1000;
+}
+.sidebar:hover{width:240px}
+.sidebar.active{left:0;width:240px}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:15px;
+  text-decoration:none
+}
+.logo img{
+  width:35px;
+  height:35px;
+  filter:brightness(1.2);
+  transition:transform .3s
+}
+.logo:hover img{transform:scale(1.1)}
+.logo h2{
+  color:#fff;
+  font-size:1.2rem;
+  font-weight:600;
+  opacity:0;
+  transition:opacity .3s
+}
+.sidebar:hover .logo h2,
+.sidebar.active .logo h2{
+  opacity:1
+}
+
+.nav-links{
+  list-style:none;
+  margin-top:20px
+}
+.nav-links li{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:15px;
+  cursor:pointer;
+  color:#cfd8ff;
+  transition:.3s ease;
+  white-space:nowrap
+}
+.nav-links li i{
+  font-size:18px;
+  color:#93b4ff;
+  width:30px;
+  text-align:center;
+  margin-left:5px
+}
+.nav-links li span{
+  opacity:0;
+  transition:opacity .3s
+}
+.sidebar:hover .nav-links li span,
+.sidebar.active .nav-links li span{
+  opacity:1
+}
+.nav-links li:hover,
+.nav-links li.active{
+  background:#1e3d7c;
+  color:#fff;
+  border-radius:10px
+}
+.nav-links li:hover i,
+.nav-links li.active i{
+  color:#fff
+}
+
+/* MOBILE TOGGLE */
+.menu-btn{
+  display:none;
+  position:fixed;
+  top:15px;
+  left:15px;
+  background-color:#0b1e3f;
+  color:#fff;
+  border:none;
+  padding:10px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  z-index:1500;
+  font-size:18px;
+}
+.menu-btn:hover{background:#1e3d7c}
+
+
+    /* MAIN CONTENT */
+    .main-content{
+      flex:1;
+      margin-left:95px;
+      padding:0 40px 40px 40px;
+      transition:margin-left .3s;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    .sidebar:hover~.main-content,.sidebar.active~.main-content{margin-left:240px}
+
+    /* ----------------------- */
+    /* FULL WIDTH INSTRUCTION */
+    /* ----------------------- */
+    .container{
+      width:100%;
+      background:white;
+      padding:40px 50px;
+      border-radius:0 0 18px 18px;
+      box-shadow:0 5px 25px rgba(0,0,0,0.08);
+      border-bottom:6px solid #1e3d7c;
+      min-height:320px;   /* THIS MAKES IT OCCUPY TOP SPACE */
+      margin-bottom:40px;
+    }
+
+    .container h1{
+      font-size:2.2rem;
+      text-align:center;
+      color:#0b1e3f;
+      margin-bottom:20px;
+      font-weight:700;
+    }
+    .container h2{
+      color:#1e3d7c;
+      margin-bottom:10px;
+      font-size:1.3rem;
+    }
+
+    .instructions p{
+      margin-bottom:12px;
+      font-size:1rem;
+      color:#333;
+    }
+
+    /* TWO COLUMN TASK LIST */
+    .tasks-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px 40px;
+      margin-top:10px;
+    }
+
+    .tasks-grid ul{
+      list-style:disc;
+      padding-left:25px;
+    }
+    .tasks-grid ul li{
+      margin-bottom:6px;
+      font-size:0.95rem;
+      color:#333;
+    }
+
+    .tasks-grid ul li ul{
+      list-style:circle;
+      margin-top:5px;
+      padding-left:20px;
+    }
+    .tasks-grid ul li ul li{
+      margin-bottom:4px;
+      font-size:0.90rem;
+    }
+
+    /* WHEEL CARDS */
+    .wheel-card{
+      width:80%;
+      max-width:600px;
+      background:rgba(11,30,63,0.35);
+      border-radius:22px;
+      padding:25px;
+      margin-bottom:40px;
+      backdrop-filter:blur(16px);
+      box-shadow:0 20px 40px rgba(0,0,0,0.25);
+      border:1.5px solid rgba(255,255,255,0.15);
+      text-align:center;
+    }
+
+    .wheel-wrap{position:relative;width:80%;margin:0 auto;aspect-ratio:1/1;}
+    canvas{position:absolute;inset:0;width:100%;height:100%;}
+
+    .spin-btn{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      width:20%;height:20%;
+      border-radius:50%;border:0;cursor:pointer;
+      font-weight:800;text-transform:uppercase;font-size:0.9rem;
+      background:radial-gradient(circle,#f6d46b 35%,#d6b150 90%);
+      color:#4b3900;z-index:6;
+      box-shadow:0 0 12px rgba(255,215,0,0.5);
+    }
+
+    .pointer{
+      position:absolute;top:50%;right:0;transform:translateY(-50%);
+      width:2.8rem;z-index:7;pointer-events:none;
+      filter:drop-shadow(0 0 8px rgba(255,255,0,0.9));
+    }
+
+    .result-text{
+      margin-top:18px;text-align:center;font-size:1.1rem;font-weight:600;color:#0b1e3f;
+    }
+
+    /* POPUP */
+    .popup-bg{
+      position:fixed;inset:0;background:rgba(0,0,0,0.55);
+      display:none;align-items:center;justify-content:center;z-index:2000;
+    }
+    .popup{
+      background:#fff;padding:26px;border-radius:16px;
+      max-width:360px;width:90%;text-align:center;
+      box-shadow:0 10px 35px rgba(0,0,0,0.30);
+    }
+    .popup h2{color:#1e3d7c;margin-bottom:10px;font-size:1.4rem;font-weight:700}
+    .popup button{
+      margin-top:12px;background:#1e3d7c;color:#fff;border:0;
+      padding:10px 16px;border-radius:10px;font-size:1rem;cursor:pointer;width:100%;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" />
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li class="active" onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+
+  <!-- ⭐ FULL-WIDTH INSTRUCTION BLOCK ⭐ -->
+  <div class="container">
+    <h1>Events Management Practice</h1>
+
+    <h2>Instructions</h2>
+    <div class="instructions">
+      <p>Imagine that you are an <strong>Event Manager</strong>. Your task is to plan and manage a full event based on the random selections from the spin wheels below.</p>
+
+      <h3>Tasks to Complete</h3>
+
+      <div class="tasks-grid">
+
+        <!-- COLUMN 1 -->
+        <ul>
+          <li>Header and Footer</li>
+          <li>Logo</li>
+          <li>Company Profile
+            <ul>
+              <li>About Us</li>
+              <li>What We Do</li>
+              <li>Vision</li>
+              <li>Mission</li>
+            </ul>
+          </li>
+          <li>Letter to Client</li>
+          <li>Letter to Supplier</li>
+        </ul>
+
+        <!-- COLUMN 2 -->
+        <ul>
+          <li>Event Brief</li>
+          <li>Event Timeline</li>
+          <li>List of Suppliers</li>
+          <li>List of Contingency Suppliers</li>
+          <li>Detailed Budgeting</li>
+          <li>Floor Plan</li>
+          <li>Detailed Program Flow</li>
+          <li>Risk Management</li>
+        </ul>
+
+      </div>
+
+    </div>
+  </div>
+<BR>
+      <H2><strong>Spin the wheels below to generate your event and budget!</strong></H2>
+<BR>
+<BR>
+  <!-- EVENT WHEEL -->
+  <div class="wheel-card">
+    <h2 style="color:#fff;margin-bottom:12px;">Event Wheel</h2>
+
+    <div class="wheel-wrap">
+      <canvas id="wheel1"></canvas>
+      <button class="spin-btn" id="spin1">Spin</button>
+
+      <svg class="pointer" viewBox="0 0 100 100">
+        <polygon points="0,50 100,38 100,62"
+          fill="#ffeb3b" stroke="#b8860b" stroke-width="3"/>
+      </svg>
+    </div>
+
+    <div id="result1" class="result-text">Click Spin to start</div>
+  </div>
+
+  <!-- BUDGET WHEEL -->
+  <div class="wheel-card">
+    <h2 style="color:#fff;margin-bottom:12px;">Budget Wheel</h2>
+
+    <div class="wheel-wrap">
+      <canvas id="wheel2"></canvas>
+      <button class="spin-btn" id="spin2">Spin</button>
+
+      <svg class="pointer" viewBox="0 0 100 100">
+        <polygon points="0,50 100,38 100,62"
+          fill="#ffeb3b" stroke="#b8860b" stroke-width="3"/>
+      </svg>
+    </div>
+
+    <div id="result2" class="result-text">Click Spin to start</div>
+  </div>
+
+</div>
+
+<!-- POPUPS -->
+<div class="popup-bg" id="popup1">
+  <div class="popup">
+    <h2 id="popupText1"></h2>
+    <button id="okBtn1">OK</button>
+  </div>
+</div>
+
+<div class="popup-bg" id="popup2">
+  <div class="popup">
+    <h2 id="popupText2"></h2>
+    <button id="okBtn2">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+/* Wheel Data */
+const eventLabels = [
+  "Orientation","Oath-Taking","Seminar","Birthday",
+  "Wedding","Pageant","Graduation","Concert"
+];
+
+const budgetLabels = [
+  "25,000","50,000","75,000","100,000",
+  "500,000","800,000","1,000,000","2,000,000"
+];
+
+const colors = [
+  "#1e3d7c","#274bce","#4a74d3","#8ec1ff",
+  "#0b1e3f","#162b57","#2a4ba8","#4d7ce0"
+];
+
+/* Draw Wheel */
+function drawWheel(canvas, rotation, labels) {
+  const ctx = canvas.getContext("2d");
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const w = rect.width, h = rect.height;
+  const cx = w/2, cy = h/2;
+  const radius = Math.min(w,h)*0.46;
+
+  const sliceAngle = 360 / labels.length;
+
+  ctx.clearRect(0,0,w,h);
+
+  for(let i=0;i<labels.length;i++){
+    const start = -90 + rotation + i*sliceAngle;
+    const end = start + sliceAngle;
+
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,radius,(Math.PI/180)*start,(Math.PI/180)*end);
+    ctx.closePath();
+    ctx.fillStyle = colors[i];
+    ctx.fill();
+
+    /* SMALL LABELS */
+    const mid = (start+end)/2;
+    const rad = mid * Math.PI/180;
+    ctx.save();
+    ctx.translate(cx + Math.cos(rad)*radius*0.68, cy + Math.sin(rad)*radius*0.68);
+    ctx.rotate(rad);
+
+    ctx.fillStyle="#fff";
+    ctx.font = `${radius*0.085}px Poppins`;
+
+    ctx.textAlign="center";
+    ctx.textBaseline="middle";
+    ctx.fillText(labels[i],0,0);
+
+    ctx.restore();
+  }
+
+  ctx.beginPath();
+  ctx.arc(cx,cy,radius*0.18,0,Math.PI*2);
+  ctx.fillStyle="#fff";
+  ctx.fill();
+}
+
+/* Spin System */
+function setupWheel(canvasId, btnId, resultId, labels, popupId, popupTextId, okId) {
+  const canvas = document.getElementById(canvasId);
+  const btn = document.getElementById(btnId);
+  const result = document.getElementById(resultId);
+  const popup = document.getElementById(popupId);
+  const popupText = document.getElementById(popupTextId);
+  const okBtn = document.getElementById(okId);
+
+  let rotation = 0, spinning = false;
+
+  function getWinner(angle){
+    const sliceAngle = 360 / labels.length;
+    const pointerAngle = (90 - angle + 360) % 360;
+    return labels[Math.floor(pointerAngle / sliceAngle)];
+  }
+
+  btn.onclick = () => {
+    if(spinning) return;
+    spinning = true;
+    btn.disabled = true;
+
+    const start = rotation;
+    const end = start + 1440 + Math.random()*360;
+    const duration = 4300;
+    const startTime = performance.now();
+
+    function animate(now){
+      const t = Math.min(1,(now-startTime)/duration);
+      rotation = start + (end-start)*(1 - Math.pow(1-t,3));
+
+      drawWheel(canvas,rotation,labels);
+
+      if(t < 1){
+        requestAnimationFrame(animate);
+      } else {
+        rotation %= 360;
+        drawWheel(canvas,rotation,labels);
+
+        const winner = getWinner(rotation);
+        result.innerHTML = `Result: <b>${winner}</b>`;
+        popupText.innerHTML = `You got <b>${winner}</b>!`;
+        popup.style.display="flex";
+
+        spinning = false;
+        btn.disabled = false;
+      }
+    }
+    requestAnimationFrame(animate);
+  };
+
+  okBtn.onclick = () => popup.style.display="none";
+
+  new ResizeObserver(()=>drawWheel(canvas, rotation, labels)).observe(canvas);
+}
+
+/* INIT BOTH WHEELS */
+setupWheel("wheel1","spin1","result1",eventLabels,"popup1","popupText1","okBtn1");
+setupWheel("wheel2","spin2","result2",budgetLabels,"popup2","popupText2","okBtn2");
+
+</script>
+
+</body>
+</html>

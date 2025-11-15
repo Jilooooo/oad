@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Customer Analytics | 4B-EBOOK</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON (LEFT SIDE) */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    table { width:100%;border-collapse:collapse;margin:12px 0;overflow-x:auto;display:block; }
+    th,td { border:1px solid #ddd;padding:10px;text-align:left;min-width:150px; }
+    th { background:#e6ecfa;color:#0b1e3f; }
+    ul { margin-left:25px;margin-bottom:10px; }
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar {
+        left: -240px;
+        width: 240px;
+      }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+
+    @media (max-width:480px){
+      .section-block h2{font-size:1rem;}
+      .quiz-block h2{font-size:1rem;}
+      .options li{font-size:.9rem;}
+      .back{padding:8px 14px;font-size:.9rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Toggle Button (Left side for small screens) -->
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+<header><h1>Lesson 4 – Numeric Keys, Symbols, and Special Keys</h1></header>
+
+<section class="content">
+
+  <!-- Learning Objectives -->
+  <div class="section-block">
+    <h2>Learning Objectives</h2>
+    <p>After completing this lesson, learners should be able to:</p>
+    <ul>
+      <li>Identify and type numbers on the number row and numeric keypad.</li>
+      <li>Recognize and type common symbols using the shift key.</li>
+      <li>Demonstrate proper use of special keys (Enter, Backspace, Tab, Delete, Caps Lock, Shift).</li>
+      <li>Improve typing accuracy with numeric and symbol keys.</li>
+      <li>Apply numeric and symbol key skills in document processing tasks.</li>
+    </ul>
+  </div>
+
+  <!-- Number Row Keys -->
+  <div class="section-block">
+    <h2>1. Number Row Keys</h2>
+    <p><strong>Definition:</strong> Numbers 0–9 located above the alphabet keys.</p>
+    <h4>Finger Assignments:</h4>
+    <ul>
+      <li>Left pinky → 1</li>
+      <li>Left ring → 2</li>
+      <li>Left middle → 3</li>
+      <li>Left index → 4, 5</li>
+      <li>Right index → 6, 7</li>
+      <li>Right middle → 8</li>
+      <li>Right ring → 9</li>
+      <li>Right pinky → 0</li>
+    </ul>
+  </div>
+
+  <!-- Numeric Keypad -->
+  <div class="section-block">
+    <h2>2. Numeric Keypad (Optional)</h2>
+    <p><strong>Definition:</strong> A separate block of number keys usually located on the right side of the keyboard.</p>
+    <p><strong>Purpose:</strong> Enables fast numeric entry for accounting, spreadsheets, and forms.</p>
+    <p><strong>Example:</strong> Typing long number sequences such as <i>1234567890</i> quickly.</p>
+  </div>
+
+  <!-- Symbol Keys -->
+  <div class="section-block">
+    <h2>3. Symbol Keys</h2>
+    <p><strong>Definition:</strong> Characters typed using Shift + number or Shift + symbol keys.</p>
+
+    <h4>Common Shift Key Combinations:</h4>
+    <ul>
+      <li>! → Shift + 1</li>
+      <li>@ → Shift + 2</li>
+      <li># → Shift + 3</li>
+      <li>$ → Shift + 4</li>
+      <li>% → Shift + 5</li>
+      <li>^ → Shift + 6</li>
+      <li>& → Shift + 7</li>
+      <li>* → Shift + 8</li>
+      <li>( → Shift + 9</li>
+      <li>) → Shift + 0</li>
+    </ul>
+
+    <h4>Other Common Symbols:</h4>
+    <p>- _ = + [ ] { } \ | ; : ' " , &lt; . &gt; / ?</p>
+  </div>
+
+  <!-- Special Keys -->
+  <div class="section-block">
+    <h2>4. Special Keys</h2>
+    <ul>
+      <li><strong>Enter/Return:</strong> Moves to the next line or executes a command.</li>
+      <li><strong>Backspace:</strong> Deletes the character to the left of the cursor.</li>
+      <li><strong>Delete:</strong> Deletes the character to the right of the cursor.</li>
+      <li><strong>Tab:</strong> Moves the cursor to the next tab stop or field.</li>
+      <li><strong>Caps Lock:</strong> Toggles uppercase letters on/off.</li>
+      <li><strong>Shift:</strong> Used for capital letters and symbols.</li>
+    </ul>
+  </div>
+
+  <!-- Importance -->
+  <div class="section-block">
+    <h2>5. Practical Importance</h2>
+    <ul>
+      <li>Essential for typing invoices, forms, spreadsheets, and reports.</li>
+      <li>Shift and symbol key accuracy ensures proper formatting.</li>
+      <li>Improves speed and efficiency in document processing.</li>
+    </ul>
+  </div>
+
+  <!-- Quick Break Questions -->
+  <div class="quiz-block">
+    <h2>🧠 Quick Break Questions</h2>
+
+    <h3>1. Which key combination types the “@” symbol?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Shift + 1</li>
+      <li onclick="checkAnswer(this,true)">Shift + 2</li>
+      <li onclick="checkAnswer(this,false)">Ctrl + 2</li>
+      <li onclick="checkAnswer(this,false)">Alt + 2</li>
+    </ul>
+
+    <h3>2. What is the purpose of the numeric keypad?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Type letters faster</li>
+      <li onclick="checkAnswer(this,true)">Fast number entry for calculations and spreadsheets</li>
+      <li onclick="checkAnswer(this,false)">Type symbols</li>
+      <li onclick="checkAnswer(this,false)">Delete characters</li>
+    </ul>
+
+    <h3>3. Which key deletes the character to the left of the cursor?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Delete</li>
+      <li onclick="checkAnswer(this,true)">Backspace</li>
+      <li onclick="checkAnswer(this,false)">Enter</li>
+      <li onclick="checkAnswer(this,false)">Tab</li>
+    </ul>
+
+    <h3>4. To type an uppercase letter, you can use:</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Enter key</li>
+      <li onclick="checkAnswer(this,true)">Shift key</li>
+      <li onclick="checkAnswer(this,false)">Caps Lock only</li>
+      <li onclick="checkAnswer(this,false)">Tab key</li>
+    </ul>
+
+    <h3>5. Which key moves the cursor to the next tab stop?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,true)">Tab</li>
+      <li onclick="checkAnswer(this,false)">Enter</li>
+      <li onclick="checkAnswer(this,false)">Backspace</li>
+      <li onclick="checkAnswer(this,false)">Delete</li>
+    </ul>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      Numeric, symbol, and special keys are essential for accurate and efficient document processing. 
+      Mastering these keys improves speed, formatting accuracy, and overall typing performance.
+    </p>
+  </div>
+
+  <a class="back" href="K.html">← Back to Module</a>
+
+</section>
+
+  </main>
+
+  <script>
+    // Quiz function
+    function checkAnswer(element, isCorrect) {
+      const feedback = document.getElementById('feedback');
+      document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+      element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+      feedback.textContent = isCorrect ? "✅ Correct! Customer Analytics helps make data-driven decisions." : "❌ Try again!";
+      feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+    }
+
+    // Toggle sidebar for mobile
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

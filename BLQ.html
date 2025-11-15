@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Business Law Practice Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;top:0;left:0;height:100%;width:60px;background:#0b1e3f;
+      border-right:1px solid #162b57;transition:width .3s,left .3s;
+      overflow:hidden;z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    /* MAIN */
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;
+      border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+
+    .menu-btn{display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;font-size:18px}
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main">
+<header><h1>Business Law Quiz</h1></header>
+
+<form id="quizForm" class="quiz-container">
+
+<!-- 1–30 BUSINESS LAW QUESTIONS -->
+<div class="quiz-block"><h2>1. What is Business Law primarily concerned with?</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="A">A) Government taxation</label>
+    <label><input type="radio" name="q1" value="B">B) Rules governing business transactions</label>
+    <label><input type="radio" name="q1" value="C">C) Criminal penalties for theft</label>
+    <label><input type="radio" name="q1" value="D">D) Personal moral values</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>2. Which is a primary source of law?</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="A">A) Textbooks</label>
+    <label><input type="radio" name="q2" value="B">B) Constitution</label>
+    <label><input type="radio" name="q2" value="C">C) Study notes</label>
+    <label><input type="radio" name="q2" value="D">D) Legal opinions from students</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>3. A contract is valid when:</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="A">A) One party agrees silently</label>
+    <label><input type="radio" name="q3" value="B">B) There is offer, acceptance, consent, and consideration</label>
+    <label><input type="radio" name="q3" value="C">C) A witness is present</label>
+    <label><input type="radio" name="q3" value="D">D) It is printed on paper</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>4. The law on sales deals with:</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="A">A) Selling services only</label>
+    <label><input type="radio" name="q4" value="B">B) Transfer of ownership of goods for a price</label>
+    <label><input type="radio" name="q4" value="C">C) Employee discipline</label>
+    <label><input type="radio" name="q4" value="D">D) Renting property</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>5. An agent is a person who:</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="A">A) Acts for another in a business transaction</label>
+    <label><input type="radio" name="q5" value="B">B) Is the owner of the business</label>
+    <label><input type="radio" name="q5" value="C">C) Works only for free</label>
+    <label><input type="radio" name="q5" value="D">D) Signs all business documents</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>6. A partnership exists when:</h2>
+  <div class="options">
+    <label><input type="radio" name="q6" value="A">A) One person owns everything</label>
+    <label><input type="radio" name="q6" value="B">B) Two or more persons contribute money, property, or industry</label>
+    <label><input type="radio" name="q6" value="C">C) A corporation dissolves</label>
+    <label><input type="radio" name="q6" value="D">D) Workers form a union</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>7. A negotiable instrument must be:</h2>
+  <div class="options">
+    <label><input type="radio" name="q7" value="A">A) Written and signed</label>
+    <label><input type="radio" name="q7" value="B">B) Spoken verbally</label>
+    <label><input type="radio" name="q7" value="C">C) Delivered through email</label>
+    <label><input type="radio" name="q7" value="D">D) Certified by police</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>8. Labor Law protects:</h2>
+  <div class="options">
+    <label><input type="radio" name="q8" value="A">A) Only employers</label>
+    <label><input type="radio" name="q8" value="B">B) Only employees</label>
+    <label><input type="radio" name="q8" value="C">C) Both employers and employees</label>
+    <label><input type="radio" name="q8" value="D">D) Customers</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>9. Which is required for a valid contract?</h2>
+  <div class="options">
+    <label><input type="radio" name="q9" value="A">A) Happiness</label>
+    <label><input type="radio" name="q9" value="B">B) Mutual consent</label>
+    <label><input type="radio" name="q9" value="C">C) Same religion</label>
+    <label><input type="radio" name="q9" value="D">D) Lawyer’s approval</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>10. A void contract is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q10" value="A">A) Valid but illegal</label>
+    <label><input type="radio" name="q10" value="B">B) Without legal effect</label>
+    <label><input type="radio" name="q10" value="C">C) Valid but voidable</label>
+    <label><input type="radio" name="q10" value="D">D) Perfectly enforceable</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>11. Consideration in contracts refers to:</h2>
+  <div class="options">
+    <label><input type="radio" name="q11" value="A">A) A polite attitude</label>
+    <label><input type="radio" name="q11" value="B">B) Something of value exchanged</label>
+    <label><input type="radio" name="q11" value="C">C) A witness signature</label>
+    <label><input type="radio" name="q11" value="D">D) A printed receipt</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>12. The law on sales covers:</h2>
+  <div class="options">
+    <label><input type="radio" name="q12" value="A">A) Sale of goods</label>
+    <label><input type="radio" name="q12" value="B">B) Hiring employees</label>
+    <label><input type="radio" name="q12" value="C">C) Giving donations</label>
+    <label><input type="radio" name="q12" value="D">D) Marriage agreement</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>13. An agent must follow:</h2>
+  <div class="options">
+    <label><input type="radio" name="q13" value="A">A) Their own personal interest</label>
+    <label><input type="radio" name="q13" value="B">B) Instructions of the principal</label>
+    <label><input type="radio" name="q13" value="C">C) Customer suggestions</label>
+    <label><input type="radio" name="q13" value="D">D) Outsiders’ opinions</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>14. A partnership is dissolved when:</h2>
+  <div class="options">
+    <label><input type="radio" name="q14" value="A">A) Partners withdraw or die</label>
+    <label><input type="radio" name="q14" value="B">B) A customer complains</label>
+    <label><input type="radio" name="q14" value="C">C) Sales increase</label>
+    <label><input type="radio" name="q14" value="D">D) Business becomes popular</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>15. A promissory note is a:</h2>
+  <div class="options">
+    <label><input type="radio" name="q15" value="A">A) Promise to pay money</label>
+    <label><input type="radio" name="q15" value="B">B) Goods receipt</label>
+    <label><input type="radio" name="q15" value="C">C) Employment contract</label>
+    <label><input type="radio" name="q15" value="D">D) Insurance policy</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>16. Labor Law mainly aims to:</h2>
+  <div class="options">
+    <label><input type="radio" name="q16" value="A">A) Create new businesses</label>
+    <label><input type="radio" name="q16" value="B">B) Protect workers’ rights</label>
+    <label><input type="radio" name="q16" value="C">C) Lower product prices</label>
+    <label><input type="radio" name="q16" value="D">D) Control advertisements</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>17. Which is a requirement for an agent?</h2>
+  <div class="options">
+    <label><input type="radio" name="q17" value="A">A) Must be 18 or older</label>
+    <label><input type="radio" name="q17" value="B">B) Must be capable of giving consent</label>
+    <label><input type="radio" name="q17" value="C">C) Must own a business</label>
+    <label><input type="radio" name="q17" value="D">D) Must be appointed by the mayor</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>18. A partnership requires contribution of:</h2>
+  <div class="options">
+    <label><input type="radio" name="q18" value="A">A) Time only</label>
+    <label><input type="radio" name="q18" value="B">B) Money, property, or industry</label>
+    <label><input type="radio" name="q18" value="C">C) Customer feedback</label>
+    <label><input type="radio" name="q18" value="D">D) Government taxes</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>19. A check is a negotiable instrument because it is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q19" value="A">A) Written instruction to a bank</label>
+    <label><input type="radio" name="q19" value="B">B) Advice from a manager</label>
+    <label><input type="radio" name="q19" value="C">C) A receipt for goods</label>
+    <label><input type="radio" name="q19" value="D">D) A coupon</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>20. Labor standards refer to:</h2>
+  <div class="options">
+    <label><input type="radio" name="q20" value="A">A) Wages and working conditions</label>
+    <label><input type="radio" name="q20" value="B">B) Product prices</label>
+    <label><input type="radio" name="q20" value="C">C) Customer loyalty</label>
+    <label><input type="radio" name="q20" value="D">D) Job titles</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>21. Who signs a promissory note?</h2>
+  <div class="options">
+    <label><input type="radio" name="q21" value="A">A) Payee</label>
+    <label><input type="radio" name="q21" value="B">B) Maker</label>
+    <label><input type="radio" name="q21" value="C">C) One witness</label>
+    <label><input type="radio" name="q21" value="D">D) Bank manager</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>22. In sales, the buyer's obligation is to:</h2>
+  <div class="options">
+    <label><input type="radio" name="q22" value="A">A) Inspect goods only</label>
+    <label><input type="radio" name="q22" value="B">B) Pay the price and accept delivery</label>
+    <label><input type="radio" name="q22" value="C">C) Donate goods to others</label>
+    <label><input type="radio" name="q22" value="D">D) Produce their own receipts</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>23. A voidable contract is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q23" value="A">A) Illegal from the start</label>
+    <label><input type="radio" name="q23" value="B">B) Valid but can be annulled</label>
+    <label><input type="radio" name="q23" value="C">C) Impossible to perform</label>
+    <label><input type="radio" name="q23" value="D">D) Not binding at all</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>24. Negotiable instruments must contain:</h2>
+  <div class="options">
+    <label><input type="radio" name="q24" value="A">A) A promise or order to pay</label>
+    <label><input type="radio" name="q24" value="B">B) A photograph</label>
+    <label><input type="radio" name="q24" value="C">C) A list of goods</label>
+    <label><input type="radio" name="q24" value="D">D) A witness statement</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>25. Labor relations deal with:</h2>
+  <div class="options">
+    <label><input type="radio" name="q25" value="A">A) Bargaining, unions, and disputes</label>
+    <label><input type="radio" name="q25" value="B">B) Number of holidays</label>
+    <label><input type="radio" name="q25" value="C">C) Product warranty</label>
+    <label><input type="radio" name="q25" value="D">D) School curriculum</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>26. A principal is the person who:</h2>
+  <div class="options">
+    <label><input type="radio" name="q26" value="A">A) Acts under authority</label>
+    <label><input type="radio" name="q26" value="B">B) Authorizes the agent</label>
+    <label><input type="radio" name="q26" value="C">C) Works without pay</label>
+    <label><input type="radio" name="q26" value="D">D) Buys goods only</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>27. Which is a requirement for a valid sale?</h2>
+  <div class="options">
+    <label><input type="radio" name="q27" value="A">A) A valid object and price</label>
+    <label><input type="radio" name="q27" value="B">B) A lawyer present</label>
+    <label><input type="radio" name="q27" value="C">C) Three witnesses</label>
+    <label><input type="radio" name="q27" value="D">D) A judge’s approval</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>28. A partnership is formed through:</h2>
+  <div class="options">
+    <label><input type="radio" name="q28" value="A">A) Verbal agreement only</label>
+    <label><input type="radio" name="q28" value="B">B) Contract between partners</label>
+    <label><input type="radio" name="q28" value="C">C) Certificate of employment</label>
+    <label><input type="radio" name="q28" value="D">D) Customer approval</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>29. A check is payable on demand because:</h2>
+  <div class="options">
+    <label><input type="radio" name="q29" value="A">A) It can be cashed anytime</label>
+    <label><input type="radio" name="q29" value="B">B) It needs approval after one month</label>
+    <label><input type="radio" name="q29" value="C">C) It is a long-term loan</label>
+    <label><input type="radio" name="q29" value="D">D) It collects interest</label>
+  </div>
+</div>
+
+<div class="quiz-block"><h2>30. Labor Law ensures:</h2>
+  <div class="options">
+    <label><input type="radio" name="q30" value="A">A) Fair and safe working conditions</label>
+    <label><input type="radio" name="q30" value="B">B) Unlimited overtime</label>
+    <label><input type="radio" name="q30" value="C">C) Removal of employee rights</label>
+    <label><input type="radio" name="q30" value="D">D) Forced resignation</label>
+  </div>
+</div>
+
+<div class="controls">
+  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+  <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+</div>
+
+</form>
+</main>
+
+<!-- SCORE MODAL -->
+<div class="modal" id="scoreModal">
+  <div class="modal-content">
+    <h2>Quiz Result</h2>
+    <p id="scoreText"></p>
+    <p id="percentText" style="color:#555"></p>
+    <button onclick="closeModal()">OK — Reset Quiz</button>
+  </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+  <div class="modal-content">
+    <h2>⚠️ Incomplete Quiz</h2>
+    <p>You must answer <b>all 30 questions</b> before submitting.</p>
+    <button onclick="closeWarning()">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+}
+
+const correctAnswers = {
+  q1:"B", q2:"B", q3:"B", q4:"B", q5:"A",
+  q6:"B", q7:"A", q8:"C", q9:"B", q10:"B",
+  q11:"B", q12:"A", q13:"B", q14:"A", q15:"A",
+  q16:"B", q17:"B", q18:"B", q19:"A", q20:"A",
+  q21:"B", q22:"B", q23:"B", q24:"A", q25:"A",
+  q26:"B", q27:"A", q28:"B", q29:"A", q30:"A"
+};
+
+function checkAnswers() {
+  const total = 30;
+  const form = document.getElementById('quizForm');
+  let answered = 0, score = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const ans = form.querySelector(`input[name="q${i}"]:checked`);
+    if (ans) {
+      answered++;
+      if (ans.value === correctAnswers[`q${i}`]) score++;
+    }
+  }
+
+  if (answered < total) {
+    document.getElementById('warningModal').style.display = 'flex';
+    return;
+  }
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById('scoreText').innerHTML = `You scored <b>${score}</b> out of <b>${total}</b>`;
+  document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+  document.getElementById('scoreModal').style.display = 'flex';
+}
+
+function closeModal(){
+  document.getElementById('scoreModal').style.display='none';
+  document.getElementById('quizForm').reset();
+}
+function closeWarning(){
+  document.getElementById('warningModal').style.display='none';
+}
+</script>
+
+</body>
+</html>

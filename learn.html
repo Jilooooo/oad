@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4B-EBOOK | Subjects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f4f8ff;
+      height: 100vh;
+      overflow-x: hidden;
+      flex-direction: row;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover { width: 240px; }
+    .sidebar.active { left: 0; width: 240px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover { background-color: #1e3d7c; }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    /* SUBJECTS GRID */
+    .subjects {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .subject {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      transition: 0.3s ease;
+    }
+
+    .subject:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 22px;
+      margin-right: 20px;
+    }
+
+    /* Color Variations */
+    .navy { background-color: #1e3d7c; }
+    .blue-light { background-color: #4a74d3; }
+    .sky { background-color: #67a8ff; }
+    .teal { background-color: #4ac4c4; }
+    .blue { background-color: #4c78ff; }
+    .aqua { background-color: #66b2ff; }
+    .blue-dark { background-color: #1b4b91; }
+    .navy-deep { background-color: #162447; }
+    .royal { background-color: #2a3fa3; }
+    .indigo { background-color: #3c53a4; }
+    .midnight { background-color: #0b2245; }
+    .cyan { background-color: #22a6b3; }
+
+    .details { flex: 1; }
+
+    .details h3 {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .details p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .start-btn {
+      background-color: #fff;
+      border: 2px solid #1e3d7c;
+      color: #1e3d7c;
+      font-weight: 600;
+      border-radius: 25px;
+      padding: 8px 18px;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    .start-btn:hover {
+      background-color: #1e3d7c;
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 25px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.4rem; margin-top: 50px; }
+      .subject { flex-direction: column; align-items: flex-start; }
+      .start-btn { margin-top: 10px; align-self: flex-end; }
+    }
+
+    @media (max-width: 480px) {
+      .details h3 { font-size: 0.9rem; }
+      .details p { font-size: 0.8rem; }
+      .start-btn { padding: 6px 14px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Menu Button -->
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header><h1>Choose a Subject to Begin Learning</h1></header>
+
+<section class="subjects">
+
+  <div class="subject">
+    <div class="icon blue-light"><i class="fas fa-coins"></i></div>
+    <div class="details">
+      <h3>Accounting Principles</h3>
+      <p>Learn the key accounting concepts used in financial and managerial decision-making.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='A.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon navy"><i class="fas fa-scale-balanced"></i></div>
+    <div class="details">
+      <h3>Business Law</h3>
+      <p>Understand the fundamentals of business-related legal principles and regulations.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='BL.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon indigo"><i class="fas fa-file-alt"></i></div>
+    <div class="details">
+      <h3>Business Report Writing</h3>
+      <p>Learn how to write effective and professional business reports.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='BR.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon royal"><i class="fas fa-chart-line"></i></div>
+    <div class="details">
+      <h3>Customer Analytics</h3>
+      <p>Analyze customer data and behavior to improve business strategies.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='CA.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon blue-dark"><i class="fas fa-calendar-check"></i></div>
+    <div class="details">
+      <h3>Events Management</h3>
+      <p>Plan, organize, and execute professional events and conferences successfully.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='EM.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon blue"><i class="fas fa-language"></i></div>
+    <div class="details">
+      <h3>Foreign Language (French)</h3>
+      <p>Develop communication skills in French with focus on vocabulary and pronunciation.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='FR.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon teal"><i class="fas fa-keyboard"></i></div>
+    <div class="details">
+      <h3>Keyboarding</h3>
+      <p>Improve typing speed and accuracy essential for administrative work.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='K.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon cyan"><i class="fas fa-file-signature"></i></div>
+    <div class="details">
+      <h3>Legal Forms</h3>
+      <p>Learn about drafting and understanding various legal documents and forms.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='LF.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon sky"><i class="fas fa-file-contract"></i></div>
+    <div class="details">
+      <h3>Legal Office Procedure</h3>
+      <p>Discover proper documentation, filing, and workflow in legal office environments.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='LP.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon midnight"><i class="fas fa-gavel"></i></div>
+    <div class="details">
+      <h3>Negotiable Instrument</h3>
+      <p>Understand laws and principles governing negotiable financial instruments.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='NI.html'">EXPLORE!</button>
+  </div>
+
+  <div class="subject">
+    <div class="icon aqua"><i class="fas fa-tasks"></i></div>
+    <div class="details">
+      <h3>Project Management</h3>
+      <p>Gain practical knowledge in managing tasks, deadlines, and resources effectively.</p>
+    </div>
+    <button class="start-btn" onclick="window.location.href='PM.html'">EXPLORE!</button>
+  </div>
+
+</section>
+
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+    }
+  </script>
+</body>
+</html>

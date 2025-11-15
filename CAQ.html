@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Customer Analytics Practice Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;
+      top:0;
+      left:0;
+      height:100%;
+      width:60px;
+      background:#0b1e3f;
+      border-right:1px solid #162b57;
+      transition:width .3s,left .3s;
+      overflow:hidden;
+      z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+    .options{list-style:none;margin-top:10px}
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+    .modal-content p{font-size:1.1rem;color:#333;margin:6px 0}
+    .modal-content button{margin-top:18px;background:#0b1e3f;padding:10px 18px;border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
+    .modal-content button:hover{background:#1e3d7c}
+
+    /* MENU BUTTON */
+    .menu-btn{
+      display:none;
+      position:fixed;
+      top:15px;
+      left:15px;
+      background:#0b1e3f;
+      color:#fff;
+      border:none;
+      padding:10px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      z-index:1500;
+      font-size:18px;
+    }
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+/* Disable text selection and dragging */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- MENU BUTTON -->
+  <button class="menu-btn" id="menuBtn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+      <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <header><h1>Customer Analytics Quiz</h1></header>
+    <form id="quizForm" class="quiz-container">
+
+      <!-- ✅ 1–30 QUESTIONS COMPLETE -->
+      <!-- TRUE/FALSE -->
+      <div class="quiz-block"><h2>1. Customer Analytics helps businesses understand customer behavior.</h2><div class="options"><label><input type="radio" name="q1" value="T">True</label><label><input type="radio" name="q1" value="F">False</label></div></div>
+      <div class="quiz-block"><h2>2. Customer data can come from surveys, websites, and social media.</h2><div class="options"><label><input type="radio" name="q2" value="T">True</label><label><input type="radio" name="q2" value="F">False</label></div></div>
+      <div class="quiz-block"><h2>3. Data Cleaning removes incorrect and duplicate records.</h2><div class="options"><label><input type="radio" name="q3" value="T">True</label><label><input type="radio" name="q3" value="F">False</label></div></div>
+      <div class="quiz-block"><h2>4. Customer segmentation helps identify marketing strategies.</h2><div class="options"><label><input type="radio" name="q4" value="T">True</label><label><input type="radio" name="q4" value="F">False</label></div></div>
+      <div class="quiz-block"><h2>5. CLV stands for Customer Loyalty Value.</h2><div class="options"><label><input type="radio" name="q5" value="T">True</label><label><input type="radio" name="q5" value="F">False</label></div></div>
+
+      <!-- MULTIPLE CHOICE -->
+      <div class="quiz-block"><h2>6. What is the main goal of Customer Analytics?</h2><div class="options"><label><input type="radio" name="q6" value="a">To delete customer data</label><label><input type="radio" name="q6" value="b">To understand and improve customer relationships</label><label><input type="radio" name="q6" value="c">To stop marketing</label><label><input type="radio" name="q6" value="d">To increase storage space</label></div></div>
+      <div class="quiz-block"><h2>7. Which data describes where a customer lives?</h2><div class="options"><label><input type="radio" name="q7" value="a">Demographic</label><label><input type="radio" name="q7" value="b">Geographic</label><label><input type="radio" name="q7" value="c">Psychographic</label><label><input type="radio" name="q7" value="d">Behavioral</label></div></div>
+      <div class="quiz-block"><h2>8. Which step comes first in the analytics process?</h2><div class="options"><label><input type="radio" name="q8" value="a">Data Collection</label><label><input type="radio" name="q8" value="b">Interpretation</label><label><input type="radio" name="q8" value="c">Data Cleaning</label><label><input type="radio" name="q8" value="d">Decision Making</label></div></div>
+      <div class="quiz-block"><h2>9. Which data type shows hobbies and lifestyle?</h2><div class="options"><label><input type="radio" name="q9" value="a">Demographic</label><label><input type="radio" name="q9" value="b">Psychographic</label><label><input type="radio" name="q9" value="c">Behavioral</label><label><input type="radio" name="q9" value="d">Transactional</label></div></div>
+      <div class="quiz-block"><h2>10. What does RA 10173 protect?</h2><div class="options"><label><input type="radio" name="q10" value="a">Environmental waste</label><label><input type="radio" name="q10" value="b">Customer Data Privacy</label><label><input type="radio" name="q10" value="c">Education</label><label><input type="radio" name="q10" value="d">Healthcare</label></div></div>
+
+      <div class="quiz-block"><h2>11. Which is NOT part of the analytics process?</h2><div class="options"><label><input type="radio" name="q11" value="a">Collection</label><label><input type="radio" name="q11" value="b">Cleaning</label><label><input type="radio" name="q11" value="c">Interpretation</label><label><input type="radio" name="q11" value="d">Advertising</label></div></div>
+      <div class="quiz-block"><h2>12. CLV focuses on:</h2><div class="options"><label><input type="radio" name="q12" value="a">Long-term customer relationships</label><label><input type="radio" name="q12" value="b">Single transactions</label><label><input type="radio" name="q12" value="c">Short-term goals</label><label><input type="radio" name="q12" value="d">Random surveys</label></div></div>
+      <div class="quiz-block"><h2>13. Ethical data handling includes:</h2><div class="options"><label><input type="radio" name="q13" value="a">Asking consent before collecting data</label><label><input type="radio" name="q13" value="b">Selling private data</label><label><input type="radio" name="q13" value="c">Ignoring errors</label><label><input type="radio" name="q13" value="d">Faking results</label></div></div>
+      <div class="quiz-block"><h2>14. Which data comes from receipts or purchase history?</h2><div class="options"><label><input type="radio" name="q14" value="a">Demographic</label><label><input type="radio" name="q14" value="b">Behavioral</label><label><input type="radio" name="q14" value="c">Transactional</label><label><input type="radio" name="q14" value="d">Psychographic</label></div></div>
+      <div class="quiz-block"><h2>15. Grouping customers by gender is an example of:</h2><div class="options"><label><input type="radio" name="q15" value="a">Demographic</label><label><input type="radio" name="q15" value="b">Behavioral</label><label><input type="radio" name="q15" value="c">Geographic</label><label><input type="radio" name="q15" value="d">Psychographic</label></div></div>
+
+      <div class="quiz-block"><h2>16. What helps predict future customer actions?</h2><div class="options"><label><input type="radio" name="q16" value="a">Predictive Analytics</label><label><input type="radio" name="q16" value="b">Descriptive Analytics</label><label><input type="radio" name="q16" value="c">Data Cleaning</label><label><input type="radio" name="q16" value="d">Random Sampling</label></div></div>
+      <div class="quiz-block"><h2>17. Which of these increases CLV?</h2><div class="options"><label><input type="radio" name="q17" value="a">Rewards and good service</label><label><input type="radio" name="q17" value="b">Poor product quality</label><label><input type="radio" name="q17" value="c">Ignoring feedback</label><label><input type="radio" name="q17" value="d">None</label></div></div>
+      <div class="quiz-block"><h2>18. Which best describes data analysis?</h2><div class="options"><label><input type="radio" name="q18" value="a">Studying data to find patterns</label><label><input type="radio" name="q18" value="b">Collecting raw data</label><label><input type="radio" name="q18" value="c">Deleting information</label><label><input type="radio" name="q18" value="d">Encrypting data</label></div></div>
+      <div class="quiz-block"><h2>19. What type of data is gathered from social media likes?</h2><div class="options"><label><input type="radio" name="q19" value="a">Demographic</label><label><input type="radio" name="q19" value="b">Behavioral</label><label><input type="radio" name="q19" value="c">Geographic</label><label><input type="radio" name="q19" value="d">Transactional</label></div></div>
+      <div class="quiz-block"><h2>20. Customer Value refers to:</h2><div class="options"><label><input type="radio" name="q20" value="a">Perceived worth of a product to a customer</label><label><input type="radio" name="q20" value="b">Company profit</label><label><input type="radio" name="q20" value="c">Number of sales</label><label><input type="radio" name="q20" value="d">Price tags</label></div></div>
+
+      <div class="quiz-block"><h2>21. Which step follows Data Cleaning?</h2><div class="options"><label><input type="radio" name="q21" value="a">Collection</label><label><input type="radio" name="q21" value="b">Decision-Making</label><label><input type="radio" name="q21" value="c">Data Analysis</label><label><input type="radio" name="q21" value="d">Interpretation</label></div></div>
+      <div class="quiz-block"><h2>22. Why is data ethics important?</h2><div class="options"><label><input type="radio" name="q22" value="a">To protect customers and maintain trust</label><label><input type="radio" name="q22" value="b">To increase manipulation</label><label><input type="radio" name="q22" value="c">To break privacy</label><label><input type="radio" name="q22" value="d">To ignore laws</label></div></div>
+      <div class="quiz-block"><h2>23. Which best defines interpretation?</h2><div class="options"><label><input type="radio" name="q23" value="a">Explaining analyzed data results</label><label><input type="radio" name="q23" value="b">Collecting emails</label><label><input type="radio" name="q23" value="c">Erasing data</label><label><input type="radio" name="q23" value="d">Advertising products</label></div></div>
+      <div class="quiz-block"><h2>24. Which data type includes customer emotions and motivations?</h2><div class="options"><label><input type="radio" name="q24" value="a">Geographic</label><label><input type="radio" name="q24" value="b">Psychographic</label><label><input type="radio" name="q24" value="c">Behavioral</label><label><input type="radio" name="q24" value="d">Transactional</label></div></div>
+      <div class="quiz-block"><h2>25. Which focuses on improving future strategies?</h2><div class="options"><label><input type="radio" name="q25" value="a">Predictive Analytics</label><label><input type="radio" name="q25" value="b">Historical Analytics</label><label><input type="radio" name="q25" value="c">Data Gathering</label><label><input type="radio" name="q25" value="d">Interpretation</label></div></div>
+
+      <!-- SITUATIONAL -->
+      <div class="quiz-block"><h2>26. A bakery finds customers buy more when offered loyalty points. What should the bakery do?</h2><div class="options"><label><input type="radio" name="q26" value="a">Continue offering rewards to build loyalty</label><label><input type="radio" name="q26" value="b">Remove all discounts</label><label><input type="radio" name="q26" value="c">Ignore data insights</label><label><input type="radio" name="q26" value="d">Raise prices drastically</label></div></div>
+      <div class="quiz-block"><h2>27. A company shared customer information without consent. Which law was broken?</h2><div class="options"><label><input type="radio" name="q27" value="a">RA 1425</label><label><input type="radio" name="q27" value="b">RA 10173 (Data Privacy Act)</label><label><input type="radio" name="q27" value="c">RA 9003</label><label><input type="radio" name="q27" value="d">RA 9155</label></div></div>
+      <div class="quiz-block"><h2>28. A mall uses short surveys to learn shopper preferences. This action is an example of:</h2><div class="options"><label><input type="radio" name="q28" value="a">Data Collection</label><label><input type="radio" name="q28" value="b">Data Cleaning</label><label><input type="radio" name="q28" value="c">Decision Making</label><label><input type="radio" name="q28" value="d">Segmentation</label></div></div>
+      <div class="quiz-block"><h2>29. A food delivery app records which dishes are ordered most. What type of data is this?</h2><div class="options"><label><input type="radio" name="q29" value="a">Demographic</label><label><input type="radio" name="q29" value="b">Behavioral</label><label><input type="radio" name="q29" value="c">Geographic</label><label><input type="radio" name="q29" value="d">Psychographic</label></div></div>
+      <div class="quiz-block"><h2>30. An online shop has many complaints about late deliveries. To improve satisfaction they should focus on:</h2><div class="options"><label><input type="radio" name="q30" value="a">Convenience (faster delivery)</label><label><input type="radio" name="q30" value="b">More advertising</label><label><input type="radio" name="q30" value="c">Higher prices</label><label><input type="radio" name="q30" value="d">None of the above</label></div></div>
+
+      <div class="controls">
+        <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+        <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- MODALS -->
+  <div class="modal" id="scoreModal">
+    <div class="modal-content">
+      <h2>Quiz Result</h2>
+      <p id="scoreText"></p>
+      <p id="percentText" style="margin-top:6px;color:#555"></p>
+      <button onclick="closeModal()">OK — Reset Quiz</button>
+    </div>
+  </div>
+  <div class="modal" id="warningModal">
+    <div class="modal-content">
+      <h2>⚠️ Incomplete Quiz</h2>
+      <p>Please answer <b>all 30 questions</b> before submitting.</p>
+      <button onclick="closeWarning()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // Toggle menu visibility
+// Toggle menu visibility (fixed version)
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+
+  // When sidebar is active, prevent body scroll
+  if (sidebar.classList.contains("active")) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+}
+
+
+    const correctAnswers = {
+      q1:"T",q2:"T",q3:"T",q4:"T",q5:"F",
+      q6:"b",q7:"b",q8:"a",q9:"b",q10:"b",
+      q11:"d",q12:"a",q13:"a",q14:"c",q15:"a",
+      q16:"a",q17:"a",q18:"a",q19:"b",q20:"a",
+      q21:"c",q22:"a",q23:"a",q24:"b",q25:"a",
+      q26:"a",q27:"b",q28:"a",q29:"b",q30:"a"
+    };
+
+    function checkAnswers() {
+      const total = 30;
+      const form = document.getElementById('quizForm');
+      let answered = 0, score = 0;
+      for (let i = 1; i <= total; i++) {
+        const ans = form.querySelector(`input[name="q${i}"]:checked`);
+        if (ans) {
+          answered++;
+          if (ans.value === correctAnswers[`q${i}`]) score++;
+        }
+      }
+      if (answered < total) {
+        document.getElementById('warningModal').style.display = 'flex';
+        return;
+      }
+      const percent = Math.round((score / total) * 100);
+      document.getElementById('scoreText').innerHTML = `You got <b>${score}</b> out of <b>${total}</b>`;
+      document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+      document.getElementById('scoreModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').style.display = 'none';
+      document.getElementById('quizForm').reset();
+    }
+    function closeWarning() {
+      document.getElementById('warningModal').style.display = 'none';
+    }
+
+// Disable right-click, copy, paste, and inspect tools
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (
+    e.key === 'F12' || // DevTools
+    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || // Ctrl+Shift+I/C/J
+    (e.ctrlKey && e.key === 'U') // Ctrl+U (View Source)
+  ) {
+    e.preventDefault();
+    alert("⚠️ Disabled for security reasons.");
+  }
+});
+
+
+  </script>
+</body>
+</html>

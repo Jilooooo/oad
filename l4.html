@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lesson 4 - Customer Segmentation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#fdfdfd;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover { width: 240px; }
+    .sidebar.active { left: 0; width: 240px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover { background-color: #1e3d7c; }
+
+    /* MAIN CONTENT */
+    .main {
+      flex: 1;
+      margin-left: 95px;
+      padding: 30px;
+      transition: margin-left .3s;
+    }
+
+    .sidebar:hover ~ .main,
+    .sidebar.active ~ .main {
+      margin-left: 240px;
+    }
+
+    header h1{color:#0b1d3a;margin-bottom:20px;font-size:1.8rem}
+
+    .content{
+      background:#fff;
+      padding:25px;
+      border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,.08);
+      display:grid;
+      grid-template-columns:1fr;
+      gap:25px;
+    }
+
+    .section-block{
+      background:#f8faff;
+      padding:20px;
+      border-radius:10px;
+      border-left:6px solid #0b1d3a;
+    }
+
+    .section-block h2{
+      color:#0b1d3a;
+      margin-bottom:10px;
+      font-size:1.2rem;
+    }
+
+    p,li{line-height:1.7;color:#333;text-align:justify}
+    ul,ol{margin-left:25px;margin-bottom:10px}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#e6ecfa;color:#0b1d3a}
+    .back{display:inline-block;margin-top:20px;background:#0b1d3a;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s}
+    .back:hover{background:#173b74}
+
+    /* QUIZ */
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1d3a}
+    .quiz-block h2{color:#0b1d3a;margin-bottom:12px;font-size:1.2rem}
+    .options{list-style:none;margin-top:10px}
+    .options li{
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease
+    }
+    .options li:hover{background:#dbe6ff}
+    .feedback{margin-top:10px;font-weight:600}
+    .correct{color:green}
+    .wrong{color:red}
+
+    /* Responsive */
+    @media (max-width:768px){
+      .menu-btn { display:block; }
+      .sidebar { left:-240px;width:240px; }
+      .sidebar.active { left:0; }
+      .main { margin-left:0;padding:20px; }
+      .sidebar.active ~ .main { margin-left:0; }
+      header h1{text-align:center;font-size:1.4rem;margin-top:50px}
+    }
+
+    @media (max-width:480px){
+      .section-block h2{font-size:1rem}
+      .quiz-block h2{font-size:1rem}
+      .options li{font-size:.9rem}
+      .back{padding:8px 14px;font-size:.9rem}
+    }
+  </style>
+</head>
+<body>
+  <!-- Menu Button for Small Screens -->
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="landing.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main">
+    <header><h1>Lesson 4 – Customer Segmentation</h1></header>
+
+    <section class="content">
+      <!-- LEARNING OUTCOMES -->
+      <div class="section-block">
+        <h2>Learning Outcomes</h2>
+        <p>After completing this lesson, you will be able to:</p>
+        <ul>
+          <li>Define and explain the concept of Customer Segmentation.</li>
+          <li>Identify the main types of customer segmentation used in businesses.</li>
+          <li>Understand how segmentation improves marketing and customer relationships.</li>
+          <li>Apply segmentation strategies to real-world business examples.</li>
+          <li>Recognize the importance of grouping customers for efficient resource use.</li>
+        </ul>
+      </div>
+
+      <!-- INTRODUCTION -->
+      <div class="section-block">
+        <h2>Introduction</h2>
+        <p>Not all customers are the same. They have different needs, preferences, and behaviors. Because of this, businesses divide customers into groups to understand them better. This process is called <strong>Customer Segmentation</strong>.</p>
+      </div>
+
+      <!-- WHAT IS CUSTOMER SEGMENTATION -->
+      <div class="section-block">
+        <h2>What is Customer Segmentation?</h2>
+        <p><strong>Customer Segmentation</strong> is the process of grouping customers based on shared characteristics such as age, interests, buying behavior, or lifestyle. It allows businesses to tailor their products, marketing, and services to specific customer needs.</p>
+      </div>
+
+      <!-- IMPORTANCE -->
+      <div class="section-block">
+        <h2>Why is Customer Segmentation Important?</h2>
+        <ul>
+          <li><b>Better Customer Understanding:</b> Helps companies know what different customers want and need.</li>
+          <li><b>Personalized Marketing:</b> Allows businesses to send the right message to the right group of customers.</li>
+          <li><b>Efficient Use of Resources:</b> Saves money by targeting only people most likely to buy.</li>
+          <li><b>Increases Customer Loyalty:</b> Customers feel valued when products and services match their needs.</li>
+        </ul>
+      </div>
+
+      <!-- COMMON TYPES -->
+      <div class="section-block">
+        <h2>Common Ways to Segment Customers</h2>
+        <table>
+          <tr><th>Type of Segmentation</th><th>Description</th><th>Example</th></tr>
+          <tr><td>Demographic Segmentation</td><td>Based on personal information.</td><td>Age, gender, income, education.</td></tr>
+          <tr><td>Geographic Segmentation</td><td>Based on location or area.</td><td>City, region, or climate.</td></tr>
+          <tr><td>Psychographic Segmentation</td><td>Based on interests, values, or lifestyle.</td><td>Hobbies, personality, eco-friendly habits.</td></tr>
+          <tr><td>Behavioral Segmentation</td><td>Based on customer actions or habits.</td><td>Buying frequency, loyalty, or product use.</td></tr>
+        </table>
+      </div>
+
+      <!-- EXAMPLES -->
+      <div class="section-block">
+        <h2>Examples of Customer Segmentation</h2>
+        <table>
+          <tr><th>Business</th><th>Customer Segment</th><th>Resulting Strategy</th></tr>
+          <tr><td>Milk Tea Shop</td><td>Students who buy after class</td><td>“Student Discount Promo” from 3–5 PM</td></tr>
+          <tr><td>Clothing Store</td><td>Teens who follow trends</td><td>Offers trendy clothes and TikTok ads</td></tr>
+          <tr><td>Gym</td><td>Young adults wanting to stay fit</td><td>Introduces monthly fitness challenges</td></tr>
+          <tr><td>Online Shopping App</td><td>Customers who seek discounts</td><td>Sends exclusive “Flash Sale” alerts</td></tr>
+        </table>
+      </div>
+
+      <!-- HOW SEGMENTATION WORKS -->
+      <div class="section-block">
+        <h2>How Segmentation Works</h2>
+        <ol>
+          <li>Collect customer data such as age, interests, and purchase history.</li>
+          <li>Find similarities among customers.</li>
+          <li>Group customers based on these similarities.</li>
+          <li>Create targeted marketing strategies for each group.</li>
+        </ol>
+      </div>
+
+      <!-- SCENARIO -->
+      <div class="section-block">
+        <h2>Scenario: Fast-Food Chain Segmentation</h2>
+        <p>A fast-food chain notices two common customer groups:</p>
+        <ul>
+          <li>Students who buy snacks after school.</li>
+          <li>Workers who buy meals during lunch breaks.</li>
+        </ul>
+        <p>Using segmentation, the company:</p>
+        <ul>
+          <li>Creates <b>Budget Snacks</b> for students.</li>
+          <li>Offers <b>Lunch Meals</b> for workers.</li>
+        </ul>
+        <p><strong>Result:</strong> Both groups feel the food suits their budget and schedule, leading to higher customer satisfaction and sales.</p>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="quiz-block">
+        <h2>🧠 Quick Break Question</h2>
+        <p>Which type of customer segmentation focuses on lifestyle, interests, and personal values?</p>
+        <ul class="options">
+          <li onclick="checkAnswer(this,false)">Demographic Segmentation</li>
+          <li onclick="checkAnswer(this,false)">Geographic Segmentation</li>
+          <li onclick="checkAnswer(this,true)">Psychographic Segmentation</li>
+          <li onclick="checkAnswer(this,false)">Behavioral Segmentation</li>
+        </ul>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <!-- SUMMARY -->
+      <div class="section-block">
+        <h2>Summary</h2>
+        <p><strong>Customer Segmentation</strong> is the method of dividing customers into groups based on similarities. It helps businesses understand their customers better, design personalized strategies, improve marketing efficiency, and boost sales. By focusing on customer needs, companies can build stronger relationships and achieve long-term success.</p>
+      </div>
+
+      <a class="back" href="CA.html">← Back to Module</a>
+    </section>
+  </main>
+
+  <script>
+    function checkAnswer(element, isCorrect) {
+      const feedback = document.getElementById('feedback');
+      document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+      element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+      feedback.textContent = isCorrect ? "✅ Correct! Psychographic segmentation focuses on values, interests, and lifestyle." : "❌ Try again!";
+      feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+    }
+
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

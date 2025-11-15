@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2 - Common Forms of Negotiable Instruments | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      height: 100%; width: 75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57;
+      transition:.3s; overflow:hidden; z-index:1000;
+    }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;white-space:nowrap; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      display:none; position:fixed; top:15px; left:15px;
+      background:#0b1e3f; color:#fff; border:none;
+      padding:10px 12px; border-radius:6px; cursor:pointer;
+      z-index:1500; font-size:18px; transition:.3s;
+    }
+
+    /* MAIN CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p{line-height:1.7;color:#333;text-align:justify;margin-bottom:10px;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 6 – Presentment, Payment, and Protest</h1></header>
+
+  <section class="content">
+
+    <!-- LEARNING OUTCOMES -->
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <ul>
+        <li>Define presentment, payment, and protest.</li>
+        <li>Describe processes for presentment for acceptance/payment.</li>
+        <li>Identify proper time, place, and persons for presentment.</li>
+        <li>Explain effects of non-presentment.</li>
+        <li>Define payment in due course and payment for honor.</li>
+        <li>Explain protest and when it is required.</li>
+        <li>Describe notice of protest.</li>
+        <li>Understand waiver and excuse of presentment, payment, and protest.</li>
+      </ul>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="section-block">
+      <h2>1. Introduction</h2>
+      <p>
+        Presentment, payment, and protest are essential steps in enforcing negotiable instruments.
+        Presentment is the formal demand for acceptance or payment. Payment is the fulfillment of the obligation.
+        Protest is a formal declaration by a notary public that an instrument has been dishonored.
+      </p>
+</div>
+<div class="section-block">
+<h3>Presentment</h3>
+<P>It refers to the formal demand made by the holder for either acceptance or payment of the instrument. Payment refers to the fulfillment of the obligation under the instrument. Protest, on the other hand, is a formal declaration made by a notary public that the instrument has been dishonored.
+    </div></P>
+
+    <!-- PRESENTMENT FOR ACCEPTANCE -->
+    <div class="section-block">
+      <h2>2. Presentment for Acceptance</h2>
+      <p>Presentment for acceptance occurs only in the case of a bill of exchange, and it is made to the drawee before payment is demanded.
+It means showing or presenting the bill to the drawee and asking if he will accept it, thereby agreeing to pay it when due.
+</p>
+
+      <h3>When Required</h3>
+      <ul>
+        <li>The bill states it must be presented for acceptance.</li>
+        <li>Bill is payable after sight.</li>
+        <li>Needed to fix maturity date.</li>
+        <li>Bill is payable in another place.</li>
+      </ul>
+    
+Example:
+<p>Mr. Javier draws a bill on Mr. Lim, payable 30 days after sight, in favor of Ms. Cruz. Ms. Cruz must present the bill to Mr. Lim for acceptance so that the 30-day period can begin. Failure to do so means the bill will not mature, and the drawer and endorsers may be discharged.</p>
+</div>
+
+    <!-- PRESENTMENT FOR PAYMENT -->
+    <div class="section-block">
+      <h2>3. Presentment for Payment</h2>
+      <p>Presentment for payment is the act of formally demanding payment of the negotiable instrument by the person primarily liable (the maker, acceptor, or drawee bank). It must be made by the holder or a person authorized to collect payment on behalf of the holder.
+.</p>
+
+      <h3>Requisites</h3>
+      <ul>
+        <li>By the holder or authorized person.</li>
+        <li>At the proper time (maturity).</li>
+        <li>At the proper place (business or residence).</li>
+        <li>To the proper person.</li>
+        <li>Instrument must be exhibited and surrendered.</li>
+      </ul>
+<p>Example:
+A promissory note made by Mr. Dizon promises to pay Ms. Lopez ₱25,000 on October 10, 2025. On that date, Ms. Lopez personally presents the note to Mr. Dizon at his office for payment. This is a valid presentment for payment because it was made by the holder, on the due date, and at the correct place.
+</p>
+    </div>
+
+
+    <!-- TIME AND PLACE -->
+    <div class="section-block">
+      <h2>4. Time and Place of Presentment</h2>
+      <p><strong>Time:</strong> Presentment must be made on the due date of the instrument. If that date falls on a holiday or Sunday, it should be made on the next business day.</p>
+      <p><strong>Place:</strong> Presentment must be made at the business or residence of the person primarily liable, or at the place specified in the instrument.</p>
+<p>Example:
+If a bill states, “Payable at BDO, Makati Branch,” the holder must present it at that branch on the maturity date to comply with legal requirements.</p>
+    </div>
+
+    <!-- EFFECT OF NON-PRESENTMENT -->
+    <div class="section-block">
+      <h2>5. Effect of Non-Presentment</h2>
+<p>Failure to make proper presentment when required may discharge certain parties from liability.
+However, the party primarily liable (the maker or acceptor) remains bound to pay.</p>
+
+      <p>Example:
+If a bill payable after sight is never presented to the drawee for acceptance, the drawer and endorsers are discharged because the bill never matured properly.</ul>
+    </div>
+
+    <!-- PAYMENT IN DUE COURSE -->
+    <div class="section-block">
+      <h2>6. Payment in Due Course</h2>
+<p>Payment in due course refers to payment made at or after the maturity date, to the rightful holder, in good faith, and without notice of any defect or claim.</p>
+<h3>Requisites</h3>
+      <ul>
+        <li>Payment at or after maturity.</li>
+        <li>To the rightful holder.</li>
+        <li>In good faith.</li>
+        <li>Without notice of defect.</li>
+      </ul>
+<p>Example:
+A bank honors a cheque presented by Mr. Santos, who is the rightful holder, on the date indicated. Since the bank made the payment in good faith and in accordance with the cheque’s terms, this constitutes payment in due course.</p>
+    </div>
+
+    <!-- PAYMENT FOR HONOR -->
+    <div class="section-block">
+      <h2>7. Payment for Honor</h2>
+      <p>
+        If a bill has been dishonored by non-payment, any person may intervene and pay it for the honor of any party liable. This act prevents further protest and protects the reputation of the party for whom payment is made.
+      </p>
+
+<p>Example:
+A bill drawn by Mr. Uy in favor of Ms. Tan is dishonored by the drawee. To protect Mr. Uy’s credit, Mr. Lim voluntarily pays the amount to Ms. Tan. Mr. Lim may then recover the amount from Mr. Uy. This is payment for honor.<p>
+    </div>
+
+    <!-- PROTEST -->
+    <div class="section-block">
+      <h2>8. Protest</h2>
+      <p>A protest is a formal written declaration made by a notary public stating that a bill of exchange has been presented for acceptance or payment and has been dishonored.
+It serves as legal proof of dishonor, especially in international transactions.
+</p>
+
+      <h3>When Required</h3>
+      <ul>
+        <li>Required for foreign bills.</li>
+        <li>Optional for inland bills.</li>
+      </ul>
+
+      <h3>Contents</h3>
+      <ul>
+        <li>Copy or terms of the bill.</li>
+        <li>Statement of dishonor.</li>
+        <li>Names of parties notified.</li>
+        <li>Date and place.</li>
+        <li>Seal/signature of notary.</li>
+      </ul>
+<p>Example:
+A bill drawn in Manila and payable in Tokyo is presented to the drawee in Japan, who refuses to accept it. The holder then goes to a notary public who issues a protest certifying the refusal. This protest serves as formal evidence if the holder later sues the drawer or endorsers.</p>
+    </div>
+
+    <!-- NOTICE OF PROTEST -->
+    <div class="section-block">
+      <h2>9. Notice of Protest</h2>
+      <p>After a protest is made, notice of protest must be given to all parties secondarily liable such as the drawer and endorsers in the same way as notice of dishonor.
+This ensures that they are informed of the refusal and can take necessary actions to protect their financial interests.
+</p>
+    </div>
+
+    <!-- WAIVER -->
+    <div class="section-block">
+      <h2>10. Waiver and Excuse</h2>
+      <p>Presentment, payment, or protest may be waived expressly or impliedly.</p>
+<p>Example:
+If a drawer writes on the bill “protest waived” or “no need for presentment,” the holder may immediately proceed against him without fulfilling these formalities.</p>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-block">
+      <p>Which of the following requires presentment for acceptance?</p>
+
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Promissory notes</li>
+        <li onclick="checkAnswer(this,true)">Bills payable after sight</li>
+        <li onclick="checkAnswer(this,false)">Cheques</li>
+        <li onclick="checkAnswer(this,false)">Any bearer instrument</li>
+      </ul>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <!-- BACK BUTTON -->
+    <a class="back" href="NI.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>

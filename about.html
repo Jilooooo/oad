@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4B-EBOOK | Practice</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f9fbff;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 60px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: width 0.3s ease;
+      overflow: hidden;
+      z-index: 100;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      transition: transform 0.3s ease;
+      filter: brightness(1.1);
+    }
+
+    .logo:hover img {
+      transform: scale(1.1);
+    }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 80px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    /* LESSONS GRID */
+    .lessons {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .lesson {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      transition: 0.3s ease;
+    }
+
+    .lesson:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 22px;
+      margin-right: 20px;
+    }
+
+    .blue-light { background-color: #4a74d3; }
+    .sky { background-color: #67a8ff; }
+    .teal { background-color: #4ac4c4; }
+    .navy { background-color: #1e3d7c; }
+    .aqua { background-color: #66b2ff; }
+    .blue-dark { background-color: #2e4a90; }
+    .navy-deep { background-color: #0b1e3f; }
+
+    .details {
+      flex: 1;
+    }
+
+    .details h3 {
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .details p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+
+    .start-btn {
+      background-color: #fff;
+      border: 2px solid #1e3d7c;
+      color: #1e3d7c;
+      font-weight: 600;
+      border-radius: 25px;
+      padding: 8px 18px;
+      transition: 0.3s ease;
+      cursor: pointer;
+    }
+
+    .start-btn:hover {
+      background-color: #1e3d7c;
+      color: #fff;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+
+      .sidebar:hover {
+        width: 200px;
+      }
+
+      .main-content {
+        margin-left: 60px;
+        padding: 25px;
+      }
+
+      .sidebar:hover ~ .main-content {
+        margin-left: 200px;
+      }
+
+      .lesson {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .start-btn {
+        margin-top: 10px;
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+       <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li class="active" onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+  <!-- Main Content -->
+  <div class="main-content" id="main">
+    <header>
+      <h1>Learn More About This Website and Its Creators</h1>
+    </header>

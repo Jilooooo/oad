@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keyboarding Challenge</title>
+  <style>
+    body {
+      font-family: Poppins, sans-serif;
+      background: #eef3fa;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+    }
+    .btn {
+      background-color: #003366;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0055aa;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      font-size: 1rem;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <header>
+      <h1>Keyboarding Challenge</h1>
+      <p>Type the sentence before the time runs out!</p>
+    </header>
+
+    <div class="typing-area" id="typingAreaWrapper">
+      <div class="timer" id="timer">⏱️ Time Left: 55s</div>
+      <div class="text-to-type" id="textToType">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+
+      <textarea id="typingArea" placeholder="Start typing here..."
+        oncopy="return false"
+        onpaste="return false"
+        oncut="return false"
+        oncontextmenu="return false"></textarea>
+
+      <div class="result" id="result"></div>
+
+      <div id="buttons">
+        <button class="btn" id="tryAgain" style="display:none;" onclick="restartTest()">Try Again</button>
+        <button class="btn" id="nextBtn" style="display:none;" onclick="nextSentence()">Next</button>
+      </div>
+    </div>
+
+    <!-- Certificate Section -->
+    <div class="certificate-area" id="certificateArea" style="display:none; text-align:center; margin-top:30px;">
+      <h2>Congratulations! 🎉</h2>
+      <p>Enter your name to generate your certificate:</p>
+      <input type="text" id="userName" placeholder="Your Name" style="padding:10px; font-size:1rem; border-radius:5px; border:1px solid #ccc;">
+      <br><br>
+      <button class="btn" onclick="generateCertificate()">Generate Certificate</button>
+      <br><br>
+      <canvas id="certificateCanvas" width="900" height="650" style="display:block; margin:20px auto; border:1px solid #ccc;"></canvas>
+      <a id="downloadLink" style="display:none;" class="btn" download="certificate.pdf">Download Certificate (PDF)</a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    const sentences = [
+      "The"
+    ];
+
+    let currentSentence = 0;
+    let timeLeft = 55;
+    let timerInterval;
+    const typingArea = document.getElementById('typingArea');
+    const textToType = document.getElementById('textToType');
+    const timerDisplay = document.getElementById('timer');
+    const result = document.getElementById('result');
+    const tryAgainBtn = document.getElementById('tryAgain');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function startTimer() {
+      timeLeft = 55;
+      timerDisplay.textContent = `⏱️ Time Left: ${timeLeft}s`;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = `⏱️ Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          typingArea.disabled = true;
+          result.textContent = "❌ Time's up! You didn't finish in time.";
+          tryAgainBtn.style.display = "inline-block";
+        }
+      }, 1000);
+    }
+
+    function loadSentence() {
+      typingArea.value = "";
+      result.textContent = "";
+      tryAgainBtn.style.display = "none";
+      nextBtn.style.display = "none";
+      typingArea.disabled = false;
+      textToType.textContent = sentences[currentSentence];
+      startTimer();
+    }
+
+    typingArea.addEventListener('input', () => {
+      if (typingArea.value.trim() === textToType.textContent.trim()) {
+        clearInterval(timerInterval);
+        result.innerHTML = "✅ Great job! You finished on time!";
+        typingArea.disabled = true;
+        nextBtn.style.display = "inline-block";
+      }
+    });
+
+    function restartTest() {
+      loadSentence();
+    }
+
+    function nextSentence() {
+      currentSentence++;
+      if (currentSentence >= sentences.length) {
+        showCertificateInput();
+        result.innerHTML = "";
+      } else {
+        loadSentence();
+      }
+    }
+
+    function showCertificateInput() {
+      document.getElementById('typingAreaWrapper').style.display = 'none';
+      document.getElementById('certificateArea').style.display = 'block';
+    }
+
+    async function generateCertificate() {
+      const canvas = document.getElementById('certificateCanvas');
+      const ctx = canvas.getContext('2d');
+      const name = document.getElementById('userName').value.trim() || "Your Name";
+
+      const schoolLogo = new Image();
+      const pasoaLogo = new Image();
+      schoolLogo.src = "school_logo.jpg"; // make sure the image file is in the same folder
+      pasoaLogo.src = "pasoa_logo.jpg";
+
+      await Promise.all([
+        new Promise(res => schoolLogo.onload = res),
+        new Promise(res => pasoaLogo.onload = res)
+      ]);
+
+      // Background
+      ctx.fillStyle = "#f8faff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Border
+      ctx.strokeStyle = "#001f3f";
+      ctx.lineWidth = 10;
+      ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+      // Logos
+      ctx.drawImage(schoolLogo, 80, 60, 100, 100);
+      ctx.drawImage(pasoaLogo, canvas.width - 180, 60, 100, 100);
+
+      // School name
+      ctx.fillStyle = "#001f3f";
+      ctx.font = "24px Poppins, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Our Lady of the Sacred Heart College of Guimba, Inc.", canvas.width/2, 210);
+
+      // Certificate text
+      ctx.font = "40px Poppins, sans-serif";
+      ctx.fillText("Certificate of Completion", canvas.width/2, 280);
+
+      ctx.font = "28px Poppins, sans-serif";
+      ctx.fillText("This certificate is proudly presented to", canvas.width/2, 340);
+
+      ctx.font = "36px Poppins, sans-serif";
+      ctx.fillText(name, canvas.width/2, 400);
+
+      ctx.font = "24px Poppins, sans-serif";
+      ctx.fillText("for successfully completing the Keyboarding Challenge.", canvas.width/2, 460);
+
+      ctx.font = "20px Poppins, sans-serif";
+      ctx.fillText(`Date: ${new Date().toLocaleDateString()}`, canvas.width/2, 520);
+
+      // Show download link
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'landscape',
+        unit: 'px',
+        format: [canvas.width, canvas.height]
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      const pdfBlob = pdf.output('bloburl');
+
+      const downloadLink = document.getElementById('downloadLink');
+      downloadLink.href = pdfBlob;
+      downloadLink.style.display = 'inline-block';
+    }
+
+    window.onload = loadSentence;
+  </script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 5 - Court Procedures and Case Management | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR ------------------------------------------------------------*/
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover { width: 240px; }
+    .sidebar.active { left: 0; width: 240px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity: 1; }
+
+    .nav-links { list-style: none; margin-top: 20px; }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span { opacity: 0; transition: opacity 0.3s ease; }
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span { opacity: 1; }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i { color: #fff; }
+
+    /* TOGGLE BUTTON ----------------------------------------------------------*/
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover { background-color: #1e3d7c; }
+
+    /* MAIN CONTENT ------------------------------------------------------------*/
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left: 240px; }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 { color:#0b1e3f;margin-bottom:10px;font-size:1.2rem; }
+    h3 { margin-top:10px;color:#0b1e3f; }
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ SECTION ------------------------------------------------------------*/
+    .quiz-block {
+      background:#eef4ff;padding:20px;border-radius:12px;
+      border-left:6px solid #0b1e3f;
+    }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back {
+      display:inline-block;margin-top:20px;background:#0b1e3f;
+      color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;
+      transition:.3s;
+    }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE --------------------------------------------------------------*/
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+<header><h1>Lesson 5 – Court Procedures and Case Management</h1></header>
+
+<section class="content">
+
+  <!-- OBJECTIVES -->
+  <div class="section-block">
+    <h2>Learning Objectives</h2>
+    <ul>
+      <li>Understand the structure of the Philippine Court System.</li>
+      <li>Identify the stages of a civil case.</li>
+      <li>Recognize the duties of a legal secretary in court-related tasks.</li>
+      <li>Learn how courts function and how cases progress.</li>
+      <li>Explain basic trial processes and documentation requirements.</li>
+    </ul>
+  </div>
+
+  <!-- COURT SYSTEM -->
+  <div class="section-block">
+    <h2>Structure of the Philippine Court System</h2>
+
+    <h3>A. Supreme Court</h3>
+    <ul>
+      <li>Highest court in the Philippines.</li>
+      <li>Composed of the Chief Justice + 14 Associate Justices.</li>
+      <li>Final authority on all legal cases.</li>
+    </ul>
+
+    <h3>B. Court of Appeals (CA)</h3>
+    <ul>
+      <li>Second highest court.</li>
+      <li>Reviews decisions of RTCs.</li>
+    </ul>
+
+    <h3>C. Sandiganbayan</h3>
+    <p>Court handling graft and corruption cases involving public officials.</p>
+
+    <h3>D. Court of Tax Appeals (CTA)</h3>
+    <p>Handles tax disputes involving the BIR or BOC.</p>
+
+    <h3>E. Regional Trial Courts (RTCs)</h3>
+    <ul>
+      <li>Trial courts of general jurisdiction.</li>
+      <li>Handle major civil and criminal cases.</li>
+    </ul>
+
+    <h3>F. MTC / MeTC / MCTC</h3>
+    <ul>
+      <li>Handle minor civil and criminal cases.</li>
+      <li>Small claims and violations with penalties under 6 years.</li>
+    </ul>
+  </div>
+
+  <!-- CIVIL CASE STAGES -->
+  <div class="section-block">
+    <h2>Stages of a Civil Case</h2>
+
+    <h3>1. Filing of Complaint</h3>
+    <p>Plaintiff submits a complaint to initiate the case.</p>
+
+    <h3>2. Issuance of Summons</h3>
+    <p>Defendant is formally notified of the case.</p>
+
+    <h3>3. Filing of Answer</h3>
+    <p>Defendant responds to the allegations.</p>
+
+    <h3>4. Pre-Trial Conference</h3>
+    <p>Meeting to define issues, mark evidence, and attempt settlement.</p>
+
+    <h3>5. Trial Proper</h3>
+    <p>Presentation of witnesses and evidence.</p>
+
+    <h3>6. Judgment or Decision</h3>
+    <p>The judge issues the final ruling.</p>
+
+    <h3>7. Execution of Judgment</h3>
+    <p>Court enforces the decision in favor of the winning party.</p>
+  </div>
+
+  <!-- DUTIES OF LEGAL SECRETARY -->
+  <div class="section-block">
+    <h2>Duties of a Legal Secretary in Court-Related Tasks</h2>
+
+    <h3>A. Filing Pleadings</h3>
+    <ul>
+      <li>Prepare and submit pleadings (Complaint, Answer, Motions).</li>
+      <li>Ensure documents are complete, signed, and duly notarized.</li>
+      <li>File on time and secure receiving copies.</li>
+    </ul>
+
+    <h3>B. Coordinating with Court Clerks</h3>
+    <ul>
+      <li>Verify case numbers, schedules, and orders.</li>
+      <li>Secure certified copies if necessary.</li>
+    </ul>
+
+    <h3>C. Scheduling Hearings</h3>
+    <ul>
+      <li>Maintain and update a court calendar.</li>
+      <li>Remind lawyers of deadlines and hearing dates.</li>
+      <li>Inform clients of updates and progress.</li>
+    </ul>
+
+    <h3>D. Record-Keeping</h3>
+    <ul>
+      <li>Organize documents by case number or client name.</li>
+      <li>Maintain copies of pleadings, evidence, receipts, and court orders.</li>
+    </ul>
+  </div>
+
+  <!-- QUIZ SECTION -->
+  <div class="quiz-block">
+
+
+    <h3>What is the highest court in the Philippines?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Court of Appeals</li>
+      <li onclick="checkAnswer(this,true)">Supreme Court</li>
+      <li onclick="checkAnswer(this,false)">Sandiganbayan</li>
+      <li onclick="checkAnswer(this,false)">MTC</li>
+    </ul>
+
+    <h3>Which court handles graft and corruption cases?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Court of Appeals</li>
+      <li onclick="checkAnswer(this,false)">RTC</li>
+      <li onclick="checkAnswer(this,true)">Sandiganbayan</li>
+      <li onclick="checkAnswer(this,false)">CTA</li>
+    </ul>
+
+    <h3>What is the first step in a civil case?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,true)">Filing of Complaint</li>
+      <li onclick="checkAnswer(this,false)">Issuance of Summons</li>
+      <li onclick="checkAnswer(this,false)">Trial</li>
+      <li onclick="checkAnswer(this,false)">Execution of Judgment</li>
+    </ul>
+
+    <h3>What is issued by the court to notify the defendant?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Motion</li>
+      <li onclick="checkAnswer(this,true)">Summons</li>
+      <li onclick="checkAnswer(this,false)">Affidavit</li>
+      <li onclick="checkAnswer(this,false)">Order</li>
+    </ul>
+
+
+
+    <div id="feedback" class="feedback"></div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      Court procedures ensure fairness and order in resolving legal disputes. Legal secretaries play an essential role
+      in filing pleadings, scheduling hearings, coordinating with court staff, and managing case records.
+      Understanding the court system and case flow allows legal office personnel to perform their duties efficiently
+      and professionally.
+    </p>
+  </div>
+
+  <a class="back" href="LOP_module.html">← Back to Module</a>
+
+</section>
+</main>
+
+<script>
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

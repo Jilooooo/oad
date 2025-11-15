@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Customer Analytics Practice Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;
+      top:0;
+      left:0;
+      height:100%;
+      width:60px;
+      background:#0b1e3f;
+      border-right:1px solid #162b57;
+      transition:width .3s,left .3s;
+      overflow:hidden;
+      z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+    .options{list-style:none;margin-top:10px}
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+    .modal-content p{font-size:1.1rem;color:#333;margin:6px 0}
+    .modal-content button{margin-top:18px;background:#0b1e3f;padding:10px 18px;border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
+    .modal-content button:hover{background:#1e3d7c}
+
+    /* MENU BUTTON */
+    .menu-btn{
+      display:none;
+      position:fixed;
+      top:15px;
+      left:15px;
+      background:#0b1e3f;
+      color:#fff;
+      border:none;
+      padding:10px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      z-index:1500;
+      font-size:18px;
+    }
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+/* Disable text selection and dragging */
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+}
+
+
+  </style>
+</head>
+<body>
+  <!-- MENU BUTTON -->
+  <button class="menu-btn" id="menuBtn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+      <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <header><h1>Customer Analytics Practice Quiz</h1></header>
+    <form id="quizForm" class="quiz-container">
+
+<!-- 1–30 FRENCH QUIZ QUESTIONS -->
+
+<!-- Vocabulary & Translation -->
+<div class="quiz-block"><h2>1. What does “Bonjour” mean?</h2>
+<div class="options">
+<label><input type="radio" name="q1" value="a">Goodbye</label>
+<label><input type="radio" name="q1" value="b">Hello</label>
+<label><input type="radio" name="q1" value="c">Please</label>
+</div></div>
+
+<div class="quiz-block"><h2>2. “Merci beaucoup” means:</h2>
+<div class="options">
+<label><input type="radio" name="q2" value="a">Thank you very much</label>
+<label><input type="radio" name="q2" value="b">Excuse me</label>
+<label><input type="radio" name="q2" value="c">You’re welcome</label>
+</div></div>
+
+<div class="quiz-block"><h2>3. “Au revoir” means:</h2>
+<div class="options">
+<label><input type="radio" name="q3" value="a">Hello</label>
+<label><input type="radio" name="q3" value="b">Goodbye</label>
+<label><input type="radio" name="q3" value="c">Good morning</label>
+</div></div>
+
+<div class="quiz-block"><h2>4. “Rouge” means:</h2>
+<div class="options">
+<label><input type="radio" name="q4" value="a">Red</label>
+<label><input type="radio" name="q4" value="b">Blue</label>
+<label><input type="radio" name="q4" value="c">Yellow</label>
+</div></div>
+
+<div class="quiz-block"><h2>5. “Lundi” refers to:</h2>
+<div class="options">
+<label><input type="radio" name="q5" value="a">Monday</label>
+<label><input type="radio" name="q5" value="b">Friday</label>
+<label><input type="radio" name="q5" value="c">Sunday</label>
+</div></div>
+
+<div class="quiz-block"><h2>6. What number is “neuf”?</h2>
+<div class="options">
+<label><input type="radio" name="q6" value="a">Five</label>
+<label><input type="radio" name="q6" value="b">Nine</label>
+<label><input type="radio" name="q6" value="c">Seven</label>
+</div></div>
+
+<div class="quiz-block"><h2>7. “Une pomme” means:</h2>
+<div class="options">
+<label><input type="radio" name="q7" value="a">A pear</label>
+<label><input type="radio" name="q7" value="b">An apple</label>
+<label><input type="radio" name="q7" value="c">A banana</label>
+</div></div>
+
+<div class="quiz-block"><h2>8. “Une maison blanche” means:</h2>
+<div class="options">
+<label><input type="radio" name="q8" value="a">A white house</label>
+<label><input type="radio" name="q8" value="b">A small house</label>
+<label><input type="radio" name="q8" value="c">A red house</label>
+</div></div>
+
+<div class="quiz-block"><h2>9. “Je suis étudiant” means:</h2>
+<div class="options">
+<label><input type="radio" name="q9" value="a">I have a student</label>
+<label><input type="radio" name="q9" value="b">I am a student</label>
+<label><input type="radio" name="q9" value="c">I am a teacher</label>
+</div></div>
+
+<div class="quiz-block"><h2>10. “Elle a un chat” means:</h2>
+<div class="options">
+<label><input type="radio" name="q10" value="a">She has a cat</label>
+<label><input type="radio" name="q10" value="b">She eats a cat</label>
+<label><input type="radio" name="q10" value="c">She sees a cat</label>
+</div></div>
+
+<!-- Grammar & Structure -->
+<div class="quiz-block"><h2>11. Which means “We are happy”?</h2>
+<div class="options">
+<label><input type="radio" name="q11" value="a">Nous avons heureux</label>
+<label><input type="radio" name="q11" value="b">Nous sommes heureux</label>
+<label><input type="radio" name="q11" value="c">Nous est heureux</label>
+</div></div>
+
+<div class="quiz-block"><h2>12. The French pronoun for “they” (all females) is:</h2>
+<div class="options">
+<label><input type="radio" name="q12" value="a">Ils</label>
+<label><input type="radio" name="q12" value="b">Elles</label>
+<label><input type="radio" name="q12" value="c">Vous</label>
+</div></div>
+
+<div class="quiz-block"><h2>13. “Tu es gentil” means:</h2>
+<div class="options">
+<label><input type="radio" name="q13" value="a">You are kind</label>
+<label><input type="radio" name="q13" value="b">You have a gift</label>
+<label><input type="radio" name="q13" value="c">You are tired</label>
+</div></div>
+
+<div class="quiz-block"><h2>14. Correct negative form of “Je parle français”:</h2>
+<div class="options">
+<label><input type="radio" name="q14" value="a">Je ne parle pas français</label>
+<label><input type="radio" name="q14" value="b">Je parle pas français</label>
+<label><input type="radio" name="q14" value="c">Je ne parle français pas</label>
+</div></div>
+
+<div class="quiz-block"><h2>15. “Je n’aime pas le café” means:</h2>
+<div class="options">
+<label><input type="radio" name="q15" value="a">I like coffee</label>
+<label><input type="radio" name="q15" value="b">I don’t like coffee</label>
+<label><input type="radio" name="q15" value="c">I drink coffee</label>
+</div></div>
+
+<div class="quiz-block"><h2>16. Basic French sentence order is:</h2>
+<div class="options">
+<label><input type="radio" name="q16" value="a">Verb + Subject + Object</label>
+<label><input type="radio" name="q16" value="b">Subject + Verb + Object</label>
+<label><input type="radio" name="q16" value="c">Object + Verb + Subject</label>
+</div></div>
+
+<div class="quiz-block"><h2>17. Adjectives usually come:</h2>
+<div class="options">
+<label><input type="radio" name="q17" value="a">Before the noun</label>
+<label><input type="radio" name="q17" value="b">After the noun</label>
+<label><input type="radio" name="q17" value="c">Before and after</label>
+</div></div>
+
+<div class="quiz-block"><h2>18. Which is a correct question form?</h2>
+<div class="options">
+<label><input type="radio" name="q18" value="a">Tu aimes le chocolat ?</label>
+<label><input type="radio" name="q18" value="b">Aimes-tu le chocolat ?</label>
+<label><input type="radio" name="q18" value="c">Est-ce que tu aimes le chocolat ?</label>
+<label><input type="radio" name="q18" value="d">All of the above</label>
+</div></div>
+
+<div class="quiz-block"><h2>19. “Nous avons un livre” means:</h2>
+<div class="options">
+<label><input type="radio" name="q19" value="a">We are a book</label>
+<label><input type="radio" name="q19" value="b">We have a book</label>
+<label><input type="radio" name="q19" value="c">We read a book</label>
+</div></div>
+
+<div class="quiz-block"><h2>20. Plural of “Elle est belle”:</h2>
+<div class="options">
+<label><input type="radio" name="q20" value="a">Elles est belles</label>
+<label><input type="radio" name="q20" value="b">Elles sont belles</label>
+<label><input type="radio" name="q20" value="c">Elles sommes belles</label>
+</div></div>
+
+<!-- Numbers, Days, Colors -->
+<div class="quiz-block"><h2>21. “Quinze” is:</h2>
+<div class="options">
+<label><input type="radio" name="q21" value="a">10</label>
+<label><input type="radio" name="q21" value="b">15</label>
+<label><input type="radio" name="q21" value="c">20</label>
+</div></div>
+
+<div class="quiz-block"><h2>22. “Samedi” means:</h2>
+<div class="options">
+<label><input type="radio" name="q22" value="a">Saturday</label>
+<label><input type="radio" name="q22" value="b">Sunday</label>
+<label><input type="radio" name="q22" value="c">Friday</label>
+</div></div>
+
+<div class="quiz-block"><h2>23. “Bleu” is:</h2>
+<div class="options">
+<label><input type="radio" name="q23" value="a">Green</label>
+<label><input type="radio" name="q23" value="b">Red</label>
+<label><input type="radio" name="q23" value="c">Blue</label>
+</div></div>
+
+<div class="quiz-block"><h2>24. “Deux pommes rouges” means:</h2>
+<div class="options">
+<label><input type="radio" name="q24" value="a">Two red apples</label>
+<label><input type="radio" name="q24" value="b">Two yellow bananas</label>
+<label><input type="radio" name="q24" value="c">Two green apples</label>
+</div></div>
+
+<div class="quiz-block"><h2>25. “Mercredi” means:</h2>
+<div class="options">
+<label><input type="radio" name="q25" value="a">Tuesday</label>
+<label><input type="radio" name="q25" value="b">Wednesday</label>
+<label><input type="radio" name="q25" value="c">Friday</label>
+</div></div>
+
+<!-- Translation / Situational -->
+<div class="quiz-block"><h2>26. “I have a brother.”</h2>
+<div class="options">
+<label><input type="radio" name="q26" value="a">J’ai un frère</label>
+<label><input type="radio" name="q26" value="b">Je suis un frère</label>
+<label><input type="radio" name="q26" value="c">J’aime un frère</label>
+</div></div>
+
+<div class="quiz-block"><h2>27. “She is beautiful.”</h2>
+<div class="options">
+<label><input type="radio" name="q27" value="a">Elle a belle</label>
+<label><input type="radio" name="q27" value="b">Elle est belle</label>
+<label><input type="radio" name="q27" value="c">Elle suis belle</label>
+</div></div>
+
+<div class="quiz-block"><h2>28. “We are not sad.”</h2>
+<div class="options">
+<label><input type="radio" name="q28" value="a">Nous ne sommes pas tristes</label>
+<label><input type="radio" name="q28" value="b">Nous sommes pas tristes</label>
+<label><input type="radio" name="q28" value="c">Nous ne sommes tristes pas</label>
+</div></div>
+
+<div class="quiz-block"><h2>29. “A small cat.”</h2>
+<div class="options">
+<label><input type="radio" name="q29" value="a">Un chat petit</label>
+<label><input type="radio" name="q29" value="b">Un petit chat</label>
+<label><input type="radio" name="q29" value="c">Petit un chat</label>
+</div></div>
+
+<div class="quiz-block"><h2>30. “Do you speak French?”</h2>
+<div class="options">
+<label><input type="radio" name="q30" value="a">Tu parles français ?</label>
+<label><input type="radio" name="q30" value="b">Parles-tu français ?</label>
+<label><input type="radio" name="q30" value="c">Est-ce que tu parles français ?</label>
+<label><input type="radio" name="q30" value="d">All of the above</label>
+</div></div>
+
+
+  <script>
+    // Toggle menu visibility
+// Toggle menu visibility (fixed version)
+function toggleMenu() {
+  const sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+
+  // When sidebar is active, prevent body scroll
+  if (sidebar.classList.contains("active")) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+}
+
+
+const correctAnswers = {
+  q1:"b",q2:"a",q3:"b",q4:"a",q5:"a",
+  q6:"b",q7:"b",q8:"a",q9:"b",q10:"a",
+  q11:"b",q12:"b",q13:"a",q14:"a",q15:"b",
+  q16:"b",q17:"b",q18:"d",q19:"b",q20:"b",
+  q21:"b",q22:"a",q23:"c",q24:"a",q25:"b",
+  q26:"a",q27:"b",q28:"a",q29:"b",q30:"d"
+};
+
+
+
+    function checkAnswers() {
+      const total = 30;
+      const form = document.getElementById('quizForm');
+      let answered = 0, score = 0;
+      for (let i = 1; i <= total; i++) {
+        const ans = form.querySelector(`input[name="q${i}"]:checked`);
+        if (ans) {
+          answered++;
+          if (ans.value === correctAnswers[`q${i}`]) score++;
+        }
+      }
+      if (answered < total) {
+        document.getElementById('warningModal').style.display = 'flex';
+        return;
+      }
+      const percent = Math.round((score / total) * 100);
+      document.getElementById('scoreText').innerHTML = `You got <b>${score}</b> out of <b>${total}</b>`;
+      document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+      document.getElementById('scoreModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').style.display = 'none';
+      document.getElementById('quizForm').reset();
+    }
+    function closeWarning() {
+      document.getElementById('warningModal').style.display = 'none';
+    }
+
+// Disable right-click, copy, paste, and inspect tools
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('copy', e => e.preventDefault());
+document.addEventListener('cut', e => e.preventDefault());
+document.addEventListener('paste', e => e.preventDefault());
+document.addEventListener('selectstart', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (
+    e.key === 'F12' || // DevTools
+    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || // Ctrl+Shift+I/C/J
+    (e.ctrlKey && e.key === 'U') // Ctrl+U (View Source)
+  ) {
+    e.preventDefault();
+    alert("⚠️ Disabled for security reasons.");
+  }
+});
+
+
+  </script>
+</body>
+</html>

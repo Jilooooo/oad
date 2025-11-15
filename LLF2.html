@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2 - Kinds and Classifications of Legal Forms | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover { width: 240px; }
+    .sidebar.active { left: 0; width: 240px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity: 1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i {
+      font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px;
+    }
+    .nav-links li:hover,.nav-links li.active {
+      background:#1e3d7c;border-radius:10px;color:#fff;
+    }
+    .nav-links li:hover i,.nav-links li.active i { color:#fff; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;
+      font-size:18px;transition:.3s;
+    }
+    .menu-btn:hover { background:#1e3d7c; }
+
+    /* CONTENT */
+    .main-content {
+      flex:1;margin-left:95px;padding:40px;transition:.3s;
+    }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 {
+      color:#0b1e3f;margin-bottom:25px;font-size:2rem;
+    }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p { line-height:1.7;margin-bottom:10px;text-align:justify;color:#333; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ */
+    .quiz-block {
+      background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;
+    }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back {
+      display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;
+      padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s;
+    }
+    .back:hover { background:#1e3d7c; }
+
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 2 – Kinds and Classifications of Legal Forms</h1></header>
+
+  <section class="content">
+
+    <!-- LEARNING OUTCOMES -->
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Explain the various kinds and classifications of legal forms based on purpose, formality, and content.</li>
+        <li>Identify examples of legal forms within major classifications.</li>
+        <li>Distinguish contractual, declaratory, authorization, property/financial, and government forms.</li>
+        <li>Describe differences among simple written, notarized, and registered forms.</li>
+        <li>Understand unilateral, bilateral/multilateral, and conditional legal forms.</li>
+        <li>Select appropriate legal forms for different real-life scenarios.</li>
+      </ul>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="section-block">
+      <h2>Introduction</h2>
+      <p>
+        Legal forms come in various kinds and classifications, each designed for specific purposes and legal functions.
+        Understanding these classifications helps users choose and prepare the correct document for any legal or business transaction.
+      </p>
+    </div>
+
+    <!-- CLASSIFICATION BASED ON PURPOSE -->
+    <div class="section-block">
+      <h2>Classification Based on Purpose</h2>
+
+      <h3>A. Contractual Legal Forms</h3>
+      <p>Establish binding agreements between parties.</p>
+      <ul>
+        <li>Employment Contract</li>
+        <li>Lease Agreement</li>
+        <li>Sales Contract</li>
+        <li>Service Agreement</li>
+      </ul>
+
+      <h3>B. Declaratory Legal Forms</h3>
+      <p>Declare facts or intentions; often sworn under oath.</p>
+      <ul>
+        <li>Affidavit of Loss</li>
+        <li>Affidavit of Support</li>
+        <li>Declaration of Heirship</li>
+      </ul>
+
+      <h3>C. Authorizations and Powers</h3>
+      <p>Grant authority to another person to act legally on one’s behalf.</p>
+      <ul>
+        <li>Special Power of Attorney</li>
+        <li>General Power of Attorney</li>
+        <li>Authorization Letter</li>
+      </ul>
+
+      <h3>D. Property and Financial Instruments</h3>
+      <ul>
+        <li>Deed of Sale</li>
+        <li>Lease Contract</li>
+        <li>Mortgage Agreement</li>
+        <li>Promissory Note</li>
+      </ul>
+
+      <h3>E. Government and Institutional Forms</h3>
+      <ul>
+        <li>Application Forms</li>
+        <li>Certificates</li>
+        <li>Permits and Licenses</li>
+      </ul>
+    </div>
+
+    <!-- CLASSIFICATION BASED ON FORMALITY -->
+    <div class="section-block">
+      <h2>Classification Based on Formality and Execution</h2>
+
+      <h3>A. Simple Written Forms</h3>
+      <p>Require signatures but no notarization.</p>
+      <p><em>Examples: Receipts, Simple Agreements</em></p>
+
+      <h3>B. Notarized Forms</h3>
+      <p>Require a notary public to authenticate signatures.</p>
+      <p><em>Examples: Affidavits, Deeds of Sale</em></p>
+
+      <h3>C. Registered Forms</h3>
+      <p>Must be registered with government agencies to be effective.</p>
+      <p><em>Examples: Land Titles, Mortgages</em></p>
+    </div>
+
+    <!-- CLASSIFICATION BASED ON CONTENT -->
+    <div class="section-block">
+      <h2>Classification Based on Content</h2>
+
+      <h3>A. Unilateral Forms</h3>
+      <p>Bind only one party.</p>
+      <p><em>Example: Affidavit</em></p>
+
+      <h3>B. Bilateral or Multilateral Forms</h3>
+      <p>Bind two or more parties to obligations.</p>
+      <p><em>Example: Contract of Sale</em></p>
+
+      <h3>C. Conditional Forms</h3>
+      <p>Effectiveness depends on a condition.</p>
+      <p><em>Example: Conditional Sale Agreement</em></p>
+    </div>
+
+    <!-- PRACTICAL EXAMPLES TABLE -->
+    <div class="section-block">
+      <h2>Practical Examples and Applications</h2>
+
+      <table border="1" style="width:100%;border-collapse:collapse;">
+        <tr>
+          <th>TYPE</th>
+          <th>DESCRIPTION</th>
+          <th>EXAMPLE</th>
+        </tr>
+        <tr>
+          <td>Contractual Legal Forms</td>
+          <td>Binding agreements with obligations</td>
+          <td>Employment Contract</td>
+        </tr>
+        <tr>
+          <td>Declaratory Legal Forms</td>
+          <td>Sworn statements attesting to facts</td>
+          <td>Affidavit of Loss</td>
+        </tr>
+        <tr>
+          <td>Authorization Forms</td>
+          <td>Grant legal authority to another person</td>
+          <td>Special Power of Attorney</td>
+        </tr>
+        <tr>
+          <td>Property and Financial Forms</td>
+          <td>Transfer or encumbrance of assets/debts</td>
+          <td>Deed of Sale</td>
+        </tr>
+        <tr>
+          <td>Government/Institutional</td>
+          <td>Official forms for compliance</td>
+          <td>Business Permit Application</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-block">
+      <p>Which legal form classification involves sworn statements declaring facts?</p>
+
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Contractual Forms</li>
+        <li onclick="checkAnswer(this,true)">Declaratory Forms</li>
+        <li onclick="checkAnswer(this,false)">Property Forms</li>
+        <li onclick="checkAnswer(this,false)">Registered Forms</li>
+      </ul>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="LF.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>

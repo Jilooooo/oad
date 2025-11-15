@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2 - Common Forms of Negotiable Instruments | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      height: 100%; width: 75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57;
+      transition:.3s; overflow:hidden; z-index:1000;
+    }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;white-space:nowrap; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      display:none; position:fixed; top:15px; left:15px;
+      background:#0b1e3f; color:#fff; border:none;
+      padding:10px 12px; border-radius:6px; cursor:pointer;
+      z-index:1500; font-size:18px; transition:.3s;
+    }
+
+    /* MAIN CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p{line-height:1.7;color:#333;text-align:justify;margin-bottom:10px;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 5 – Dishonor, Notice, and Discharge of Negotiable Instruments</h1></header>
+
+  <section class="content">
+
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Define dishonor and explain its two kinds: non-acceptance and non-payment.</li>
+        <li>Describe the legal consequences and effects of dishonor.</li>
+        <li>Explain the purpose, form, method, and timing of notice of dishonor.</li>
+        <li>Identify cases when notice of dishonor is excused or not required.</li>
+        <li>Understand discharge of instruments and parties from liability.</li>
+        <li>Explain material alteration and its effect on validity.</li>
+        <li>Recognize legal remedies available to holders after dishonor.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Introduction</h2>
+      <p>
+In commercial law, negotiable instruments such as promissory notes, bills of exchange, and cheques are designed to circulate freely and to be paid according to their terms.</p>
+ <p>However, there are instances when payment or acceptance is refused. This failure is referred to as a <strong>dishonor of the instrument</strong>.</p>
+ <p>When dishonor occurs, certain legal consequences arise. The holder must take specific actions such as giving notice of dishonor to preserve the right to recover payment from parties secondarily liable.</p>
+ <p>This lesson explains the nature, types, and effects of dishonor, as well as the process of discharge, which terminates liability under the instrument.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>Meaning and Kinds of Dishonor</h2>
+      <p>
+        A negotiable instrument is dishonored when the party primarily liable refuses to accept (for bills) or pay (for notes/cheques)
+        according to its terms. Dishonor interrupts the instrument’s life and activates secondary liability.
+      </p>
+
+      <h3>Dishonor by Non-Acceptance</h3>
+      <p>This occurs only in the case of a bill of exchange. A bill is said to be dishonored by non-acceptance when the drawee refuses to accept it upon due presentation.</p>
+ <p>Example:
+Mr. Dela Cruz (drawer) issues a bill directing Mr. Ong (drawee) to pay ₱100,000 to Ms. Rivera (payee). When Ms. Rivera presents the bill to Mr. Ong for acceptance, he refuses to sign or acknowledge it.</p>
+<p>In this case, the bill is dishonored by non-acceptance, and Ms. Rivera may hold Mr. Dela Cruz (the drawer) secondarily liable for payment.</p>
+
+      <h3>Dishonor by Non-Payment</h3>
+      <p>This occurs when the party primarily liable such as the maker of a promissory note, the acceptor of a bill of exchange, or the drawee bank in a cheque fails to pay upon maturity or demand.</p>
+<p>Example:
+If a promissory note signed by Ms. Santos promising to pay Mr. Cruz ₱50,000 on June 30, 2026, is not paid on that date, the note is dishonored by non-payment. Mr. Cruz may then proceed against Ms. Santos and any endorsers who transferred the note to him.</p>
+    </div>
+    <div class="section-block">
+      <h2>Notice of Dishonor</h2>
+      <p>
+        A notice of dishonor is a formal communication given by the holder to parties secondarily liable, informing them that the instrument has been dishonored and that they will be held responsible for payment. Without this notice, secondary parties such as drawers and endorsers are discharged from liability because the law requires timely notice to give them the opportunity to protect their interests or pursue recovery from others.
+      </p>
+<BR>
+      <h3>Persons Entitled to Give and Receive Notice</h3>
+      <ul>
+        <li><strong>Given by:</strong> The holder or any party compelled to pay who seeks to charge prior parties.</li>
+        <li><strong>Given to:</strong> All drawers and endorsers whom the holder seeks to charge, unless waived or excused.</li>
+      </ul>
+<p>Example:
+If a cheque issued by Mr. Bautista (drawer) to Ms. Ramos (payee) is returned unpaid due to insufficient funds, Ms. Ramos must promptly notify Mr. Bautista of the dishonor. If Ms. Ramos had already endorsed the cheque to Mr. Villanueva, he, as the holder, must also give notice to both Ms. Ramos and Mr. Bautista to preserve his rights against them.</p>
+
+<br>
+      <h3>Form, Method, and Time</h3>
+<p>The notice of dishonor does not need to be in any particular form, but it must clearly state that the instrument has been dishonored and that the person notified will be held liable.</p>
+      <ul>
+        <li><strong>Form:</strong> No specific form required, written or oral is acceptable if it clearly conveys dishonor.</li>
+        <li><strong>Method:</strong> It may be personally delivered, sent by mail, or transmitted through electronic or customary business channels.</li>
+        <li><strong>Time:</strong> Within a reasonable time after dishonor. If both parties reside in the same place, notice should generally be given by the next business day. If they are in different places, it must be sent by the next available mail or electronic communication.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Cases When Notice Is Not Required</h2>
+      <ul>
+        <li>When the drawer has countermanded payment or knew the instrument would not be honored.</li>
+        <li>When the party entitled to notice has waived it (expressly or impliedly).</li>
+        <li>When the drawee or maker is the same person as the drawer.</li>
+        <li>When due diligence was used but it was impossible to give notice in time.</li>
+        <li>When the party entitled to notice could not be found despite reasonable effort.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Effects of Dishonor</h2>
+      <ul>
+        <li>The holder may sue parties secondarily liable (drawers, endorsers) after giving notice.</li>
+        <li>The instrument usually ceases to circulate as negotiable paper.</li>
+        <li>Primary liability remains until payment or discharge.</li>
+        <li>Secondary parties become jointly and severally liable to the holder.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Discharge of Negotiable Instruments</h2>
+      <p>
+        Discharge extinguishes liability of a party or the instrument itself. Methods include:
+      </p>
+      <ul>
+        <li>Payment in due course by or on behalf of the principal debtor.</li>
+        <li>Cancellation or intentional destruction by the holder.</li>
+        <li>Release or waiver of rights by agreement.</li>
+        <li>Merger — when the principal debtor becomes the holder.</li>
+        <li>Material alteration without consent (may render the instrument void as to innocent parties).</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Material Alteration</h2>
+      <p>
+        A material alteration (e.g., change in amount, date, payee) made without consent affects parties’ rights.
+        Generally, an instrument materially altered without authorization is void except against the party who made or authorized the alteration.
+      </p>
+      <p><em>Example:</em> Changing ₱10,000 to ₱100,000 without the drawer’s consent renders the instrument void as to innocent holders.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>Legal Remedies After Dishonor</h2>
+      <ul>
+        <li><strong>Civil Action:</strong> Sue parties liable for the face amount, interest, and damages.</li>
+        <li><strong>Criminal Prosecution (Cheques):</strong> In jurisdictions with bouncing-checks laws, wrongful issuance leading to dishonor may give rise to criminal liability.</li>
+        <li><strong>Protest:</strong> For foreign bills, formal protest before a notary may be required to evidence dishonor.</li>
+      </ul>
+    </div>
+
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which of the following is an example of a material alteration?</p>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Delivering the instrument to another person without endorsement</li>
+        <li onclick="checkAnswer(this,true)">Changing the amount from ₱5,000 to ₱50,000 without consent</li>
+        <li onclick="checkAnswer(this,false)">Endorsing the instrument in blank</li>
+        <li onclick="checkAnswer(this,false)">Presenting the cheque after banking hours</li>
+      </ul>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="NI.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){ document.getElementById('sidebar').classList.toggle('active'); }
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lesson 5 - Execution, Validity, and Enforcement of Legal Forms | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar { position: fixed; top:0; left:0; height:100%; width:75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57; transition:.3s; overflow:hidden; z-index:1000; }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex; align-items:center; gap:10px; padding:15px; text-decoration:none; white-space:nowrap; }
+    .logo img { width:35px; height:35px; filter:brightness(1.2); transition:.3s; margin-left:5px; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff; font-size:1.2rem; font-weight:600; opacity:0; transition:.3s; }
+    .sidebar:hover .logo h2, .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none; margin-top:20px; }
+    .nav-links li { display:flex; align-items:center; gap:15px; padding:15px; cursor:pointer; color:#cfd8ff; transition:.3s; white-space:nowrap; }
+    .nav-links li i { font-size:18px; color:#93b4ff; width:30px; text-align:center; margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c; color:#fff; border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU BUTTON */
+    .menu-btn { display:none; position:fixed; top:15px; left:15px; background:#0b1e3f; color:#fff; border:none; padding:10px 12px; border-radius:6px; cursor:pointer; z-index:1500; font-size:18px; transition:.3s; }
+    .menu-btn:hover { background:#1e3d7c; }
+
+    /* MAIN */
+    .main-content { flex:1; margin-left:95px; padding:40px; transition:.3s; }
+    .sidebar:hover ~ .main-content, .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f; margin-bottom:25px; font-size:2rem; }
+
+    .content { background:#fff; padding:25px; border-radius:12px; box-shadow:0 3px 8px rgba(0,0,0,0.08); display:grid; gap:25px; }
+
+    .section-block { background:#f8faff; padding:20px; border-radius:10px; border-left:6px solid #0b1e3f; }
+    .section-block h2 { color:#0b1e3f; margin-bottom:10px; font-size:1.2rem; }
+    p{line-height:1.7;color:#333;margin-bottom:10px;text-align:justify;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff; padding:20px; border-radius:12px; border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f; margin-bottom:12px; font-size:1.2rem; }
+    .options { list-style:none; margin-top:10px; }
+    .options li { background:#fff; border:1px solid #ddd; padding:10px 15px; border-radius:8px; margin-bottom:8px; cursor:pointer; transition:.3s; }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px; font-weight:600; }
+    .correct { color:green; } .wrong { color:red; }
+
+    .back { display:inline-block; margin-top:20px; background:#0b1e3f; color:#fff; padding:10px 16px; border-radius:8px; text-decoration:none; transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;margin-top:50px;}
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main-content">
+  <header><h1>Lesson 5 – Execution, Validity, and Enforcement of Legal Forms</h1></header>
+
+  <section class="content">
+
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Define execution of a legal form and explain its significance.</li>
+        <li>Differentiate types of signatures and their legal acceptability.</li>
+        <li>Identify the legal capacity required to execute documents validly.</li>
+        <li>Describe formalities specific to different kinds of legal documents.</li>
+        <li>Explain consequences of improper execution and the difference between void and voidable documents.</li>
+        <li>Recognize jurisdictional differences affecting execution.</li>
+        <li>Discuss how execution is proven in court.</li>
+        <li>Apply best practices to ensure valid execution of legal forms.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Introduction</h2>
+      <p>
+        <strong>Execution</strong> means properly signing, witnessing, and (when required) notarizing a legal document in the manner prescribed by law.
+        Proper execution gives a document legal effect — making it binding and enforceable. Improper execution can jeopardize legal rights and remedies.
+      </p>
+    </div>
+
+    <div class="section-block">
+      <h2>Types of Signatures and Their Legal Acceptability</h2>
+
+      <h3>A. Wet Signatures</h3>
+      <ul>
+        <li>Handwritten signatures on paper using pen.</li>
+        <li>Traditionally accepted for many formal documents (deeds, wills in some jurisdictions).</li>
+      </ul>
+
+      <h3>B. Electronic Signatures</h3>
+      <ul>
+        <li>Digital marks or symbols made electronically to indicate agreement.</li>
+        <li>Accepted in many jurisdictions under laws like ESIGN and UETA if they meet authenticity, intent, and integrity requirements.</li>
+        <li>Examples include typed names in e-forms, click-to-accept buttons, or cryptographic signatures.</li>
+      </ul>
+
+      <h3>C. Other Marks</h3>
+      <ul>
+        <li>For persons unable to sign, a mark (e.g., an “X”) may be accepted, commonly requiring witnesses to confirm identity and intent.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Legal Capacity to Execute Documents</h2>
+      <ul>
+        <li>Parties must have legal capacity — typically reaching the legal age and being mentally competent.</li>
+        <li>Minors, persons of unsound mind, or those acting under duress or undue influence may lack capacity, making documents void or voidable.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Formalities for Different Legal Forms</h2>
+      <ul>
+        <li><strong>Contracts:</strong> Usually require signatures of parties; some need witnesses.</li>
+        <li><strong>Deeds & Property Transfers:</strong> Often require notarization and registration to affect third parties.</li>
+        <li><strong>Affidavits:</strong> Must be sworn or affirmed before a notary or authorized officer.</li>
+        <li><strong>Wills:</strong> May require specific witnessing formalities depending on jurisdiction.</li>
+        <li><strong>Powers of Attorney:</strong> Often require notarization and sometimes witnesses.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Effects of Improper Execution</h2>
+      <ul>
+        <li><strong>Void Documents:</strong> Invalid from the start; have no legal effect.</li>
+        <li><strong>Voidable Documents:</strong> Valid until successfully challenged and possibly rescinded due to defects such as incapacity or duress.</li>
+        <li><strong>Ratification:</strong> Some defects can be cured if parties later affirm the agreement.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Jurisdictional Variations</h2>
+      <p>
+        Laws about execution differ across countries and regions. Some require physical notarization; others accept electronic notarization.
+        For cross-border transactions, check local laws and applicable treaties or uniform acts.
+      </p>
+    </div>
+
+    <div class="section-block">
+      <h2>Proof of Execution</h2>
+      <ul>
+        <li>Courts may accept witness testimony, affidavits of execution, or documentary evidence to prove a valid signature.</li>
+        <li>Notarial certificates are prima facie evidence of proper execution in many jurisdictions.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Best Practices for Ensuring Valid Execution</h2>
+      <ul>
+        <li>Verify the identity of signatories (IDs, biometrics where appropriate).</li>
+        <li>Ensure signatories understand the document’s content before signing.</li>
+        <li>Follow required formalities (notarization, witnesses, registration).</li>
+        <li>Keep original signed documents securely stored; keep copies and audit trails for electronic signatures.</li>
+        <li>When in doubt, consult local rules or legal counsel for special documents (e.g., wills, real estate transfers).</li>
+      </ul>
+    </div>
+
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which type of signature is traditionally a handwritten mark made with pen on paper?</p>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Electronic signature</li>
+        <li onclick="checkAnswer(this,true)">Wet signature</li>
+        <li onclick="checkAnswer(this,false)">Cryptographic signature</li>
+        <li onclick="checkAnswer(this,false)">Typed initials</li>
+      </ul>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="LF.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+  function toggleMenu(){ document.getElementById('sidebar').classList.toggle('active'); }
+
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Management Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;top:0;left:0;height:100%;width:60px;background:#0b1e3f;
+      border-right:1px solid #162b57;transition:width .3s,left .3s;
+      overflow:hidden;z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    /* MAIN */
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;
+      border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+
+    .menu-btn{display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;font-size:18px}
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main">
+<header><h1>Negotiable Instrument Quiz</h1></header>
+
+<form id="quizForm" class="quiz-container">
+
+<!-- 1 -->
+<div class="quiz-block">
+  <h2>1. Maria issued a promissory note promising to pay Liza ₱20,000 on December 10 but refused to pay on the due date. What kind of instrument was dishonored?</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="A">A) Bill of exchange</label>
+    <label><input type="radio" name="q1" value="B">B) Cheque</label>
+    <label><input type="radio" name="q1" value="C">C) Promissory note</label>
+    <label><input type="radio" name="q1" value="D">D) Bond</label>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="quiz-block">
+  <h2>2. Ryan draws a bill payable to “Carlo or order.” Carlo signs at the back and gives it to Anna. How was the instrument negotiated?</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="A">A) By oral promise</label>
+    <label><input type="radio" name="q2" value="B">B) By delivery only</label>
+    <label><input type="radio" name="q2" value="C">C) By endorsement and delivery</label>
+    <label><input type="radio" name="q2" value="D">D) By acceptance</label>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="quiz-block">
+  <h2>3. A stolen cheque payable to “cash” was paid by the bank in good faith. What kind of payment was made?</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="A">A) Payment for honor</label>
+    <label><input type="radio" name="q3" value="B">B) Payment in due course</label>
+    <label><input type="radio" name="q3" value="C">C) Dishonored payment</label>
+    <label><input type="radio" name="q3" value="D">D) Unauthorized payment</label>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="quiz-block">
+  <h2>4. A bill states “Payable at BPI – Cubao Branch.” It was presented in another branch and refused. Was the presentment valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="A">A) Yes, any branch is acceptable</label>
+    <label><input type="radio" name="q4" value="B">B) No, it must be at the place specified</label>
+    <label><input type="radio" name="q4" value="C">C) Yes, as long as it’s BPI</label>
+    <label><input type="radio" name="q4" value="D">D) Yes, if the holder insists</label>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="quiz-block">
+  <h2>5. Mark forgot to present a bill payable after sight for acceptance. Later, the drawer refused payment. What is the effect?</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="A">A) Drawer and endorsers are discharged</label>
+    <label><input type="radio" name="q5" value="B">B) Drawer remains liable</label>
+    <label><input type="radio" name="q5" value="C">C) Bill becomes void</label>
+    <label><input type="radio" name="q5" value="D">D) Drawee becomes liable</label>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="quiz-block">
+  <h2>6. Carlo’s cheque dated November 10 was presented and paid on the same date. What type of payment occurred?</h2>
+  <div class="options">
+    <label><input type="radio" name="q6" value="A">A) Payment for honor</label>
+    <label><input type="radio" name="q6" value="B">B) Payment in due course</label>
+    <label><input type="radio" name="q6" value="C">C) Conditional payment</label>
+    <label><input type="radio" name="q6" value="D">D) Early payment</label>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="quiz-block">
+  <h2>7. A bill payable in Tokyo was dishonored and formally recorded by a notary. What document was prepared?</h2>
+  <div class="options">
+    <label><input type="radio" name="q7" value="A">A) Notice of dishonor</label>
+    <label><input type="radio" name="q7" value="B">B) Protest</label>
+    <label><input type="radio" name="q7" value="C">C) Notice of payment</label>
+    <label><input type="radio" name="q7" value="D">D) Acknowledgment</label>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="quiz-block">
+  <h2>8. When the holder fails to notify the drawer of dishonor, what may happen?</h2>
+  <div class="options">
+    <label><input type="radio" name="q8" value="A">A) Drawer and endorsers are discharged</label>
+    <label><input type="radio" name="q8" value="B">B) Maker becomes free</label>
+    <label><input type="radio" name="q8" value="C">C) Instrument becomes void</label>
+    <label><input type="radio" name="q8" value="D">D) Drawee automatically pays</label>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="quiz-block">
+  <h2>9. A bill was dishonored. A friend paid it to protect the drawer’s credit. What is this act?</h2>
+  <div class="options">
+    <label><input type="radio" name="q9" value="A">A) Payment for honor</label>
+    <label><input type="radio" name="q9" value="B">B) Conditional acceptance</label>
+    <label><input type="radio" name="q9" value="C">C) Qualified endorsement</label>
+    <label><input type="radio" name="q9" value="D">D) Payment in due course</label>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="quiz-block">
+  <h2>10. A demand note was presented after one week. The maker said it was “too early.” Is refusal valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q10" value="A">A) Yes</label>
+    <label><input type="radio" name="q10" value="B">B) No, demand notes are payable anytime</label>
+    <label><input type="radio" name="q10" value="C">C) Yes, after 30 days</label>
+    <label><input type="radio" name="q10" value="D">D) No, must be protested</label>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="quiz-block">
+  <h2>11. The drawer wrote “No need for protest.” The bill was dishonored. Must it still be protested?</h2>
+  <div class="options">
+    <label><input type="radio" name="q11" value="A">A) Yes, required by law</label>
+    <label><input type="radio" name="q11" value="B">B) No, protest was waived</label>
+    <label><input type="radio" name="q11" value="C">C) Yes, if foreign</label>
+    <label><input type="radio" name="q11" value="D">D) No, if local only</label>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="quiz-block">
+  <h2>12. A promissory note was presented one day before maturity and refused. Was the refusal valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q12" value="A">A) Yes, presentment must be on due date</label>
+    <label><input type="radio" name="q12" value="B">B) No, payment should be early</label>
+    <label><input type="radio" name="q12" value="C">C) Yes, unless agreed</label>
+    <label><input type="radio" name="q12" value="D">D) No, all notes can be prepaid</label>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="quiz-block">
+  <h2>13. Holder failed to notify an endorser of dishonor but still sued him. Can he recover?</h2>
+  <div class="options">
+    <label><input type="radio" name="q13" value="A">A) Yes</label>
+    <label><input type="radio" name="q13" value="B">B) No, endorser is discharged</label>
+    <label><input type="radio" name="q13" value="C">C) Yes, if drawee is bankrupt</label>
+    <label><input type="radio" name="q13" value="D">D) Only if protested</label>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="quiz-block">
+  <h2>14. A foreign bill dishonored in Japan was not protested. Holder sued the drawer in Manila. Likely result?</h2>
+  <div class="options">
+    <label><input type="radio" name="q14" value="A">A) Case will prosper</label>
+    <label><input type="radio" name="q14" value="B">B) Drawer is discharged</label>
+    <label><input type="radio" name="q14" value="C">C) Drawee becomes liable</label>
+    <label><input type="radio" name="q14" value="D">D) Holder gets double</label>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="quiz-block">
+  <h2>15. Drawee accepted a bill but failed to pay at maturity. Who is primarily liable?</h2>
+  <div class="options">
+    <label><input type="radio" name="q15" value="A">A) Drawer</label>
+    <label><input type="radio" name="q15" value="B">B) Drawee/Acceptor</label>
+    <label><input type="radio" name="q15" value="C">C) Payee</label>
+    <label><input type="radio" name="q15" value="D">D) Endorser</label>
+  </div>
+</div>
+
+<!-- 16 -->
+<div class="quiz-block">
+  <h2>16. A lost note was paid by the maker to a finder. The real owner appeared. Was payment valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q16" value="A">A) Yes, if made in good faith</label>
+    <label><input type="radio" name="q16" value="B">B) No, payment was not to rightful owner</label>
+    <label><input type="radio" name="q16" value="C">C) Yes, if amount small</label>
+    <label><input type="radio" name="q16" value="D">D) No, unless endorsed</label>
+  </div>
+</div>
+
+<!-- 17 -->
+<div class="quiz-block">
+  <h2>17. A bill payable 30 days after sight was presented 3 months late. What is the effect?</h2>
+  <div class="options">
+    <label><input type="radio" name="q17" value="A">A) 30 days begin upon presentation</label>
+    <label><input type="radio" name="q17" value="B">B) Bill expired</label>
+    <label><input type="radio" name="q17" value="C">C) Drawer released</label>
+    <label><input type="radio" name="q17" value="D">D) Drawee must pay at once</label>
+  </div>
+</div>
+
+<!-- 18 -->
+<div class="quiz-block">
+  <h2>18. Holder failed to produce the original instrument during presentment. Valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q18" value="A">A) Yes, if he describes it</label>
+    <label><input type="radio" name="q18" value="B">B) No, must be produced</label>
+    <label><input type="radio" name="q18" value="C">C) Yes, if endorsed</label>
+    <label><input type="radio" name="q18" value="D">D) No, unless notarized</label>
+  </div>
+</div>
+
+<!-- 19 -->
+<div class="quiz-block">
+  <h2>19. A bank paid a cheque after due date to the rightful holder in good faith. Valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q19" value="A">A) Yes, rightful holder</label>
+    <label><input type="radio" name="q19" value="B">B) No, must be on the exact date</label>
+    <label><input type="radio" name="q19" value="C">C) Yes, if good faith</label>
+    <label><input type="radio" name="q19" value="D">D) No, unless drawer allows</label>
+  </div>
+</div>
+
+<!-- 20 -->
+<div class="quiz-block">
+  <h2>20. A bill payable at sight was immediately presented. What should the drawee do?</h2>
+  <div class="options">
+    <label><input type="radio" name="q20" value="A">A) Accept or refuse</label>
+    <label><input type="radio" name="q20" value="B">B) Wait 30 days</label>
+    <label><input type="radio" name="q20" value="C">C) Pay without acceptance</label>
+    <label><input type="radio" name="q20" value="D">D) Delay a week</label>
+  </div>
+</div>
+
+<!-- 21 -->
+<div class="quiz-block">
+  <h2>21. A cheque was presented on a Sunday. Bank was closed. What should be done?</h2>
+  <div class="options">
+    <label><input type="radio" name="q21" value="A">A) Present next business day</label>
+    <label><input type="radio" name="q21" value="B">B) Sue drawer</label>
+    <label><input type="radio" name="q21" value="C">C) Protest</label>
+    <label><input type="radio" name="q21" value="D">D) Destroy cheque</label>
+  </div>
+</div>
+
+<!-- 22 -->
+<div class="quiz-block">
+  <h2>22. Lee paid a dishonored bill to protect Kim’s reputation. What may Lee do?</h2>
+  <div class="options">
+    <label><input type="radio" name="q22" value="A">A) Nothing</label>
+    <label><input type="radio" name="q22" value="B">B) Recover from Kim</label>
+    <label><input type="radio" name="q22" value="C">C) Demand from drawee</label>
+    <label><input type="radio" name="q22" value="D">D) File protest</label>
+  </div>
+</div>
+
+<!-- 23 -->
+<div class="quiz-block">
+  <h2>23. The drawee was temporarily absent during presentment. What should the holder do?</h2>
+  <div class="options">
+    <label><input type="radio" name="q23" value="A">A) Wait and re-present</label>
+    <label><input type="radio" name="q23" value="B">B) Protest immediately</label>
+    <label><input type="radio" name="q23" value="C">C) Sue drawer</label>
+    <label><input type="radio" name="q23" value="D">D) Treat as dishonored</label>
+  </div>
+</div>
+
+<!-- 24 -->
+<div class="quiz-block">
+  <h2>24. Drawer wrote “presentment waived.” Holder demanded payment without presenting. Can drawer be held liable?</h2>
+  <div class="options">
+    <label><input type="radio" name="q24" value="A">A) Yes, waiver applies</label>
+    <label><input type="radio" name="q24" value="B">B) No, no presentment</label>
+    <label><input type="radio" name="q24" value="C">C) Only after notice</label>
+    <label><input type="radio" name="q24" value="D">D) No, unless protested</label>
+  </div>
+</div>
+
+<!-- 25 -->
+<div class="quiz-block">
+  <h2>25. A note due Oct. 15 was presented Oct. 20. Maker refused due to late presentment. Is maker discharged?</h2>
+  <div class="options">
+    <label><input type="radio" name="q25" value="A">A) Yes</label>
+    <label><input type="radio" name="q25" value="B">B) No, maker remains liable</label>
+    <label><input type="radio" name="q25" value="C">C) Yes, with protest</label>
+    <label><input type="radio" name="q25" value="D">D) Only if endorsed</label>
+  </div>
+</div>
+
+<!-- 26 -->
+<div class="quiz-block">
+  <h2>26. A drawee refused payment after acceptance. The holder protested. What does the protest prove?</h2>
+  <div class="options">
+    <label><input type="radio" name="q26" value="A">A) Non-payment</label>
+    <label><input type="radio" name="q26" value="B">B) Acceptance</label>
+    <label><input type="radio" name="q26" value="C">C) Negotiation</label>
+    <label><input type="radio" name="q26" value="D">D) Delivery</label>
+  </div>
+</div>
+
+<!-- 27 -->
+<div class="quiz-block">
+  <h2>27. A cheque was altered without the drawer’s consent, but the bank paid it. Valid?</h2>
+  <div class="options">
+    <label><input type="radio" name="q27" value="A">A) No, alteration voids cheque</label>
+    <label><input type="radio" name="q27" value="B">B) Yes, if small amount</label>
+    <label><input type="radio" name="q27" value="C">C) Yes, if holder honest</label>
+    <label><input type="radio" name="q27" value="D">D) No, unless re-signed</label>
+  </div>
+</div>
+
+<!-- 28 -->
+<div class="quiz-block">
+  <h2>28. A cheque was presented after the drawer’s death. Should the bank pay?</h2>
+  <div class="options">
+    <label><input type="radio" name="q28" value="A">A) No, authority revoked</label>
+    <label><input type="radio" name="q28" value="B">B) Yes, payment in due course</label>
+    <label><input type="radio" name="q28" value="C">C) Yes, if signed</label>
+    <label><input type="radio" name="q28" value="D">D) Only after notice</label>
+  </div>
+</div>
+
+<!-- 29 -->
+<div class="quiz-block">
+  <h2>29. Why must holders follow rules on presentment, payment, and protest?</h2>
+  <div class="options">
+    <label><input type="radio" name="q29" value="A">A) Extend maturity</label>
+    <label><input type="radio" name="q29" value="B">B) Protect rights/liabilities of parties</label>
+    <label><input type="radio" name="q29" value="C">C) Avoid interest</label>
+    <label><input type="radio" name="q29" value="D">D) Prevent negotiation</label>
+  </div>
+</div>
+
+<!-- ========== END OF QUIZ ========== -->
+
+<div class="controls">
+  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+  <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+</div>
+
+</form>
+</main>
+
+<!-- SCORE MODAL -->
+<div class="modal" id="scoreModal">
+  <div class="modal-content">
+    <h2>Quiz Result</h2>
+    <p id="scoreText"></p>
+    <p id="percentText" style="color:#555"></p>
+    <button onclick="closeModal()">OK — Reset Quiz</button>
+  </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+  <div class="modal-content">
+    <h2>⚠️ Incomplete Quiz</h2>
+    <p>You must answer <b>all 30 questions</b> before submitting.</p>
+    <button onclick="closeWarning()">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+}
+
+const correctAnswers = {
+  q1:"C", q2:"C", q3:"B", q4:"B", q5:"A",
+  q6:"B", q7:"B", q8:"A", q9:"A", q10:"B",
+  q11:"B", q12:"A", q13:"B", q14:"B", q15:"B",
+  q16:"B", q17:"A", q18:"B", q19:"C", q20:"A",
+  q21:"A", q22:"B", q23:"A", q24:"A", q25:"B",
+  q26:"A", q27:"A", q28:"A", q29:"B"
+};
+
+
+function checkAnswers() {
+  const total = 30;
+  const form = document.getElementById('quizForm');
+  let answered = 0, score = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const ans = form.querySelector(`input[name="q${i}"]:checked`);
+    if (ans) {
+      answered++;
+      if (ans.value === correctAnswers[`q${i}`]) score++;
+    }
+  }
+
+  if (answered < total) {
+    document.getElementById('warningModal').style.display = 'flex';
+    return;
+  }
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById('scoreText').innerHTML = `You scored <b>${score}</b> out of <b>${total}</b>`;
+  document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+  document.getElementById('scoreModal').style.display = 'flex';
+}
+
+function closeModal(){
+  document.getElementById('scoreModal').style.display='none';
+  document.getElementById('quizForm').reset();
+}
+
+function closeWarning(){
+  document.getElementById('warningModal').style.display='none';
+}
+</script>
+
+</body>
+</html>

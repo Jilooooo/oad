@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keyboarding Practice</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      display: flex;
+      background-color: #f8faff;
+      height: 100vh;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 60px;
+      background-color: #001f3f;
+      border-right: 1px solid #003366;
+      transition: width 0.3s ease;
+      overflow: hidden;
+      z-index: 100;
+    }
+    .sidebar:hover {
+      width: 230px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 38px;
+      height: 38px;
+      filter: brightness(0) invert(1);
+    }
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .sidebar:hover .logo h2 {
+      opacity: 1;
+    }
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #dcdcdc;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+    .nav-links li i {
+      font-size: 18px;
+      color: #ffffff;
+      width: 30px;
+      text-align: center;
+    }
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .sidebar:hover .nav-links li span {
+      opacity: 1;
+    }
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #003366;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 80px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+    .sidebar:hover ~ .main-content {
+      margin-left: 230px;
+    }
+
+    header h1 {
+      color: #001f3f;
+      margin-bottom: 10px;
+      font-size: 2rem;
+    }
+    header p {
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .typing-area {
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .text-to-type {
+      background-color: #e6efff;
+      border-left: 5px solid #001f3f;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #001f3f;
+      user-select: none;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      border: 2px solid #ccd6e0;
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 1rem;
+      resize: none;
+      transition: 0.3s ease;
+    }
+    textarea:focus {
+      border-color: #001f3f;
+      outline: none;
+    }
+    .result {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 1.1rem;
+      color: #001f3f;
+      font-weight: 600;
+    }
+    .timer {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #003366;
+      margin-bottom: 15px;
+    }
+    .btn {
+      display: inline-block;
+      margin: 25px 10px 0;
+      background-color: #001f3f;
+      color: white;
+      border: none;
+      padding: 12px 35px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #003366;
+      box-shadow: 0 4px 10px rgba(0, 31, 63, 0.3);
+    }
+
+    /* Certificate area */
+    .certificate-area input {
+      width: 60%;
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="Logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <header>
+      <h1>Keyboarding Challenge</h1>
+      <p>Type the sentence before the time runs out!</p>
+    </header>
+
+    <div class="typing-area" id="typingAreaWrapper">
+      <div class="timer" id="timer">⏱️ Time Left: 55s</div>
+      <div class="text-to-type" id="textToType">
+        The quick brown fox jumps over the lazy dog.
+      </div>
+
+      <textarea id="typingArea" placeholder="Start typing here..."
+        oncopy="return false"
+        onpaste="return false"
+        oncut="return false"
+        oncontextmenu="return false"></textarea>
+
+      <div class="result" id="result"></div>
+
+      <div id="buttons">
+        <button class="btn" id="tryAgain" style="display:none;" onclick="restartTest()">Try Again</button>
+        <button class="btn" id="nextBtn" style="display:none;" onclick="nextSentence()">Next</button>
+      </div>
+    </div>
+
+    <!-- Certificate Section -->
+    <div class="certificate-area" id="certificateArea" style="display:none; text-align:center; margin-top:30px;">
+      <h2>Congratulations! 🎉</h2>
+      <p>Enter your name to generate your certificate:</p>
+      <input type="text" id="userName" placeholder="Your Name" style="padding:10px; font-size:1rem; border-radius:5px; border:1px solid #ccc;">
+      <br><br>
+      <button class="btn" onclick="generateCertificate()">Generate Certificate</button>
+      <canvas id="certificateCanvas" width="800" height="600" style="display:block; margin:20px auto; border:1px solid #ccc;"></canvas>
+      <a id="downloadLink" style="display:none;" class="btn" download="certificate.png">Download Certificate</a>
+    </div>
+
+  </div>
+
+  <script>
+  const sentences = [
+    "The quick brown fox jumps over the lazy dog.",
+
+  ];
+
+  let currentSentence = 0;
+  let timeLeft = 55;
+  let timerInterval;
+  const typingArea = document.getElementById('typingArea');
+  const textToType = document.getElementById('textToType');
+  const timerDisplay = document.getElementById('timer');
+  const result = document.getElementById('result');
+  const tryAgainBtn = document.getElementById('tryAgain');
+  const nextBtn = document.getElementById('nextBtn');
+
+  function startTimer() {
+    timeLeft = 55;
+    timerDisplay.textContent = `⏱️ Time Left: ${timeLeft}s`;
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = `⏱️ Time Left: ${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        typingArea.disabled = true;
+        result.textContent = "❌ Time's up! You didn't finish in time.";
+        tryAgainBtn.style.display = "inline-block";
+      }
+    }, 1000);
+  }
+
+  function loadSentence() {
+    typingArea.value = "";
+    result.textContent = "";
+    tryAgainBtn.style.display = "none";
+    nextBtn.style.display = "none";
+    typingArea.disabled = false;
+    textToType.textContent = sentences[currentSentence];
+    startTimer();
+  }
+
+  typingArea.addEventListener('input', () => {
+    if (typingArea.value.trim() === textToType.textContent.trim()) {
+      clearInterval(timerInterval);
+      result.innerHTML = "✅ Great job! You finished on time!";
+      typingArea.disabled = true;
+      nextBtn.style.display = "inline-block";
+    }
+  });
+
+  function restartTest() {
+    loadSentence();
+  }
+
+  function nextSentence() {
+    currentSentence++;
+    if (currentSentence >= sentences.length) {
+      showCertificateInput();
+      result.innerHTML = "";
+    } else {
+      loadSentence();
+    }
+  }
+
+  function showCertificateInput() {
+    document.getElementById('typingAreaWrapper').style.display = 'none';
+    document.getElementById('certificateArea').style.display = 'block';
+  }
+
+  function generateCertificate() {
+    const canvas = document.getElementById('certificateCanvas');
+    const ctx = canvas.getContext('2d');
+    const name = document.getElementById('userName').value.trim() || "Your Name";
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Background
+    ctx.fillStyle = "#f8faff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Border
+    ctx.strokeStyle = "#001f3f";
+    ctx.lineWidth = 10;
+    ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+    // School Logo
+    const logo = new Image();
+    logo.src = "https://ourladyguimba.edu.ph/wp-content/uploads/2021/07/olshc-logo.png"; // Replace if needed
+    logo.onload = function() {
+      ctx.drawImage(logo, canvas.width/2 - 60, 40, 120, 120);
+
+      // Certificate Title
+      ctx.fillStyle = "#001f3f";
+      ctx.font = "40px Poppins, sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("Certificate of Completion", canvas.width/2, 200);
+
+      // School Name
+      ctx.font = "22px Poppins, sans-serif";
+      ctx.fillText("Our Lady of the Sacred Heart College – Guimba, Nueva Ecija", canvas.width/2, 240);
+
+      // Recipient
+      ctx.font = "26px Poppins, sans-serif";
+      ctx.fillText("This certificate is proudly presented to", canvas.width/2, 300);
+
+      ctx.font = "36px Poppins, sans-serif";
+      ctx.fillText(name, canvas.width/2, 360);
+
+      ctx.font = "22px Poppins, sans-serif";
+      ctx.fillText("for successfully completing the Keyboarding Challenge.", canvas.width/2, 420);
+
+      // Date
+      ctx.font = "20px Poppins, sans-serif";
+      ctx.fillText(`Date: ${new Date().toLocaleDateString()}`, canvas.width/2, 480);
+
+      // Enable download
+      const downloadLink = document.getElementById('downloadLink');
+      downloadLink.href = canvas.toDataURL("image/png");
+      downloadLink.style.display = 'inline-block';
+    };
+  }
+
+  window.onload = loadSentence;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Business Law | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li class="active" onclick="window.location.href='BL.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+<header><h1>Lesson 5 – Law on Agency & Partnership</h1></header>
+
+<section class="content">
+
+  <!-- Objectives -->
+  <div class="section-block">
+    <h2>Learning Objectives</h2>
+    <ul>
+      <li>Define agency and partnership under the Civil Code.</li>
+      <li>Identify the rights and obligations of agents, principals, and partners.</li>
+      <li>Differentiate agency from partnership.</li>
+      <li>Explain how partnerships are formed and dissolved.</li>
+      <li>Understand the importance of agency and partnership in business operations.</li>
+    </ul>
+  </div>
+
+  <!-- What is Agency -->
+  <div class="section-block">
+    <h2>What is Agency?</h2>
+    <p><strong>Agency</strong> is a contract where one person, called the <strong>agent</strong>, acts on behalf of another, called the <strong>principal</strong>.</p>
+    <ul>
+      <li>The agent represents the principal in business transactions.</li>
+      <li>The principal is bound by acts of the agent done within authority.</li>
+      <li>Agency is based on trust and confidence.</li>
+    </ul>
+  </div>
+
+  <!-- Obligations -->
+  <div class="section-block">
+    <h2>Obligations of the Agent and Principal</h2>
+    <ul>
+      <li><strong>Agent must:</strong></li>
+      <ul>
+        <li>Follow the instructions of the principal.</li>
+        <li>Render accounting of transactions.</li>
+        <li>Act with diligence and good faith.</li>
+        <li>Not exceed authority.</li>
+      </ul>
+      <li><strong>Principal must:</strong></li>
+      <ul>
+        <li>Pay the agent agreed compensation.</li>
+        <li>Reimburse expenses lawfully incurred.</li>
+        <li>Respect obligations entered into by the agent within authority.</li>
+      </ul>
+    </ul>
+  </div>
+
+  <!-- What is Partnership -->
+  <div class="section-block">
+    <h2>What is Partnership?</h2>
+    <p><strong>Partnership</strong> is a contract where two or more persons bind themselves to contribute money, property, or industry to a common fund with the intention of dividing profits among themselves.</p>
+    <ul>
+      <li>Partnership requires mutual contribution.</li>
+      <li>Partners share profits and losses.</li>
+      <li>Partnership has a separate juridical personality.</li>
+    </ul>
+  </div>
+
+  <!-- Types of Partners -->
+  <div class="section-block">
+    <h2>Types of Partners</h2>
+    <ul>
+      <li><strong>General Partner</strong> – liable up to personal property for obligations.</li>
+      <li><strong>Limited Partner</strong> – liability limited to their contribution.</li>
+      <li><strong>Capitalist Partner</strong> – contributes money or property.</li>
+      <li><strong>Industrial Partner</strong> – contributes labor or industry.</li>
+    </ul>
+  </div>
+
+  <!-- Formation & Dissolution -->
+  <div class="section-block">
+    <h2>Formation and Dissolution of Partnership</h2>
+    <ul>
+      <li><strong>Partnership is formed when:</strong></li>
+      <ul>
+        <li>There is a valid agreement between partners.</li>
+        <li>Each contributes to the common fund.</li>
+        <li>The partnership is for a lawful purpose.</li>
+      </ul>
+
+      <li><strong>Partnership is dissolved when:</strong></li>
+      <ul>
+        <li>A partner withdraws or dies.</li>
+        <li>The partnership term expires.</li>
+        <li>The business becomes unlawful.</li>
+        <li>Partners mutually agree to dissolve.</li>
+      </ul>
+    </ul>
+  </div>
+
+  <!-- Agency vs Partnership -->
+  <div class="section-block">
+    <h2>Agency vs. Partnership</h2>
+    <ul>
+      <li><strong>Agency:</strong> One acts on behalf of another; no sharing of profits.</li>
+      <li><strong>Partnership:</strong> Two or more persons operate a business together and share profits.</li>
+      <li>Agency is based on representation, while partnership is based on association.</li>
+    </ul>
+  </div>
+
+  <!-- Importance -->
+  <div class="section-block">
+    <h2>Importance in Business</h2>
+    <ul>
+      <li>Agency allows companies to delegate duties through representatives.</li>
+      <li>Partnerships allow pooling of resources for larger business ventures.</li>
+      <li>Both create legally recognized business relationships.</li>
+      <li>They define rights to avoid conflicts and liabilities.</li>
+    </ul>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-block">
+    <h2>🧠 Quick Break Questions</h2>
+
+    <h3>1. An agent acts on behalf of the ______.</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Employee</li>
+      <li onclick="checkAnswer(this,true)">Principal</li>
+      <li onclick="checkAnswer(this,false)">Partner</li>
+      <li onclick="checkAnswer(this,false)">Customer</li>
+    </ul>
+
+    <h3>2. In a partnership, partners share ______.</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Only losses</li>
+      <li onclick="checkAnswer(this,false)">Only salaries</li>
+      <li onclick="checkAnswer(this,true)">Profits and losses</li>
+      <li onclick="checkAnswer(this,false)">No obligations</li>
+    </ul>
+
+    <h3>3. A limited partner’s liability is:</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Unlimited</li>
+      <li onclick="checkAnswer(this,true)">Limited to contribution</li>
+      <li onclick="checkAnswer(this,false)">Based on profit</li>
+      <li onclick="checkAnswer(this,false)">Equal to other partners</li>
+    </ul>
+
+    <h3>4. One key difference between agency and partnership is:</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,true)">Agency has no profit sharing</li>
+      <li onclick="checkAnswer(this,false)">Partnership has no agreement</li>
+      <li onclick="checkAnswer(this,false)">Agency forms a business entity</li>
+      <li onclick="checkAnswer(this,false)">Partnership has no contributions</li>
+    </ul>
+
+    <h3>5. A partnership is dissolved when:</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">A client complains</li>
+      <li onclick="checkAnswer(this,true)">A partner dies or withdraws</li>
+      <li onclick="checkAnswer(this,false)">Sales decrease</li>
+      <li onclick="checkAnswer(this,false)">Employees resign</li>
+    </ul>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      The Law on Agency and Partnership governs relationships where individuals act on behalf of others or join together for business.
+      Understanding these rules helps prevent conflicts, ensures fairness, and strengthens business operations through cooperation and trust.
+    </p>
+  </div>
+
+  <a class="back" href="BL.html">← Back to Module</a>
+
+</section>
+
+</main>
+
+<script>
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

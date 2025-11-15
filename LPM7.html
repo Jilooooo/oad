@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Customer Analytics | 4B-EBOOK</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON (LEFT SIDE) */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    table { width:100%;border-collapse:collapse;margin:12px 0;overflow-x:auto;display:block; }
+    th,td { border:1px solid #ddd;padding:10px;text-align:left;min-width:150px; }
+    th { background:#e6ecfa;color:#0b1e3f; }
+    ul { margin-left:25px;margin-bottom:10px; }
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar {
+        left: -240px;
+        width: 240px;
+      }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+
+    @media (max-width:480px){
+      .section-block h2{font-size:1rem;}
+      .quiz-block h2{font-size:1rem;}
+      .options li{font-size:.9rem;}
+      .back{padding:8px 14px;font-size:.9rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Toggle Button (Left side for small screens) -->
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-content">
+<header><h1>Lesson 7 – Project Monitoring Tools and Techniques</h1></header>
+
+<section class="content">
+
+  <!-- Introduction -->
+  <div class="section-block">
+    <h2>Introduction</h2>
+    <p>
+      <strong>Project monitoring</strong> is the process of tracking, reviewing, and regulating 
+      project progress to ensure that tasks are completed on time, within budget, and 
+      according to scope. It allows project managers to detect issues early, adjust plans 
+      when needed, and keep the team aligned with project goals.
+    </p>
+  </div>
+
+  <!-- Importance -->
+  <div class="section-block">
+    <h2>Importance of Project Monitoring</h2>
+    <ul>
+      <li>Ensures projects stay on schedule and within budget.</li>
+      <li>Helps manage resources effectively and prevents overload.</li>
+      <li>Detects risks and issues early before they worsen.</li>
+      <li>Improves communication among project stakeholders.</li>
+      <li>Supports informed decision-making and project transparency.</li>
+    </ul>
+  </div>
+
+  <!-- Tools -->
+  <div class="section-block">
+    <h2>Tools for Project Monitoring</h2>
+
+    <h3>1. Gantt Chart</h3>
+    <p>
+      A timeline-based chart showing project activities, duration, and deadlines.  
+      Helps visualize task schedules and dependencies.
+    </p>
+
+    <h3>2. Kanban Board</h3>
+    <p>
+      A visual board divided into columns (e.g., To Do → In Progress → Done).  
+      Useful for tracking workload and workflow.
+    </p>
+
+    <h3>3. Project Dashboard</h3>
+    <p>
+      A real-time summary of project progress, showing key metrics such as budget, 
+      milestones, completed tasks, and risks.
+    </p>
+
+    <h3>4. Earned Value Management (EVM)</h3>
+    <p>
+      A technique that compares project performance against budget and schedule.  
+      It uses three main values:
+    </p>
+    <ul>
+      <li><b>PV (Planned Value):</b> Budgeted cost of scheduled work</li>
+      <li><b>EV (Earned Value):</b> Budgeted value of work completed</li>
+      <li><b>AC (Actual Cost):</b> Actual cost spent</li>
+    </ul>
+
+    <p>EVM helps determine if a project is ahead/behind schedule or under/over budget.</p>
+  </div>
+
+  <!-- Techniques -->
+  <div class="section-block">
+    <h2>Techniques for Project Monitoring</h2>
+
+    <h3>1. Regular Status Meetings</h3>
+    <p>Keep the team updated on tasks, progress, problems, and next steps.</p>
+
+    <h3>2. Progress Reports</h3>
+    <p>Weekly or monthly reports summarizing accomplishments, issues, and upcoming work.</p>
+
+    <h3>3. Milestone Tracking</h3>
+    <p>Checks completion of key deliverables to ensure project alignment with schedule.</p>
+
+    <h3>4. Variance Analysis</h3>
+    <p>
+      Compares planned performance versus actual results.  
+      Helps identify causes of delays or budget overruns.
+    </p>
+
+    <table>
+      <tr>
+        <th>Technique</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>Status Meetings</td>
+        <td>Ensures team alignment and communication</td>
+      </tr>
+      <tr>
+        <td>Progress Reports</td>
+        <td>Tracks achievements and problems regularly</td>
+      </tr>
+      <tr>
+        <td>Milestone Tracking</td>
+        <td>Checks if major project goals are met</td>
+      </tr>
+      <tr>
+        <td>Variance Analysis</td>
+        <td>Detects deviations from plan (schedule/cost)</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Quick Break Question -->
+  <div class="quiz-block">
+    <h2>🧠 Quick Break Question</h2>
+    <p>Which monitoring tool provides a visual timeline of tasks and deadlines?</p>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Kanban Board</li>
+      <li onclick="checkAnswer(this,true)">Gantt Chart</li>
+      <li onclick="checkAnswer(this,false)">Variance Analysis</li>
+      <li onclick="checkAnswer(this,false)">Status Meeting</li>
+    </ul>
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      Project monitoring is essential to ensure project success. By using tools such as 
+      Gantt charts, Kanban boards, dashboards, and Earned Value Management, teams can 
+      track progress effectively. Techniques like status meetings, progress reports, 
+      milestone checks, and variance analysis help managers make informed decisions, 
+      respond to risks, and keep the project aligned with goals.
+    </p>
+  </div>
+
+  <a class="back" href="PM.html">← Back to Module</a>
+
+</section>
+
+  </main>
+
+  <script>
+    // Quiz function
+    function checkAnswer(element, isCorrect) {
+      const feedback = document.getElementById('feedback');
+      document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+      element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+      feedback.textContent = isCorrect ? "✅ Correct! Customer Analytics helps make data-driven decisions." : "❌ Try again!";
+      feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+    }
+
+    // Toggle sidebar for mobile
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

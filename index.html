@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BSOA LEARNING PORTAL</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #333;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #001f3f;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.logo h2 {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #70a1ff;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  padding: 0 10%;
+  gap: 50px;
+}
+
+.hero-image img {
+  width: 260px;
+}
+
+.hero-text h1 {
+  font-size: 2.5rem;
+  color: #001f3f;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.hero-text span {
+  color: #004aad;
+}
+
+.btn {
+  background-color: #001f3f;
+  color: white;
+  border: none;
+  padding: 12px 35px;
+  border-radius: 10px;
+  margin-top: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 31, 63, 0.3);
+  transition: 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #004aad;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .hero-text h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-image img {
+    width: 200px;
+  }
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING PORTAL</h2>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="learn.html">Subjects</a></li>
+        <li><a href="quiz.html">Quizzes</a></li>
+        <li><a href="practice.html">Practice</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <div class="hero-image">
+      <img src="https://cdn.dribbble.com/users/1787323/screenshots/6024054/japan_mascot.png" alt="Mascot">
+    </div>
+    <div class="hero-text">
+      <h1>The fun way of<br><span>learning BSOA</span><br>is here!</h1>
+      <button class="btn" onclick="window.location.href='learn.html'">CONTINUE LEARNING</button>
+    </div>
+  </main>
+</body>
+</html>
+
+

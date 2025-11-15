@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Management Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;top:0;left:0;height:100%;width:60px;background:#0b1e3f;
+      border-right:1px solid #162b57;transition:width .3s,left .3s;
+      overflow:hidden;z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    /* MAIN */
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;
+      border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+
+    .menu-btn{display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;font-size:18px}
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main">
+<header><h1>Project Management Quiz</h1></header>
+
+<form id="quizForm" class="quiz-container">
+
+<!-- ========== PROJECT MANAGEMENT QUIZ START ========== -->
+
+<!-- 1 -->
+<div class="quiz-block"><h2>1. You are managing an event project and need to divide tasks like “Book Venue,” “Design Posters,” and “Arrange Transportation.” What project management tool should you use?</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="A">A) PERT</label>
+    <label><input type="radio" name="q1" value="B">B) WBS</label>
+    <label><input type="radio" name="q1" value="C">C) Gantt Chart</label>
+    <label><input type="radio" name="q1" value="D">D) Scrum Board</label>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="quiz-block"><h2>2. Your team is working on a mobile app that changes based on customer feedback. Which methodology best fits this project?</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="A">A) Waterfall</label>
+    <label><input type="radio" name="q2" value="B">B) Agile</label>
+    <label><input type="radio" name="q2" value="C">C) CPM</label>
+    <label><input type="radio" name="q2" value="D">D) PERT</label>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="quiz-block"><h2>3. A project is delayed because one task can’t start until another is finished. What concept explains this relationship?</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="A">A) Float</label>
+    <label><input type="radio" name="q3" value="B">B) Task Dependency</label>
+    <label><input type="radio" name="q3" value="C">C) Resource Allocation</label>
+    <label><input type="radio" name="q3" value="D">D) Milestone</label>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="quiz-block"><h2>4. You want to identify the longest sequence of tasks that determines the project’s duration. Which technique should you use?</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="A">A) PERT</label>
+    <label><input type="radio" name="q4" value="B">B) Kanban</label>
+    <label><input type="radio" name="q4" value="C">C) CPM</label>
+    <label><input type="radio" name="q4" value="D">D) Scrum</label>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="quiz-block"><h2>5. Your company requires strict documentation and step-by-step development. Which method will ensure a structured flow?</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="A">A) Agile</label>
+    <label><input type="radio" name="q5" value="B">B) Waterfall</label>
+    <label><input type="radio" name="q5" value="C">C) Scrum</label>
+    <label><input type="radio" name="q5" value="D">D) Kanban</label>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="quiz-block"><h2>6. During a project review, the team identifies problems and discusses improvements for the next sprint. What Scrum event is this?</h2>
+  <div class="options">
+    <label><input type="radio" name="q6" value="A">A) Sprint Planning</label>
+    <label><input type="radio" name="q6" value="B">B) Sprint Review</label>
+    <label><input type="radio" name="q6" value="C">C) Sprint Retrospective</label>
+    <label><input type="radio" name="q6" value="D">D) Daily Scrum</label>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="quiz-block"><h2>7. You are tracking project progress using a board divided into “To Do,” “In Progress,” and “Done.” What method are you applying?</h2>
+  <div class="options">
+    <label><input type="radio" name="q7" value="A">A) Kanban</label>
+    <label><input type="radio" name="q7" value="B">B) Agile</label>
+    <label><input type="radio" name="q7" value="C">C) Scrum</label>
+    <label><input type="radio" name="q7" value="D">D) Waterfall</label>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="quiz-block"><h2>8. Your project needs continuous updates to stakeholders about progress and possible delays. Which monitoring tool helps visualize the timeline?</h2>
+  <div class="options">
+    <label><input type="radio" name="q8" value="A">A) Gantt Chart</label>
+    <label><input type="radio" name="q8" value="B">B) Kanban Board</label>
+    <label><input type="radio" name="q8" value="C">C) WBS</label>
+    <label><input type="radio" name="q8" value="D">D) EVM</label>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="quiz-block"><h2>9. The team must estimate project completion time based on optimistic, most likely, and pessimistic durations. Which method should be used?</h2>
+  <div class="options">
+    <label><input type="radio" name="q9" value="A">A) Agile</label>
+    <label><input type="radio" name="q9" value="B">B) PERT</label>
+    <label><input type="radio" name="q9" value="C">C) CPM</label>
+    <label><input type="radio" name="q9" value="D">D) Kanban</label>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="quiz-block"><h2>10. A construction project requires work to be completed in strict order from design to testing. What model fits this?</h2>
+  <div class="options">
+    <label><input type="radio" name="q10" value="A">A) Waterfall</label>
+    <label><input type="radio" name="q10" value="B">B) Agile</label>
+    <label><input type="radio" name="q10" value="C">C) Scrum</label>
+    <label><input type="radio" name="q10" value="D">D) PERT</label>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="quiz-block"><h2>11. The Project Manager notices the project is going beyond the budget. Which monitoring technique helps identify the reason by comparing planned vs. actual cost?</h2>
+  <div class="options">
+    <label><input type="radio" name="q11" value="A">A) Variance Analysis</label>
+    <label><input type="radio" name="q11" value="B">B) Milestone Tracking</label>
+    <label><input type="radio" name="q11" value="C">C) Progress Reports</label>
+    <label><input type="radio" name="q11" value="D">D) Resource Allocation</label>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="quiz-block"><h2>12. A project team uses software tools, suppliers, and clients working together to achieve one goal. This describes the ____.</h2>
+  <div class="options">
+    <label><input type="radio" name="q12" value="A">A) Project Environment</label>
+    <label><input type="radio" name="q12" value="B">B) Project Ecosystem</label>
+    <label><input type="radio" name="q12" value="C">C) Organizational Structure</label>
+    <label><input type="radio" name="q12" value="D">D) Stakeholder Network</label>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="quiz-block"><h2>13. You use daily short meetings to update tasks and identify blockers. What Scrum event is this?</h2>
+  <div class="options">
+    <label><input type="radio" name="q13" value="A">A) Sprint Review</label>
+    <label><input type="radio" name="q13" value="B">B) Daily Scrum</label>
+    <label><input type="radio" name="q13" value="C">C) Sprint Retrospective</label>
+    <label><input type="radio" name="q13" value="D">D) Sprint Planning</label>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="quiz-block"><h2>14. You need to ensure that each team member knows their role and reporting line. Which aspect does this refer to?</h2>
+  <div class="options">
+    <label><input type="radio" name="q14" value="A">A) Culture and Values</label>
+    <label><input type="radio" name="q14" value="B">B) Organizational Structure</label>
+    <label><input type="radio" name="q14" value="C">C) Resources</label>
+    <label><input type="radio" name="q14" value="D">D) Stakeholders</label>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="quiz-block"><h2>15. You are asked to allocate staff and equipment to critical tasks. Which concept applies?</h2>
+  <div class="options">
+    <label><input type="radio" name="q15" value="A">A) Slack Time</label>
+    <label><input type="radio" name="q15" value="B">B) Resource Allocation</label>
+    <label><input type="radio" name="q15" value="C">C) Task Dependency</label>
+    <label><input type="radio" name="q15" value="D">D) Critical Path</label>
+  </div>
+</div>
+
+<!-- TRUE OR FALSE -->
+<!-- 16 -->
+<div class="quiz-block"><h2>16. Project management ensures that projects are completed on time, within scope, and within budget.</h2>
+  <div class="options">
+    <label><input type="radio" name="q16" value="T">True</label>
+    <label><input type="radio" name="q16" value="F">False</label>
+  </div>
+</div>
+
+<!-- 17 -->
+<div class="quiz-block"><h2>17. The Work Breakdown Structure (WBS) helps in assigning clear responsibilities.</h2>
+  <div class="options">
+    <label><input type="radio" name="q17" value="T">True</label>
+    <label><input type="radio" name="q17" value="F">False</label>
+  </div>
+</div>
+
+<!-- 18 -->
+<div class="quiz-block"><h2>18. The Project Ecosystem includes only the project team and excludes clients or suppliers.</h2>
+  <div class="options">
+    <label><input type="radio" name="q18" value="T">True</label>
+    <label><input type="radio" name="q18" value="F">False</label>
+  </div>
+</div>
+
+<!-- 19 -->
+<div class="quiz-block"><h2>19. The Waterfall model allows frequent changes during development.</h2>
+  <div class="options">
+    <label><input type="radio" name="q19" value="T">True</label>
+    <label><input type="radio" name="q19" value="F">False</label>
+  </div>
+</div>
+
+<!-- 20 -->
+<div class="quiz-block"><h2>20. Agile projects are rigid and not open to customer feedback.</h2>
+  <div class="options">
+    <label><input type="radio" name="q20" value="T">True</label>
+    <label><input type="radio" name="q20" value="F">False</label>
+  </div>
+</div>
+
+<!-- 21 -->
+<div class="quiz-block"><h2>21. PERT focuses on identifying the longest path in a project network.</h2>
+  <div class="options">
+    <label><input type="radio" name="q21" value="T">True</label>
+    <label><input type="radio" name="q21" value="F">False</label>
+  </div>
+</div>
+
+<!-- 22 -->
+<div class="quiz-block"><h2>22. CPM is mainly used to calculate the shortest possible project duration.</h2>
+  <div class="options">
+    <label><input type="radio" name="q22" value="T">True</label>
+    <label><input type="radio" name="q22" value="F">False</label>
+  </div>
+</div>
+
+<!-- 23 -->
+<div class="quiz-block"><h2>23. Critical Path Method helps prioritize tasks and avoid project delays.</h2>
+  <div class="options">
+    <label><input type="radio" name="q23" value="T">True</label>
+    <label><input type="radio" name="q23" value="F">False</label>
+  </div>
+</div>
+
+<!-- 24 -->
+<div class="quiz-block"><h2>24. Scrum’s Product Owner is responsible for managing the team’s daily tasks.</h2>
+  <div class="options">
+    <label><input type="radio" name="q24" value="T">True</label>
+    <label><input type="radio" name="q24" value="F">False</label>
+  </div>
+</div>
+
+<!-- 25 -->
+<div class="quiz-block"><h2>25. Kanban helps visualize workflow and identify bottlenecks.</h2>
+  <div class="options">
+    <label><input type="radio" name="q25" value="T">True</label>
+    <label><input type="radio" name="q25" value="F">False</label>
+  </div>
+</div>
+
+<!-- 26 -->
+<div class="quiz-block"><h2>26. Gantt Chart is a visual tool that tracks project progress and schedule.</h2>
+  <div class="options">
+    <label><input type="radio" name="q26" value="T">True</label>
+    <label><input type="radio" name="q26" value="F">False</label>
+  </div>
+</div>
+
+<!-- 27 -->
+<div class="quiz-block"><h2>27. Earned Value Management (EVM) compares planned and actual project performance.</h2>
+  <div class="options">
+    <label><input type="radio" name="q27" value="T">True</label>
+    <label><input type="radio" name="q27" value="F">False</label>
+  </div>
+</div>
+
+<!-- 28 -->
+<div class="quiz-block"><h2>28. Daily Scrum is a long meeting held at the end of the project.</h2>
+  <div class="options">
+    <label><input type="radio" name="q28" value="T">True</label>
+    <label><input type="radio" name="q28" value="F">False</label>
+  </div>
+</div>
+
+<!-- 29 -->
+<div class="quiz-block"><h2>29. Project monitoring detects problems early and improves communication.</h2>
+  <div class="options">
+    <label><input type="radio" name="q29" value="T">True</label>
+    <label><input type="radio" name="q29" value="F">False</label>
+  </div>
+</div>
+
+<!-- 30 -->
+<div class="quiz-block"><h2>30. Understanding project environment and ecosystem promotes better collaboration and efficiency.</h2>
+  <div class="options">
+    <label><input type="radio" name="q30" value="T">True</label>
+    <label><input type="radio" name="q30" value="F">False</label>
+  </div>
+</div>
+
+<!-- ========== END OF QUIZ ========== -->
+
+<div class="controls">
+  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+  <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+</div>
+
+</form>
+</main>
+
+<!-- SCORE MODAL -->
+<div class="modal" id="scoreModal">
+  <div class="modal-content">
+    <h2>Quiz Result</h2>
+    <p id="scoreText"></p>
+    <p id="percentText" style="color:#555"></p>
+    <button onclick="closeModal()">OK — Reset Quiz</button>
+  </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+  <div class="modal-content">
+    <h2>⚠️ Incomplete Quiz</h2>
+    <p>You must answer <b>all 30 questions</b> before submitting.</p>
+    <button onclick="closeWarning()">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+}
+
+const correctAnswers = {
+  q1:"B", q2:"B", q3:"B", q4:"C", q5:"B",
+  q6:"C", q7:"A", q8:"A", q9:"B", q10:"A",
+  q11:"A", q12:"B", q13:"B", q14:"B", q15:"B",
+  q16:"T", q17:"T", q18:"F", q19:"F", q20:"F",
+  q21:"F", q22:"F", q23:"T", q24:"F", q25:"T",
+  q26:"T", q27:"T", q28:"F", q29:"T", q30:"T"
+};
+
+function checkAnswers() {
+  const total = 30;
+  const form = document.getElementById('quizForm');
+  let answered = 0, score = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const ans = form.querySelector(`input[name="q${i}"]:checked`);
+    if (ans) {
+      answered++;
+      if (ans.value === correctAnswers[`q${i}`]) score++;
+    }
+  }
+
+  if (answered < total) {
+    document.getElementById('warningModal').style.display = 'flex';
+    return;
+  }
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById('scoreText').innerHTML = `You scored <b>${score}</b> out of <b>${total}</b>`;
+  document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+  document.getElementById('scoreModal').style.display = 'flex';
+}
+
+function closeModal(){
+  document.getElementById('scoreModal').style.display='none';
+  document.getElementById('quizForm').reset();
+}
+
+function closeWarning(){
+  document.getElementById('warningModal').style.display='none';
+}
+</script>
+
+</body>
+</html>

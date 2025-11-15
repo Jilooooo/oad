@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Business Law | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li class="active" onclick="window.location.href='BL.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+<header><h1>Lesson 3 – Writing an Effective Business Report</h1></header>
+
+<section class="content">
+
+  <!-- Objectives -->
+  <div class="section-block">
+    <h2>Learning Objectives</h2>
+    <ul>
+      <li>Explain the steps in writing a business report.</li>
+      <li>Demonstrate proper organization of information in a report.</li>
+      <li>Apply clear and concise writing techniques.</li>
+      <li>Develop conclusions and recommendations based on data.</li>
+      <li>Prepare a simple business report from given data.</li>
+    </ul>
+  </div>
+
+  <!-- Introduction -->
+  <div class="section-block">
+    <h2>Introduction</h2>
+    <p>
+      In the previous lessons, you learned what business reports are, their types, and their structure. 
+      This lesson focuses on the practical steps of writing a business report. You will learn how to organize ideas, 
+      present information clearly, and create strong conclusions and recommendations based on data.
+    </p>
+  </div>
+
+  <!-- Steps in Writing -->
+  <div class="section-block">
+    <h2>Steps in Writing a Business Report</h2>
+    <ul>
+      <li><strong>1. Determine the Purpose</strong> – Identify why the report is being written and whether it is informational, analytical, or a proposal.</li>
+      <li><strong>2. Collect and Analyze Data</strong> – Gather reliable information; look for trends, patterns, and issues.</li>
+      <li><strong>3. Plan the Report</strong> – Create an outline and decide the structure (Introduction, Body, Conclusion, Recommendations).</li>
+      <li><strong>4. Write the Report</strong> – 
+        <ul>
+          <li><strong>Introduction:</strong> purpose, scope, background</li>
+          <li><strong>Body / Findings:</strong> facts, analysis, tables, charts, graphs</li>
+          <li><strong>Conclusion:</strong> key findings</li>
+          <li><strong>Recommendations:</strong> suggested actions</li>
+        </ul>
+      </li>
+      <li><strong>5. Review and Edit</strong> – Check clarity, accuracy, grammar, data consistency, and logical flow.</li>
+    </ul>
+  </div>
+
+  <!-- Tips -->
+  <div class="section-block">
+    <h2>Tips for Writing Effectively</h2>
+    <ul>
+      <li>Use simple and clear language.</li>
+      <li>Be objective and base statements on facts.</li>
+      <li>Use headings and subheadings to organize content.</li>
+      <li>Support ideas with evidence or data.</li>
+      <li>Keep paragraphs short and focused.</li>
+    </ul>
+  </div>
+
+  <!-- Example -->
+  <div class="section-block">
+    <h2>Example Outline of a Report</h2>
+    <p><strong>Title:</strong> Customer Feedback Report – October 2025</p>
+    <ul>
+      <li><strong>Introduction:</strong> Purpose is to review customer feedback for the month of October.</li>
+      <li><strong>Body / Findings:</strong> 80% were satisfied; delays in delivery were the most common complaint.</li>
+      <li><strong>Conclusion:</strong> Overall satisfaction is high, but delivery issues affect customer experience.</li>
+      <li><strong>Recommendations:</strong> Improve delivery processes and monitor performance monthly.</li>
+    </ul>
+  </div>
+
+  <!-- Importance -->
+  <div class="section-block">
+    <h2>Importance of Writing an Effective Business Report</h2>
+    <ul>
+      <li>Ensures information is understandable and actionable.</li>
+      <li>Supports decision-making within the organization.</li>
+      <li>Demonstrates professional communication skills.</li>
+      <li>Helps document progress and issues over time.</li>
+    </ul>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="quiz-block">
+    <h2>🧠 Quick Break Questions</h2>
+
+    <h3>1. What is the first step in writing a business report?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Review and edit the report</li>
+      <li onclick="checkAnswer(this,true)">Determine the purpose of the report</li>
+      <li onclick="checkAnswer(this,false)">Write the conclusion</li>
+      <li onclick="checkAnswer(this,false)">Prepare the references</li>
+    </ul>
+
+    <h3>2. Which section presents facts, analysis, and data?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Conclusion</li>
+      <li onclick="checkAnswer(this,true)">Body / Findings</li>
+      <li onclick="checkAnswer(this,false)">Title Page</li>
+      <li onclick="checkAnswer(this,false)">Recommendations</li>
+    </ul>
+
+    <h3>3. Which of the following is a good writing tip?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Use long paragraphs</li>
+      <li onclick="checkAnswer(this,true)">Use clear and simple language</li>
+      <li onclick="checkAnswer(this,false)">Add opinions instead of facts</li>
+      <li onclick="checkAnswer(this,false)">Avoid using headings</li>
+    </ul>
+
+    <h3>4. The purpose of recommendations is to:</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Explain the background of the study</li>
+      <li onclick="checkAnswer(this,false)">Present raw data only</li>
+      <li onclick="checkAnswer(this,true)">Suggest actions based on findings</li>
+      <li onclick="checkAnswer(this,false)">Restate the report title</li>
+    </ul>
+
+    <h3>5. Reviewing and editing a report helps ensure:</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Longer page length</li>
+      <li onclick="checkAnswer(this,true)">Accuracy and clarity</li>
+      <li onclick="checkAnswer(this,false)">More opinions included</li>
+      <li onclick="checkAnswer(this,false)">Removal of key data</li>
+    </ul>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      Writing an effective business report requires careful planning, analysis, organization, and review. 
+      By following the proper structure and applying clear writing strategies, you can communicate information 
+      professionally and help organizations make informed decisions.
+    </p>
+  </div>
+
+  <a class="back" href="BR.html">← Back to Module</a>
+
+</section>
+</main>
+
+</main>
+
+<script>
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

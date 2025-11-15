@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Business Law | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+  <!-- Main content -->
+  <div class="main-content">
+    <header><h1>Lesson 1 – Introduction to Legal Office Procedures</h1></header>
+
+    <section class="content">
+      <!-- Objectives -->
+      <div class="section-block">
+        <h2>Learning Objectives</h2>
+        <ul>
+          <li>Explain what Legal Office Procedures are and why they matter.</li>
+          <li>Identify the roles and responsibilities of legal office staff.</li>
+          <li>Describe common law office tasks: filing, docketing, scheduling, and correspondence.</li>
+          <li>Understand the importance of confidentiality and legal ethics.</li>
+          <li>Recognize different types of law offices and the office hierarchy.</li>
+        </ul>
+      </div>
+
+      <!-- Definition -->
+      <div class="section-block">
+        <h2>What are Legal Office Procedures?</h2>
+        <p>
+          <strong>Legal Office Procedures</strong> are the standard methods, systems, and administrative practices used in law
+          offices to ensure efficient, accurate, and ethical handling of legal documents, case files, and client information.
+        </p>
+        <ul>
+          <li>Preparing and filing pleadings and contracts</li>
+          <li>Organizing and maintaining case files and dockets</li>
+          <li>Scheduling hearings, meetings, and deadlines</li>
+          <li>Managing legal correspondence and client communications</li>
+          <li>Protecting client confidentiality and following ethical rules</li>
+        </ul>
+      </div>
+
+      <!-- Importance -->
+      <div class="section-block">
+        <h2>Why Legal Office Procedures Matter</h2>
+        <ul>
+          <li><strong>Efficiency & organization:</strong> Reduces delays and errors by keeping documents and schedules orderly.</li>
+          <li><strong>Accuracy & compliance:</strong> Ensures filings meet court rules, deadlines, and legal requirements.</li>
+          <li><strong>Confidentiality & trust:</strong> Protects client information and preserves the firm’s reputation.</li>
+          <li><strong>Support for lawyers:</strong> Frees attorneys to focus on legal work while staff handle admin tasks.</li>
+          <li><strong>Professionalism:</strong> Demonstrates reliability, ethics, and consistency in legal services.</li>
+        </ul>
+      </div>
+
+      <!-- Role: Legal Secretary/Administrator -->
+      <div class="section-block">
+        <h2>The Legal Office Administrator / Legal Secretary</h2>
+        <p>
+          A Legal Office Administrator or Legal Secretary is a professional who supports lawyers and legal staff by preparing documents,
+          maintaining records, scheduling, and handling client communication — all while ensuring confidentiality and accuracy.
+        </p>
+        <ul>
+          <li><strong>Document preparation:</strong> Drafts pleadings, contracts, affidavits, and official letters.</li>
+          <li><strong>Case file organization:</strong> Keeps case dockets, exhibits, and deadlines organized.</li>
+          <li><strong>Scheduling:</strong> Arranges hearings, meetings, and court appearances.</li>
+          <li><strong>Correspondence:</strong> Drafts and sends professional communications to courts, clients, and agencies.</li>
+          <li><strong>Filing & docketing:</strong> Files documents with courts and updates case tracking systems.</li>
+        </ul>
+      </div>
+
+      <!-- Types of Law Offices -->
+      <div class="section-block">
+        <h2>Types of Law Offices</h2>
+        <ul>
+          <li><strong>Private law firms:</strong> Provide paid legal services to individuals and businesses; range from solo to large firms.</li>
+          <li><strong>Corporate legal departments:</strong> In-house teams serving a company’s legal needs (contracts, compliance, IP).</li>
+          <li><strong>Government legal offices:</strong> Public sector legal units such as DOJ, PAO, or Office of the Solicitor General.</li>
+        </ul>
+      </div>
+
+      <!-- Ethics & Confidentiality -->
+      <div class="section-block">
+        <h2>Legal Ethics & Confidentiality</h2>
+        <p>
+          Legal ethics are the professional standards that guide behavior in legal settings. Confidentiality is a central principle:
+          client information must be protected at all times.
+        </p>
+        <ul>
+          <li><strong>Integrity:</strong> Be honest, avoid falsifying records or misleading statements.</li>
+          <li><strong>Confidentiality:</strong> Safeguard client data; unauthorized disclosure can harm clients and the firm.</li>
+          <li><strong>Competence:</strong> Perform duties accurately and meet deadlines.</li>
+          <li><strong>Professionalism:</strong> Maintain respectful communication and appearance.</li>
+        </ul>
+      </div>
+
+      <!-- Office Hierarchy -->
+      <div class="section-block">
+        <h2>Office Hierarchy & Responsibilities</h2>
+        <ul>
+          <li><strong>Managing Partner / Senior Lawyer:</strong> Leads the firm, supervises staff, makes major decisions.</li>
+          <li><strong>Associate / Junior Lawyers:</strong> Handle cases, research, and draft pleadings under supervision.</li>
+          <li><strong>Paralegals:</strong> Research, prepare summaries, assist with evidence and documents (cannot give legal advice).</li>
+          <li><strong>Legal Secretary / Administrator:</strong> Prepares documents, files cases, schedules, and manages correspondence.</li>
+          <li><strong>Receptionist / Clerk / Messenger:</strong> Client greetings, errands, document delivery, and basic admin tasks.</li>
+        </ul>
+      </div>
+
+      <!-- Practical Tips -->
+      <div class="section-block">
+        <h2>Practical Tips for Legal Office Staff</h2>
+        <ul>
+          <li>Keep a tidy file system — both digital and physical.</li>
+          <li>Use checklists for court filing requirements and deadlines.</li>
+          <li>Label and index exhibits clearly for hearings and trials.</li>
+          <li>Always confirm appointment times with clients and the court.</li>
+          <li>Secure sensitive documents (passwords, locked cabinets, encrypted drives).</li>
+        </ul>
+      </div>
+
+      <!-- Quick Quiz -->
+      <div class="quiz-block">
+      
+
+        <h3>What is the main purpose of legal office procedures?</h3>
+        <ul class="options" data-q="1">
+          <li data-a="false" onclick="checkAnswer(this,false)">To make the office look busy</li>
+          <li data-a="true" onclick="checkAnswer(this,true)">To ensure efficiency, accuracy, and confidentiality</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">To replace lawyers</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">To speed up court decisions</li>
+        </ul>
+
+        <h3>Who prepares pleadings and official letters in a law office?</h3>
+        <ul class="options" data-q="2">
+          <li data-a="true" onclick="checkAnswer(this,true)">Legal Secretary / Administrator</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Messenger</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Client</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Receptionist</li>
+        </ul>
+
+        <h3>Confidentiality means:</h3>
+        <ul class="options" data-q="3">
+          <li data-a="false" onclick="checkAnswer(this,false)">Sharing client info with friends</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Posting case details on social media</li>
+          <li data-a="true" onclick="checkAnswer(this,true)">Protecting client information from unauthorized access</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Disclosing documents to all staff</li>
+        </ul>
+
+        <h3>Which office handles in-house legal needs of a company?</h3>
+        <ul class="options" data-q="4">
+          <li data-a="false" onclick="checkAnswer(this,false)">Public Attorney’s Office</li>
+          <li data-a="true" onclick="checkAnswer(this,true)">Corporate Legal Department</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Private law firm</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">City Legal Office</li>
+        </ul>
+
+        <h3>Paralegals can:</h3>
+        <ul class="options" data-q="5">
+          <li data-a="true" onclick="checkAnswer(this,true)">Assist with research and document prep (but cannot give legal advice)</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Represent clients in court as lawyers do</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Sign pleadings as the attorney of record</li>
+          <li data-a="false" onclick="checkAnswer(this,false)">Make final legal decisions for a case</li>
+        </ul>
+
+        <div id="feedback" class="feedback"></div>
+      </div>
+
+      <!-- Summary -->
+      <div class="section-block">
+        <h2>Summary</h2>
+        <p>
+          Legal office procedures keep a law office running smoothly, ethically, and reliably. They protect clients, support lawyers,
+          and ensure accurate, timely legal work. Learning and following these procedures builds trust, prevents mistakes, and
+          helps deliver professional legal services.
+        </p>
+      </div>
+
+      <a class="back" href="LOP_module.html">← Back to Module</a>
+    </section>
+
+
+</main>
+
+<script>
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Introduction to Business Law | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover {
+      width: 240px;
+    }
+
+    .sidebar.active {
+      left: 0;
+      width: 240px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background-color: #1e3d7c;
+    }
+
+    /* MAIN CONTENT */
+    .main-content {
+      flex: 1;
+      margin-left: 95px;
+      padding: 40px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content {
+      margin-left: 240px;
+    }
+
+    header h1 {
+      color: #0b1e3f;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    .content {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: grid;
+      gap: 25px;
+    }
+
+    .section-block {
+      background: #f8faff;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 6px solid #0b1e3f;
+    }
+
+    .section-block h2 {
+      color: #0b1e3f;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    p { line-height:1.7;color:#333;margin-bottom:10px;text-align:justify; }
+    ul { margin-left:25px;margin-bottom:10px; }
+
+    /* QUIZ SECTION */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;
+      cursor:pointer;transition:all .3s ease;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media (max-width:768px){
+      .menu-btn { display: block; }
+      .sidebar { left: -240px; width: 240px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; padding: 20px; }
+      .sidebar.active ~ .main-content { margin-left: 0; }
+      header h1 { text-align: center; font-size: 1.5rem; margin-top: 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li class="active" onclick="window.location.href='BL.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+<header><h1>Lesson 1 – Introduction to Business Report Writing</h1></header>
+
+<section class="content">
+
+  <!-- Objectives -->
+  <div class="section-block">
+    <h2>Learning Objectives</h2>
+    <ul>
+      <li>Define what a business report is and explain its purpose.</li>
+      <li>Identify different types of business reports.</li>
+      <li>Describe the characteristics of a well-written business report.</li>
+      <li>Recognize the basic structure of a business report.</li>
+      <li>Explain the importance of business report writing in the workplace.</li>
+    </ul>
+  </div>
+
+  <!-- Introduction -->
+  <div class="section-block">
+    <h2>Introduction</h2>
+    <p>
+      Communication plays a central role in every business. To operate effectively, organizations need clear 
+      and accurate information. One of the most useful tools for this purpose is a <strong>business report</strong>.
+    </p>
+    <p>
+      A business report is a formal document that presents information and analysis to assist in decision-making. 
+      It helps companies understand what is happening, why it is happening, and what actions should be taken.
+    </p>
+  </div>
+
+  <!-- What is a Business Report -->
+  <div class="section-block">
+    <h2>What is a Business Report?</h2>
+    <p>A business report is a structured written document that provides information to help a company make decisions. It is:</p>
+    <ul>
+      <li><strong>Formal</strong></li>
+      <li><strong>Clear</strong></li>
+      <li><strong>Objective</strong></li>
+      <li><strong>Organized</strong></li>
+    </ul>
+  </div>
+
+  <!-- Purpose -->
+  <div class="section-block">
+    <h2>Purpose of Business Report Writing</h2>
+    <ul>
+      <li><strong>Provide Information</strong> – sales updates, attendance records, etc.</li>
+      <li><strong>Analyze Problems or Situations</strong> – reasons behind issues.</li>
+      <li><strong>Recommend Solutions</strong> – suggested actions and improvements.</li>
+      <li><strong>Record Progress</strong> – project updates and performance tracking.</li>
+    </ul>
+  </div>
+
+  <!-- Characteristics -->
+  <div class="section-block">
+    <h2>Characteristics of a Good Business Report</h2>
+    <ul>
+      <li>Clear – easy to read and understand.</li>
+      <li>Accurate – verified and correct information.</li>
+      <li>Concise – straight to the point.</li>
+      <li>Objective – based on facts, not opinions.</li>
+      <li>Well-Organized – logical and structured presentation of content.</li>
+    </ul>
+  </div>
+
+  <!-- Types of Business Reports -->
+  <div class="section-block">
+    <h2>Types of Business Reports</h2>
+    <ul>
+      <li><strong>Informational Report</strong> – provides facts without analysis.</li>
+      <li><strong>Analytical Report</strong> – includes analysis and recommendations.</li>
+      <li><strong>Research Report</strong> – results of studies or investigations.</li>
+      <li><strong>Progress Report</strong> – updates on ongoing work.</li>
+      <li><strong>Proposal Report</strong> – suggests a new idea or plan.</li>
+    </ul>
+  </div>
+
+  <!-- Structure -->
+  <div class="section-block">
+    <h2>Basic Format of a Business Report</h2>
+    <ul>
+      <li><strong>Title Page</strong> – shows report title, author, and date.</li>
+      <li><strong>Table of Contents</strong> – list of sections with page numbers.</li>
+      <li><strong>Introduction</strong> – explains background and purpose.</li>
+      <li><strong>Body / Discussion / Findings</strong> – data, explanations, and analysis.</li>
+      <li><strong>Conclusion</strong> – summary of key findings.</li>
+      <li><strong>Recommendations</strong> – suggested actions based on findings.</li>
+      <li><strong>References / Appendices</strong> – sources, charts, data, etc.</li>
+    </ul>
+  </div>
+
+  <!-- Importance -->
+  <div class="section-block">
+    <h2>Importance of Business Report Writing</h2>
+    <ul>
+      <li>Helps managers make informed decisions.</li>
+      <li>Serves as official documentation.</li>
+      <li>Improves communication and understanding within the company.</li>
+      <li>Enhances professional writing and analytical skills.</li>
+    </ul>
+  </div>
+
+  <!-- Quick Break Questions -->
+  <div class="quiz-block">
+    <h2>🧠 Quick Break Questions</h2>
+
+    <h3>1. What is the main purpose of a business report?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">To entertain the reader</li>
+      <li onclick="checkAnswer(this,true)">To present information for decision-making</li>
+      <li onclick="checkAnswer(this,false)">To advertise company products</li>
+      <li onclick="checkAnswer(this,false)">To create job applications</li>
+    </ul>
+
+    <h3>2. Which is a characteristic of a good business report?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Emotional and biased</li>
+      <li onclick="checkAnswer(this,false)">Very long and complex</li>
+      <li onclick="checkAnswer(this,true)">Clear and well-organized</li>
+      <li onclick="checkAnswer(this,false)">Full of personal opinions</li>
+    </ul>
+
+    <h3>3. Which type of report includes recommendations?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Informational Report</li>
+      <li onclick="checkAnswer(this,true)">Analytical Report</li>
+      <li onclick="checkAnswer(this,false)">Attendance Report</li>
+      <li onclick="checkAnswer(this,false)">Memo</li>
+    </ul>
+
+    <h3>4. Which section presents analysis, data, and findings?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">Title Page</li>
+      <li onclick="checkAnswer(this,false)">Conclusion</li>
+      <li onclick="checkAnswer(this,true)">Body / Discussion</li>
+      <li onclick="checkAnswer(this,false)">Recommendations</li>
+    </ul>
+
+    <h3>5. Why is accuracy important in business reports?</h3>
+    <ul class="options">
+      <li onclick="checkAnswer(this,false)">To make the report longer</li>
+      <li onclick="checkAnswer(this,false)">To impress the reader</li>
+      <li onclick="checkAnswer(this,true)">To ensure information is correct and trustworthy</li>
+      <li onclick="checkAnswer(this,false)">To follow personal preferences</li>
+    </ul>
+
+    <div class="feedback" id="feedback"></div>
+  </div>
+
+  <!-- Summary -->
+  <div class="section-block">
+    <h2>Summary</h2>
+    <p>
+      A business report is an essential communication tool that helps organizations make informed decisions. 
+      Understanding its structure, purpose, and characteristics enhances workplace professionalism and promotes 
+      clear, objective, and effective reporting.
+    </p>
+  </div>
+
+  <a class="back" href="BR.html">← Back to Module</a>
+
+</section>
+</main>
+
+</main>
+
+<script>
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+  }
+</script>
+
+</body>
+</html>

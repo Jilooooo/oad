@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Negotiable Instruments - Module</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      display: flex;
+      background-color: #fdfdfd;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 60px;
+      background-color: #0b1d3a;
+      border-right: 1px solid #0b1d3a;
+      transition: width .3s;
+      overflow: hidden;
+      z-index: 100;
+    }
+    .sidebar:hover {
+      width: 240px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .logo img {
+      width: 35px;
+      height: 35px;
+      transition: transform .3s;
+    }
+    .logo:hover img {
+      transform: scale(1.1);
+    }
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 1;
+    }
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8e3;
+      transition: .3s;
+      white-space: nowrap;
+    }
+    .nav-links li i {
+      font-size: 18px;
+      color: #ffffff;
+      width: 30px;
+      text-align: center;
+    }
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .sidebar:hover .nav-links li span {
+      opacity: 1;
+    }
+    .nav-links li:hover, .nav-links li.active {
+      background-color: #1b3a6f;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    /* Main content */
+    .main-content {
+      flex: 1;
+      margin-left: 60px;
+      padding: 40px;
+      transition: margin-left .3s;
+      width: calc(100% - 60px);
+      background-color: #fdfdfd;
+      min-height: 100vh;
+    }
+    .sidebar:hover ~ .main-content {
+      margin-left: 240px;
+      width: calc(100% - 240px);
+    }
+
+    header h1 {
+      color: #0b1d3a;
+      margin-bottom: 25px;
+      font-size: 2rem;
+    }
+
+    /* Lessons layout */
+    .module-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+    }
+
+    .lesson-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, .07);
+      transition: transform .2s, box-shadow .2s;
+      width: 100%;
+    }
+    .lesson-card:hover {
+      transform: scale(1.01);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .lesson-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 250px;
+      margin-bottom: 10px;
+    }
+
+    .lesson-icon {
+      width: 55px;
+      height: 55px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2a3fa3;
+      color: #fff;
+      font-size: 22px;
+    }
+
+    .lesson-text h3 {
+      font-size: 1rem;
+      color: #0b1d3a;
+      margin-bottom: 4px;
+    }
+    .lesson-text p {
+      color: #666;
+      font-size: .9rem;
+      line-height: 1.4;
+    }
+
+    .read-btn {
+      background: #0b1d3a;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 22px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background .3s;
+    }
+    .read-btn:hover {
+      background: #132f55;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <a href="landing.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <main class="main-content">
+    <header><h1>Negotiable Instruments – Module</h1></header>
+
+    <section class="module-list">
+
+      <!-- Lesson 1 -->
+      <div class="lesson-card">
+        <div class="lesson-info">
+          <div class="lesson-icon"><i class="fas fa-money-check-alt"></i></div>
+          <div class="lesson-text">
+            <h3>Lesson 1 – Introduction to Negotiable Instruments</h3>
+            <p>Nature, characteristics, and purpose of negotiable instruments.</p>
+          </div>
+        </div>
+        <button class="read-btn" onclick="window.location.href='LNI1.html'">READ</button>
+      </div>
+
+      <!-- Lesson 2 -->
+      <div class="lesson-card">
+        <div class="lesson-info">
+          <div class="lesson-icon" style="background:#4a74d3"><i class="fas fa-file-invoice-dollar"></i></div>
+          <div class="lesson-text">
+            <h3>Lesson 2 – Common Forms of Negotiable Instruments</h3>
+            <p>Checks, promissory notes, bills of exchange, and more.</p>
+          </div>
+        </div>
+        <button class="read-btn" onclick="window.location.href='LNI2.html'">READ</button>
+      </div>
+
+      <!-- Lesson 3 -->
+      <div class="lesson-card">
+        <div class="lesson-info">
+          <div class="lesson-icon" style="background:#67a8ff"><i class="fas fa-exchange-alt"></i></div>
+          <div class="lesson-text">
+            <h3>Lesson 3 – Negotiation and Endorsement</h3>
+            <p>How negotiable instruments are transferred and endorsed.</p>
+          </div>
+        </div>
+        <button class="read-btn" onclick="window.location.href='LNI3.html'">READ</button>
+      </div>
+
+      <!-- Lesson 4 -->
+      <div class="lesson-card">
+        <div class="lesson-info">
+          <div class="lesson-icon" style="background:#162447"><i class="fas fa-users"></i></div>
+          <div class="lesson-text">
+            <h3>Lesson 4 – Parties to a Negotiable Instrument and Their Liabilities</h3>
+            <p>Maker, drawer, drawee, indorser, holder, and their obligations.</p>
+          </div>
+        </div>
+        <button class="read-btn" onclick="window.location.href='LNI4.html'">READ</button>
+      </div>
+
+      <!-- Lesson 5 -->
+      <div class="lesson-card">
+        <div class="lesson-info">
+          <div class="lesson-icon" style="background:#001f54"><i class="fas fa-ban"></i></div>
+          <div class="lesson-text">
+            <h3>Lesson 5 – Dishonor, Notice, and Discharge</h3>
+            <p>When instruments are dishonored and how they are discharged.</p>
+          </div>
+        </div>
+        <button class="read-btn" onclick="window.location.href='LNI5.html'">READ</button>
+      </div>
+
+      <!-- Lesson 6 -->
+      <div class="lesson-card">
+        <div class="lesson-info">
+          <div class="lesson-icon" style="background:#0b1d3a"><i class="fas fa-stamp"></i></div>
+          <div class="lesson-text">
+            <h3>Lesson 6 – Presentment, Payment, and Protest</h3>
+            <p>Requirements for proper payment and protest procedures.</p>
+          </div>
+        </div>
+        <button class="read-btn" onclick="window.location.href='LNI6.html'">READ</button>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>

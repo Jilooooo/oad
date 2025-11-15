@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 - Negotiable Instruments | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      height: 100%; width: 75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57;
+      transition:.3s; overflow:hidden; z-index:1000;
+    }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;white-space:nowrap; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU */
+    .menu-btn {
+      display:none; position:fixed; top:15px; left:15px;
+      background:#0b1e3f; color:#fff; border:none;
+      padding:10px 12px; border-radius:6px; cursor:pointer;
+      z-index:1500; font-size:18px; transition:.3s;
+    }
+
+    /* CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p{line-height:1.7;color:#333;text-align:justify;margin-bottom:10px;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none; }
+    .back:hover { background:#1e3d7c; }
+
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 1 – Introduction to Negotiable Instruments</h1></header>
+
+  <section class="content">
+
+    <!-- LEARNING OUTCOMES -->
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Define the term negotiable instrument and explain its meaning.</li>
+        <li>Identify the characteristics of negotiable instruments.</li>
+        <li>Explain the functions and importance of negotiable instruments.</li>
+        <li>Describe the life cycle of a negotiable instrument from issuance to discharge.</li>
+        <li>Recognize the essential requisites of a negotiable instrument.</li>
+      </ul>
+    </div>
+
+    <!-- DEFINITION -->
+    <div class="section-block">
+      <h2>Definition of Negotiable Instrument</h2>
+      <p>
+        The word <strong>negotiable</strong> means transferable by delivery, and the word
+        <strong>instrument</strong> means a written document by which a right is created in favor of a person.
+      </p>
+      <p>
+        Thus, a <strong>negotiable instrument</strong> is a written document that creates a right in favor of someone
+        and is freely transferable by delivery or by endorsement and delivery.
+      </p>
+      <p>
+        It entitles a person to a certain sum of money and can be transferred from one person to another.
+      </p>
+    </div>
+
+    <!-- CHARACTERISTICS -->
+    <div class="section-block">
+      <h2>Characteristics of Negotiable Instruments</h2>
+
+      <h3>1. Free Transferability</h3>
+      <p>They are freely transferable without formalities. Ownership passes by endorsement or delivery.</p>
+
+      <h3>2. Holder’s Title is Free from Defects</h3>
+      <p>A bona fide holder for value gets good title free from previous defects.</p>
+
+      <h3>3. Consideration</h3>
+      <p>Every negotiable instrument is presumed to be issued for consideration.</p>
+
+      <h3>4. Date</h3>
+      <p>They usually bear a date which indicates maturity or validity periods.</p>
+
+      <h3>5. Transfer Before Maturity</h3>
+      <p>Negotiable instruments are generally transferred before they mature.</p>
+    </div>
+
+    <!-- FUNCTIONS -->
+    <div class="section-block">
+      <h2>Functions of Negotiable Instruments</h2>
+      <ul>
+        <li>Serve as a substitute for money.</li>
+        <li>Increase purchasing medium in circulation.</li>
+        <li>Have definite value without needing further verification.</li>
+        <li>Serve as equivalent to money.</li>
+      </ul>
+    </div>
+
+    <!-- LIFE CYCLE -->
+    <div class="section-block">
+      <h2>Incidents in the Life of a Negotiable Instrument</h2>
+
+      <h3>1. Issuance</h3>
+      <p>The first delivery of the completed instrument to a holder.</p>
+
+      <h3>2. Discharge</h3>
+      <ul>
+        <li>Payment in due course by the principal debtor.</li>
+        <li>Payment by the party accommodated.</li>
+        <li>Intentional cancellation by the holder.</li>
+        <li>Any act that discharges a simple contract.</li>
+        <li>When the principal debtor becomes the holder at maturity (merger).</li>
+      </ul>
+    </div>
+
+    <!-- REQUISITES -->
+    <div class="section-block">
+      <h2>Requisites of a Negotiable Instrument (WUPPI)</h2>
+      <ul>
+        <li>Must be in writing and signed by the maker or drawer.</li>
+        <li>Must contain an unconditional promise or order to pay a sum certain in money.</li>
+        <li>Must be payable on demand or at a fixed/determinable future time.</li>
+        <li>Must be payable to order or bearer.</li>
+        <li>Drawee must be named or indicated with certainty.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which statement best describes a negotiable instrument?</p>
+
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">A written contract for property transfer</li>
+        <li onclick="checkAnswer(this,true)">A written document payable to a person and transferable by delivery</li>
+        <li onclick="checkAnswer(this,false)">A government-issued identification document</li>
+        <li onclick="checkAnswer(this,false)">A verbal promise to pay money</li>
+      </ul>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="NI.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>

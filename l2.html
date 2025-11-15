@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lesson 2 - Types and Sources of Customer Data</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#fdfdfd;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .sidebar:hover { width: 240px; }
+    .sidebar.active { left: 0; width: 240px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 35px;
+      height: 35px;
+      filter: brightness(1.2);
+      transition: transform 0.3s ease;
+      margin-left: 5px;
+    }
+
+    .logo:hover img { transform: scale(1.1); }
+
+    .logo h2 {
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 {
+      opacity: 1;
+    }
+
+    .nav-links {
+      list-style: none;
+      margin-top: 20px;
+    }
+
+    .nav-links li {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      cursor: pointer;
+      color: #cfd8ff;
+      transition: 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links li i {
+      font-size: 18px;
+      color: #93b4ff;
+      width: 30px;
+      text-align: center;
+      margin-left: 5px;
+    }
+
+    .nav-links li span {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar:hover .nav-links li span,
+    .sidebar.active .nav-links li span {
+      opacity: 1;
+    }
+
+    .nav-links li:hover,
+    .nav-links li.active {
+      background-color: #1e3d7c;
+      color: #fff;
+      border-radius: 10px;
+    }
+
+    .nav-links li:hover i,
+    .nav-links li.active i {
+      color: #fff;
+    }
+
+    /* TOGGLE BUTTON */
+    .menu-btn {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #0b1e3f;
+      color: #fff;
+      border: none;
+      padding: 10px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1500;
+      font-size: 18px;
+      transition: 0.3s ease;
+    }
+
+    .menu-btn:hover { background-color: #1e3d7c; }
+
+    /* MAIN CONTENT */
+    .main {
+      flex: 1;
+      margin-left: 95px;
+      padding: 30px;
+      transition: margin-left .3s;
+    }
+
+    .sidebar:hover ~ .main,
+    .sidebar.active ~ .main {
+      margin-left: 240px;
+    }
+
+    header h1{color:#0b1d3a;margin-bottom:20px;font-size:1.8rem}
+
+    .content{
+      background:#fff;
+      padding:25px;
+      border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,.08);
+      display:grid;
+      grid-template-columns:1fr;
+      gap:25px;
+    }
+
+    .section-block{
+      background:#f8faff;
+      padding:20px;
+      border-radius:10px;
+      border-left:6px solid #0b1d3a;
+    }
+
+    .section-block h2{
+      color:#0b1d3a;
+      margin-bottom:10px;
+      font-size:1.2rem;
+    }
+
+    p{line-height:1.7;color:#333;margin-bottom:10px;text-align:justify}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid #ddd;padding:10px;text-align:left}
+    th{background:#e6ecfa;color:#0b1d3a}
+    ul{margin-left:25px;margin-bottom:10px}
+    .back{display:inline-block;margin-top:20px;background:#0b1d3a;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s}
+    .back:hover{background:#173b74}
+
+    /* QUIZ */
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1d3a}
+    .quiz-block h2{color:#0b1d3a;margin-bottom:12px;font-size:1.2rem}
+    .options{list-style:none;margin-top:10px}
+    .options li{
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease
+    }
+    .options li:hover{background:#dbe6ff}
+    .feedback{margin-top:10px;font-weight:600}
+    .correct{color:green}
+    .wrong{color:red}
+
+    /* Responsive */
+    @media (max-width:768px){
+      .menu-btn { display:block; }
+      .sidebar { left:-240px;width:240px; }
+      .sidebar.active { left:0; }
+      .main { margin-left:0;padding:20px; }
+      .sidebar.active ~ .main { margin-left:0; }
+      header h1{text-align:center;font-size:1.4rem;margin-top:50px}
+    }
+
+    @media (max-width:480px){
+      .section-block h2{font-size:1rem}
+      .quiz-block h2{font-size:1rem}
+      .options li{font-size:.9rem}
+      .back{padding:8px 14px;font-size:.9rem}
+    }
+  </style>
+</head>
+<body>
+  <button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <div class="sidebar" id="sidebar">
+    <a href="landing.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li class="active" onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+      <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <main class="main">
+    <header><h1>Lesson 2 – Types and Sources of Customer Data</h1></header>
+
+    <section class="content">
+      <div class="section-block">
+        <h2>Introduction</h2>
+        <p>In Customer Analytics, data is the most important element. Without data, there is nothing to analyze. Understanding the types of customer data and where it comes from helps businesses collect useful information that leads to better decisions.</p>
+      </div>
+
+      <div class="section-block">
+        <h2>Types of Customer Data</h2>
+        <ul>
+          <li><b>Demographic Data:</b> Basic personal information about the customer (e.g., age, gender, income, education, location).</li>
+          <li><b>Behavioral Data:</b> How customers act when engaging with a brand (e.g., browsing history, purchase frequency, time spent on website).</li>
+          <li><b>Transactional Data:</b> Information about purchases or financial activities (e.g., items bought, total spending, payment method, purchase date).</li>
+          <li><b>Psychographic Data:</b> Data about lifestyle, interests, values, and opinions (e.g., hobbies, personality traits, product preferences).</li>
+        </ul>
+        <p><b>Summary:</b></p>
+        <ul>
+          <li>Demographic → Who the customer is</li>
+          <li>Behavioral → What the customer does</li>
+          <li>Transactional → What the customer buys</li>
+          <li>Psychographic → Why the customer chooses it</li>
+        </ul>
+      </div>
+
+      <div class="section-block">
+        <h2>Sources of Customer Data</h2>
+        <p>Businesses can get customer data from many places. These are the most common sources:</p>
+        <table>
+          <tr><th>Source</th><th>How it Provides Data</th><th>Examples</th></tr>
+          <tr><td>Company Website and Mobile Apps</td><td>Track user actions online</td><td>Clicked products, pages visited, time spent</td></tr>
+          <tr><td>Social Media Platforms</td><td>Collects engagement and interaction data</td><td>Likes, shares, comments, profile details</td></tr>
+          <tr><td>Customer Surveys and Feedback Forms</td><td>Provides direct responses from customers</td><td>Satisfaction rating, suggestions</td></tr>
+          <tr><td>Point of Sale (POS) Systems</td><td>Collect purchase data during checkout</td><td>Items bought, price, payment type</td></tr>
+          <tr><td>Customer Service Center</td><td>Records customer concerns and satisfaction</td><td>Phone call logs, chat support, complaints</td></tr>
+          <tr><td>Loyalty and Membership Programs</td><td>Tracks loyal customer habits</td><td>Reward points, frequency of purchase</td></tr>
+        </table>
+      </div>
+
+      <div class="section-block">
+        <h2>Examples</h2>
+        <table>
+          <tr><th>Business</th><th>Customer Data Collected</th><th>How They Use It</th></tr>
+          <tr><td>Supermarket</td><td>Loyalty card purchase history</td><td>Offers promos to frequent buyers</td></tr>
+          <tr><td>Milk Tea Shop</td><td>Time of the most orders</td><td>Creates “Happy Hour” promos</td></tr>
+          <tr><td>Online Clothing Store</td><td>Items added to cart but not bought</td><td>Sends reminders or discount codes</td></tr>
+          <tr><td>Facebook & TikTok</td><td>User interests and interactions</td><td>Shows ads based on preferences</td></tr>
+        </table>
+      </div>
+
+      <div class="section-block">
+        <h2>Why Collecting Customer Data Matters</h2>
+        <ul>
+          <li>Know their target market</li>
+          <li>Predict trends</li>
+          <li>Create personalized offers</li>
+          <li>Understand customer satisfaction</li>
+          <li>Improve product and service quality</li>
+        </ul>
+      </div>
+
+      <div class="quiz-block">
+        <h2>🧠 Quick Break Question</h2>
+        <p>Which of the following is an example of <b>psychographic data</b>?</p>
+        <ul class="options">
+          <li onclick="checkAnswer(this,false)">Customer’s age and gender</li>
+          <li onclick="checkAnswer(this,false)">Number of purchases per month</li>
+          <li onclick="checkAnswer(this,true)">Customer’s lifestyle, values, and interests</li>
+          <li onclick="checkAnswer(this,false)">Payment method used in transactions</li>
+        </ul>
+        <div class="feedback" id="feedback"></div>
+      </div>
+
+      <div class="section-block">
+        <h2>Summary</h2>
+        <p>Customer data comes in different forms—demographic, behavioral, transactional, and psychographic. Businesses gather these from websites, social media, surveys, POS systems, loyalty programs, and customer service interactions. Knowing how to collect and use customer data helps businesses make smart decisions, satisfy customers, and increase revenue.</p>
+      </div>
+
+      <a class="back" href="CA.html">← Back to Module</a>
+    </section>
+  </main>
+
+  <script>
+    function checkAnswer(element, isCorrect) {
+      const feedback = document.getElementById('feedback');
+      document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+      element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+      feedback.textContent = isCorrect ? "✅ Correct! Psychographic data includes a customer's lifestyle, values, and interests." : "❌ Try again!";
+      feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+    }
+
+    function toggleMenu() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

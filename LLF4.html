@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 4 - Types of Legal Forms and Their Purposes | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 75px;
+      background-color: #0b1e3f;
+      border-right: 1px solid #162b57;
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1000;
+    }
+    .sidebar:hover { width: 240px; }
+    .sidebar.active { left: 0; width: 240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;white-space:nowrap;text-decoration:none; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s;margin-left:5px;}
+    .logo:hover img { transform: scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+    .sidebar:hover .logo h2, .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      display:none;
+      position:fixed;
+      top:15px;
+      left:15px;
+      background-color:#0b1e3f;
+      color:#fff;
+      border:none;
+      padding:10px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      z-index:1500;
+      font-size:18px;
+      transition:.3s;
+    }
+    .menu-btn:hover { background:#1e3d7c; }
+
+    /* MAIN CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content, .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;border-left:6px solid #0b1e3f;
+    }
+
+    .section-block h2 { color:#0b1e3f;margin-bottom:10px;font-size:1.2rem; }
+    p{line-height:1.7;color:#333;margin-bottom:10px;text-align:justify;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { color:#0b1e3f;margin-bottom:12px;font-size:1.2rem; }
+    .options { list-style:none;margin-top:10px; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;transition:.3s; }
+    .back:hover { background:#1e3d7c; }
+
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;margin-top:50px;}
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i> <span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i> <span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i> <span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i> <span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main-content">
+  <header><h1>Lesson 4 – Types of Legal Forms and Their Purposes</h1></header>
+
+  <section class="content">
+
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Identify various types of legal forms and their primary purposes.</li>
+        <li>Explain functions and uses of contracts, deeds, affidavits, powers of attorney, wills, and leases.</li>
+        <li>Recognize the importance of selecting the correct legal form for transactions.</li>
+        <li>Understand formalities required for execution and validation of different forms.</li>
+        <li>Assess suitability of a legal form for a given scenario.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Introduction</h2>
+      <p>
+        Legal forms are written documents that formalize legal transactions, establish rights, impose obligations,
+        or provide evidence for legal matters. Choosing the right form ensures clarity, enforceability, and protection.
+      </p>
+    </div>
+
+    <div class="section-block">
+      <h2>Common Types of Legal Forms</h2>
+
+      <h3>A. Contracts</h3>
+      <p>
+        Contracts are formal agreements between parties that create mutual obligations enforceable by law.
+        They set out rights, duties, and remedies for breach.
+      </p>
+      <p><strong>Purpose:</strong> To define terms clearly and ensure obligations are enforceable.</p>
+
+      <h3>B. Deeds</h3>
+      <p>
+        Deeds are formal instruments used to convey or transfer ownership or interests in real property.
+      </p>
+      <p><strong>Purpose:</strong> To legally transfer title or rights from grantor to grantee.</p>
+
+      <h3>C. Affidavits</h3>
+      <p>
+        Affidavits are written statements sworn to be true before a competent authority and are often used as evidence.
+      </p>
+      <p><strong>Purpose:</strong> To provide sworn declarations for legal proceedings or transactions.</p>
+
+      <h3>D. Powers of Attorney</h3>
+      <p>
+        Powers of attorney authorize an agent to act on behalf of the principal in legal or financial matters.
+      </p>
+      <p><strong>Purpose:</strong> To delegate authority for specific or general acts.</p>
+
+      <h3>E. Wills and Testaments</h3>
+      <p>
+        Wills express a person's wishes about the distribution of their estate after death.
+      </p>
+      <p><strong>Purpose:</strong> To ensure orderly transfer of property according to the testator’s instructions.</p>
+
+      <h3>F. Lease Agreements</h3>
+      <p>
+        Lease agreements grant temporary use or possession of property under agreed terms and conditions.
+      </p>
+      <p><strong>Purpose:</strong> To establish the relationship between lessor and lessee, including rent, duration, and obligations.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>Importance of Choosing the Correct Legal Form</h2>
+      <ul>
+        <li>Ensures the transaction is legally valid and enforceable.</li>
+        <li>Reduces disputes caused by unclear or incomplete documents.</li>
+        <li>Clarifies rights and obligations of parties.</li>
+        <li>Ensures compliance with formalities like notarization, witnessing, or registration when required.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Execution and Formalities</h2>
+      <p>
+        Some legal forms require additional formalities to be valid:
+      </p>
+      <ul>
+        <li><strong>Notarization:</strong> Certification by a licensed notary public verifying signatures.</li>
+        <li><strong>Witnesses:</strong> Third parties who observe and attest to signing.</li>
+        <li><strong>Registration:</strong> Filing or recording with government agencies to give public notice and effect.</li>
+      </ul>
+      <p>Failure to follow required formalities may render the form invalid or unenforceable.</p>
+    </div>
+
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which legal form is primarily used to transfer ownership of land?</p>
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Affidavit</li>
+        <li onclick="checkAnswer(this,true)">Deed</li>
+        <li onclick="checkAnswer(this,false)">Power of Attorney</li>
+        <li onclick="checkAnswer(this,false)">Will</li>
+      </ul>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="LF.html">← Back to Module</a>
+  </section>
+</main>
+
+<script>
+  function toggleMenu(){ document.getElementById('sidebar').classList.toggle('active'); }
+
+  function checkAnswer(element, isCorrect) {
+    const feedback = document.getElementById('feedback');
+    document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+    element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+    feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+    feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+  }
+</script>
+
+</body>
+</html>

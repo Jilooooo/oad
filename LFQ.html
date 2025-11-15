@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Project Management Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;top:0;left:0;height:100%;width:60px;background:#0b1e3f;
+      border-right:1px solid #162b57;transition:width .3s,left .3s;
+      overflow:hidden;z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    /* MAIN */
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;
+      border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+
+    .menu-btn{display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;font-size:18px}
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main">
+<header><h1>Project Management Quiz</h1></header>
+
+<form id="quizForm" class="quiz-container">
+
+<!-- 1 -->
+<div class="quiz-block"><h2>1. A business owner made an oral agreement with a supplier for a large order... What legal form should have been used?</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="A">A) Affidavit of Undertaking</label>
+    <label><input type="radio" name="q1" value="B">B) Service Agreement</label>
+    <label><input type="radio" name="q1" value="C">C) Authorization Letter</label>
+    <label><input type="radio" name="q1" value="D">D) Certificate of Delivery</label>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="quiz-block"><h2>2. A landlord wants to rent out a space and clearly define rights and obligations. Which form applies?</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="A">A) Contract of Lease</label>
+    <label><input type="radio" name="q2" value="B">B) Deed of Sale</label>
+    <label><input type="radio" name="q2" value="C">C) Affidavit of Ownership</label>
+    <label><input type="radio" name="q2" value="D">D) Power of Attorney</label>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="quiz-block"><h2>3. A student swore before a notary that she lost her school ID. This legal form is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="A">A) Declaration of Heirship</label>
+    <label><input type="radio" name="q3" value="B">B) Affidavit of Loss</label>
+    <label><input type="radio" name="q3" value="C">C) Authorization Letter</label>
+    <label><input type="radio" name="q3" value="D">D) Service Contract</label>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="quiz-block"><h2>4. A person signs a legal document under pressure or threat. The document is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="A">A) Valid</label>
+    <label><input type="radio" name="q4" value="B">B) Voidable</label>
+    <label><input type="radio" name="q4" value="C">C) Enforceable</label>
+    <label><input type="radio" name="q4" value="D">D) Registered</label>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="quiz-block"><h2>5. A minor entered into a property sale contract without consent. The contract is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="A">A) Valid</label>
+    <label><input type="radio" name="q5" value="B">B) Voidable</label>
+    <label><input type="radio" name="q5" value="C">C) Ratified</label>
+    <label><input type="radio" name="q5" value="D">D) Enforceable</label>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="quiz-block"><h2>6. An OFW authorizes her sister to process documents. Which form?</h2>
+  <div class="options">
+    <label><input type="radio" name="q6" value="A">A) Deed of Donation</label>
+    <label><input type="radio" name="q6" value="B">B) Special Power of Attorney</label>
+    <label><input type="radio" name="q6" value="C">C) Affidavit of Undertaking</label>
+    <label><input type="radio" name="q6" value="D">D) Contract of Sale</label>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="quiz-block"><h2>7. A written document transferring land ownership is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q7" value="A">A) Deed of Sale</label>
+    <label><input type="radio" name="q7" value="B">B) Lease Contract</label>
+    <label><input type="radio" name="q7" value="C">C) Affidavit of Transfer</label>
+    <label><input type="radio" name="q7" value="D">D) Power of Attorney</label>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="quiz-block"><h2>8. A notarized document proves authenticity. This feature is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q8" value="A">A) Prevention of fraud</label>
+    <label><input type="radio" name="q8" value="B">B) Record keeping</label>
+    <label><input type="radio" name="q8" value="C">C) Protection of rights</label>
+    <label><input type="radio" name="q8" value="D">D) Proof of transaction</label>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="quiz-block"><h2>9. A tenant disputes increased rent. To protect terms, he shows:</h2>
+  <div class="options">
+    <label><input type="radio" name="q9" value="A">A) Lease Contract</label>
+    <label><input type="radio" name="q9" value="B">B) Affidavit of Loss</label>
+    <label><input type="radio" name="q9" value="C">C) Deed of Sale</label>
+    <label><input type="radio" name="q9" value="D">D) Authorization Letter</label>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="quiz-block"><h2>10. What makes a legal form enforceable?</h2>
+  <div class="options">
+    <label><input type="radio" name="q10" value="A">A) Verbal agreement only</label>
+    <label><input type="radio" name="q10" value="B">B) Proper execution and consent</label>
+    <label><input type="radio" name="q10" value="C">C) Presence of witness alone</label>
+    <label><input type="radio" name="q10" value="D">D) Registration anywhere</label>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="quiz-block"><h2>11. An affidavit binds only one party. It is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q11" value="A">A) Bilateral</label>
+    <label><input type="radio" name="q11" value="B">B) Multilateral</label>
+    <label><input type="radio" name="q11" value="C">C) Unilateral</label>
+    <label><input type="radio" name="q11" value="D">D) Conditional</label>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="quiz-block"><h2>12. A conditional sale effective only after full payment is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q12" value="A">A) Bilateral</label>
+    <label><input type="radio" name="q12" value="B">B) Conditional</label>
+    <label><input type="radio" name="q12" value="C">C) Declaratory</label>
+    <label><input type="radio" name="q12" value="D">D) Registered</label>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="quiz-block"><h2>13. A contract lacking required signatures is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q13" value="A">A) Executed</label>
+    <label><input type="radio" name="q13" value="B">B) Void</label>
+    <label><input type="radio" name="q13" value="C">C) Ratified</label>
+    <label><input type="radio" name="q13" value="D">D) Legal</label>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="quiz-block"><h2>14. Which element ensures willing agreement?</h2>
+  <div class="options">
+    <label><input type="radio" name="q14" value="A">A) Consideration</label>
+    <label><input type="radio" name="q14" value="B">B) Consent</label>
+    <label><input type="radio" name="q14" value="C">C) Capacity</label>
+    <label><input type="radio" name="q14" value="D">D) Legal Purpose</label>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="quiz-block"><h2>15. Buyer pays seller ₱200k. This demonstrates:</h2>
+  <div class="options">
+    <label><input type="radio" name="q15" value="A">A) Offer and acceptance</label>
+    <label><input type="radio" name="q15" value="B">B) Legal purpose</label>
+    <label><input type="radio" name="q15" value="C">C) Consideration</label>
+    <label><input type="radio" name="q15" value="D">D) Notarization</label>
+  </div>
+</div>
+
+<!-- 16 -->
+<div class="quiz-block"><h2>16. A contract involving illegal drugs is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q16" value="A">A) Valid</label>
+    <label><input type="radio" name="q16" value="B">B) Enforceable</label>
+    <label><input type="radio" name="q16" value="C">C) Void</label>
+    <label><input type="radio" name="q16" value="D">D) Conditional</label>
+  </div>
+</div>
+
+<!-- 17 -->
+<div class="quiz-block"><h2>17. A document defining duties, payment, and employment period is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q17" value="A">A) Government Form</label>
+    <label><input type="radio" name="q17" value="B">B) Contractual Form</label>
+    <label><input type="radio" name="q17" value="C">C) Declaratory Form</label>
+    <label><input type="radio" name="q17" value="D">D) Authorization Form</label>
+  </div>
+</div>
+
+<!-- 18 -->
+<div class="quiz-block"><h2>18. A notarized Deed of Sale kept by both parties serves:</h2>
+  <div class="options">
+    <label><input type="radio" name="q18" value="A">A) Proof and record-keeping</label>
+    <label><input type="radio" name="q18" value="B">B) Avoiding taxes</label>
+    <label><input type="radio" name="q18" value="C">C) Public declaration</label>
+    <label><input type="radio" name="q18" value="D">D) Witness validation</label>
+  </div>
+</div>
+
+<!-- 19 -->
+<div class="quiz-block"><h2>19. A digital signature on an authenticated platform is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q19" value="A">A) Invalid</label>
+    <label><input type="radio" name="q19" value="B">B) Acceptable under law</label>
+    <label><input type="radio" name="q19" value="C">C) Illegal</label>
+    <label><input type="radio" name="q19" value="D">D) Voidable</label>
+  </div>
+</div>
+
+<!-- 20 -->
+<div class="quiz-block"><h2>20. A man signs with “X” witnessed by two people. Signature is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q20" value="A">A) Invalid</label>
+    <label><input type="radio" name="q20" value="B">B) Valid if witnessed properly</label>
+    <label><input type="radio" name="q20" value="C">C) Fraudulent</label>
+    <label><input type="radio" name="q20" value="D">D) Valid only abroad</label>
+  </div>
+</div>
+
+<!-- 21 -->
+<div class="quiz-block"><h2>21. A document executed without consent is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q21" value="A">A) Valid</label>
+    <label><input type="radio" name="q21" value="B">B) Void</label>
+    <label><input type="radio" name="q21" value="C">C) Registered</label>
+    <label><input type="radio" name="q21" value="D">D) Bilateral</label>
+  </div>
+</div>
+
+<!-- 22 -->
+<div class="quiz-block"><h2>22. A Deed of Sale not notarized is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q22" value="A">A) Invalid</label>
+    <label><input type="radio" name="q22" value="B">B) Valid between parties but not against third persons</label>
+    <label><input type="radio" name="q22" value="C">C) Fully void</label>
+    <label><input type="radio" name="q22" value="D">D) Automatically registered</label>
+  </div>
+</div>
+
+<!-- 23 -->
+<div class="quiz-block"><h2>23. A notary attests voluntary signing. This establishes:</h2>
+  <div class="options">
+    <label><input type="radio" name="q23" value="A">A) Ratification</label>
+    <label><input type="radio" name="q23" value="B">B) Proof of execution</label>
+    <label><input type="radio" name="q23" value="C">C) Jurisdiction rule</label>
+    <label><input type="radio" name="q23" value="D">D) Witness verification</label>
+  </div>
+</div>
+
+<!-- 24 -->
+<div class="quiz-block"><h2>24. A notarized, filed legal document is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q24" value="A">A) Partially valid</label>
+    <label><input type="radio" name="q24" value="B">B) Executed and enforceable</label>
+    <label><input type="radio" name="q24" value="C">C) Voidable</label>
+    <label><input type="radio" name="q24" value="D">D) Illegal</label>
+  </div>
+</div>
+
+<!-- 25 -->
+<div class="quiz-block"><h2>25. Court order forcing performance of agreement is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q25" value="A">A) Rescission</label>
+    <label><input type="radio" name="q25" value="B">B) Damages</label>
+    <label><input type="radio" name="q25" value="C">C) Specific performance</label>
+    <label><input type="radio" name="q25" value="D">D) Mediation</label>
+  </div>
+</div>
+
+<!-- 26 -->
+<div class="quiz-block"><h2>26. Compensation for financial loss is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q26" value="A">A) Specific performance</label>
+    <label><input type="radio" name="q26" value="B">B) Rescission</label>
+    <label><input type="radio" name="q26" value="C">C) Damages</label>
+    <label><input type="radio" name="q26" value="D">D) Arbitration</label>
+  </div>
+</div>
+
+<!-- 27 -->
+<div class="quiz-block"><h2>27. A contract is cancelled and obligations ended. This is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q27" value="A">A) Ratification</label>
+    <label><input type="radio" name="q27" value="B">B) Rescission</label>
+    <label><input type="radio" name="q27" value="C">C) Mediation</label>
+    <label><input type="radio" name="q27" value="D">D) Specific performance</label>
+  </div>
+</div>
+
+<!-- 28 -->
+<div class="quiz-block"><h2>28. Dispute resolved through private arbitrator is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q28" value="A">A) Court enforcement</label>
+    <label><input type="radio" name="q28" value="B">B) Mediation</label>
+    <label><input type="radio" name="q28" value="C">C) Arbitration</label>
+    <label><input type="radio" name="q28" value="D">D) Litigation</label>
+  </div>
+</div>
+
+<!-- 29 -->
+<div class="quiz-block"><h2>29. “Any dispute shall be resolved in the courts of Manila” is a:</h2>
+  <div class="options">
+    <label><input type="radio" name="q29" value="A">A) Choice of Law</label>
+    <label><input type="radio" name="q29" value="B">B) Venue Clause</label>
+    <label><input type="radio" name="q29" value="C">C) Force Majeure</label>
+    <label><input type="radio" name="q29" value="D">D) Arbitration Clause</label>
+  </div>
+</div>
+
+<!-- 30 -->
+<div class="quiz-block"><h2>30. A typhoon prevented delivery. This clause excusing non-performance is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q30" value="A">A) Rescission</label>
+    <label><input type="radio" name="q30" value="B">B) Force Majeure</label>
+    <label><input type="radio" name="q30" value="C">C) Jurisdiction Clause</label>
+    <label><input type="radio" name="q30" value="D">D) Waiver of Liability</label>
+  </div>
+</div>
+
+
+<!-- ========== END OF QUIZ ========== -->
+
+<div class="controls">
+  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+  <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+</div>
+
+</form>
+</main>
+
+<!-- SCORE MODAL -->
+<div class="modal" id="scoreModal">
+  <div class="modal-content">
+    <h2>Quiz Result</h2>
+    <p id="scoreText"></p>
+    <p id="percentText" style="color:#555"></p>
+    <button onclick="closeModal()">OK — Reset Quiz</button>
+  </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+  <div class="modal-content">
+    <h2>⚠️ Incomplete Quiz</h2>
+    <p>You must answer <b>all 30 questions</b> before submitting.</p>
+    <button onclick="closeWarning()">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+}
+
+const correctAnswers = {
+  q1:"B", q2:"A", q3:"B", q4:"B", q5:"B",
+  q6:"B", q7:"A", q8:"A", q9:"A", q10:"B",
+  q11:"C", q12:"B", q13:"B", q14:"B", q15:"C",
+  q16:"C", q17:"B", q18:"A", q19:"B", q20:"B",
+  q21:"B", q22:"B", q23:"B", q24:"B", q25:"C",
+  q26:"C", q27:"B", q28:"C", q29:"B", q30:"B"
+};
+
+
+function checkAnswers() {
+  const total = 30;
+  const form = document.getElementById('quizForm');
+  let answered = 0, score = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const ans = form.querySelector(`input[name="q${i}"]:checked`);
+    if (ans) {
+      answered++;
+      if (ans.value === correctAnswers[`q${i}`]) score++;
+    }
+  }
+
+  if (answered < total) {
+    document.getElementById('warningModal').style.display = 'flex';
+    return;
+  }
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById('scoreText').innerHTML = `You scored <b>${score}</b> out of <b>${total}</b>`;
+  document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+  document.getElementById('scoreModal').style.display = 'flex';
+}
+
+function closeModal(){
+  document.getElementById('scoreModal').style.display='none';
+  document.getElementById('quizForm').reset();
+}
+
+function closeWarning(){
+  document.getElementById('warningModal').style.display='none';
+}
+</script>
+
+</body>
+</html>

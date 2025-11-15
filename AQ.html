@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Business Law Practice Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;top:0;left:0;height:100%;width:60px;background:#0b1e3f;
+      border-right:1px solid #162b57;transition:width .3s,left .3s;
+      overflow:hidden;z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    /* MAIN */
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;
+      border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;
+      background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+
+    .menu-btn{display:none;position:fixed;top:15px;left:15px;background:#0b1e3f;color:#fff;
+      border:none;padding:10px 12px;border-radius:6px;cursor:pointer;z-index:1500;font-size:18px}
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<main class="main">
+<header><h1>Accounting Practice Quiz</h1></header>
+
+<form id="quizForm" class="quiz-container">
+
+<!-- 1–30 ACCOUNTING CYCLE QUESTIONS -->
+
+<!-- 1 -->
+<div class="quiz-block"><h2>1. The accounting cycle begins with:</h2>
+  <div class="options">
+    <label><input type="radio" name="q1" value="A">A) Posting to ledger</label>
+    <label><input type="radio" name="q1" value="B">B) Identifying transactions</label>
+    <label><input type="radio" name="q1" value="C">C) Preparing financial statements</label>
+    <label><input type="radio" name="q1" value="D">D) Closing entries</label>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="quiz-block"><h2>2. A record of all transactions arranged in chronological order is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q2" value="A">A) Ledger</label>
+    <label><input type="radio" name="q2" value="B">B) Trial Balance</label>
+    <label><input type="radio" name="q2" value="C">C) Journal</label>
+    <label><input type="radio" name="q2" value="D">D) Worksheet</label>
+  </div>
+</div>
+
+<!-- 3 -->
+<div class="quiz-block"><h2>3. Transferring information from the journal to the ledger is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q3" value="A">A) Posting</label>
+    <label><input type="radio" name="q3" value="B">B) Recording</label>
+    <label><input type="radio" name="q3" value="C">C) Adjusting</label>
+    <label><input type="radio" name="q3" value="D">D) Closing</label>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="quiz-block"><h2>4. Which document checks the equality of debits and credits?</h2>
+  <div class="options">
+    <label><input type="radio" name="q4" value="A">A) Balance Sheet</label>
+    <label><input type="radio" name="q4" value="B">B) Ledger</label>
+    <label><input type="radio" name="q4" value="C">C) Trial Balance</label>
+    <label><input type="radio" name="q4" value="D">D) Journal</label>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="quiz-block"><h2>5. An entry made at the end of the period to update accounts is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q5" value="A">A) Closing entry</label>
+    <label><input type="radio" name="q5" value="B">B) Posting</label>
+    <label><input type="radio" name="q5" value="C">C) Adjusting entry</label>
+    <label><input type="radio" name="q5" value="D">D) Reversing entry</label>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="quiz-block"><h2>6. The process of analyzing and recording business transactions is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q6" value="A">A) Auditing</label>
+    <label><input type="radio" name="q6" value="B">B) Posting</label>
+    <label><input type="radio" name="q6" value="C">C) Journalizing</label>
+    <label><input type="radio" name="q6" value="D">D) Closing</label>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="quiz-block"><h2>7. The left side of an account is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q7" value="A">A) Credit</label>
+    <label><input type="radio" name="q7" value="B">B) Debit</label>
+    <label><input type="radio" name="q7" value="C">C) Balance</label>
+    <label><input type="radio" name="q7" value="D">D) Entry</label>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="quiz-block"><h2>8. The right side of an account is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q8" value="A">A) Debit</label>
+    <label><input type="radio" name="q8" value="B">B) Increase</label>
+    <label><input type="radio" name="q8" value="C">C) Credit</label>
+    <label><input type="radio" name="q8" value="D">D) Margin</label>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="quiz-block"><h2>9. Which statement summarizes the financial position of a business?</h2>
+  <div class="options">
+    <label><input type="radio" name="q9" value="A">A) Income Statement</label>
+    <label><input type="radio" name="q9" value="B">B) Balance Sheet</label>
+    <label><input type="radio" name="q9" value="C">C) Owner’s Equity Statement</label>
+    <label><input type="radio" name="q9" value="D">D) Cash Flow Statement</label>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="quiz-block"><h2>10. The totals of debit and credit in the trial balance must be:</h2>
+  <div class="options">
+    <label><input type="radio" name="q10" value="A">A) Unequal</label>
+    <label><input type="radio" name="q10" value="B">B) Zero</label>
+    <label><input type="radio" name="q10" value="C">C) Equal</label>
+    <label><input type="radio" name="q10" value="D">D) Opposite</label>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="quiz-block"><h2>11. Adjusting supplies, depreciation, and prepaid expenses is part of:</h2>
+  <div class="options">
+    <label><input type="radio" name="q11" value="A">A) Closing</label>
+    <label><input type="radio" name="q11" value="B">B) Adjusting</label>
+    <label><input type="radio" name="q11" value="C">C) Posting</label>
+    <label><input type="radio" name="q11" value="D">D) Journalizing</label>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="quiz-block"><h2>12. Which statement shows investments, withdrawals, and net income?</h2>
+  <div class="options">
+    <label><input type="radio" name="q12" value="A">A) Balance Sheet</label>
+    <label><input type="radio" name="q12" value="B">B) Owner’s Equity Statement</label>
+    <label><input type="radio" name="q12" value="C">C) Income Statement</label>
+    <label><input type="radio" name="q12" value="D">D) Trial Balance</label>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="quiz-block"><h2>13. Prepared before financial statements to ensure accuracy:</h2>
+  <div class="options">
+    <label><input type="radio" name="q13" value="A">A) Unadjusted Trial Balance</label>
+    <label><input type="radio" name="q13" value="B">B) Adjusted Trial Balance</label>
+    <label><input type="radio" name="q13" value="C">C) Cash Flow Statement</label>
+    <label><input type="radio" name="q13" value="D">D) Ledger</label>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="quiz-block"><h2>14. Temporary accounts are closed into which account?</h2>
+  <div class="options">
+    <label><input type="radio" name="q14" value="A">A) Cash</label>
+    <label><input type="radio" name="q14" value="B">B) Owner’s Capital</label>
+    <label><input type="radio" name="q14" value="C">C) Income Summary</label>
+    <label><input type="radio" name="q14" value="D">D) Retained Earnings</label>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="quiz-block"><h2>15. The entry transferring net income to capital is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q15" value="A">A) Adjusting entry</label>
+    <label><input type="radio" name="q15" value="B">B) Closing entry</label>
+    <label><input type="radio" name="q15" value="C">C) Posting entry</label>
+    <label><input type="radio" name="q15" value="D">D) Reversing entry</label>
+  </div>
+</div>
+
+<!-- 16 -->
+<div class="quiz-block"><h2>16. The owner's interest in the assets of the business is called:</h2>
+  <div class="options">
+    <label><input type="radio" name="q16" value="A">A) Liability</label>
+    <label><input type="radio" name="q16" value="B">B) Owner’s Capital</label>
+    <label><input type="radio" name="q16" value="C">C) Expense</label>
+    <label><input type="radio" name="q16" value="D">D) Revenue</label>
+  </div>
+</div>
+
+<!-- 17 -->
+<div class="quiz-block"><h2>17. Matching revenues and expenses happens during:</h2>
+  <div class="options">
+    <label><input type="radio" name="q17" value="A">A) Adjusting</label>
+    <label><input type="radio" name="q17" value="B">B) Posting</label>
+    <label><input type="radio" name="q17" value="C">C) Identifying</label>
+    <label><input type="radio" name="q17" value="D">D) Closing</label>
+  </div>
+</div>
+
+<!-- 18 -->
+<div class="quiz-block"><h2>18. A document showing all accounts and their balances:</h2>
+  <div class="options">
+    <label><input type="radio" name="q18" value="A">A) Journal</label>
+    <label><input type="radio" name="q18" value="B">B) Ledger</label>
+    <label><input type="radio" name="q18" value="C">C) Trial Balance</label>
+    <label><input type="radio" name="q18" value="D">D) Worksheet</label>
+  </div>
+</div>
+
+<!-- 19 -->
+<div class="quiz-block"><h2>19. Which step is AFTER journalizing but BEFORE preparing the trial balance?</h2>
+  <div class="options">
+    <label><input type="radio" name="q19" value="A">A) Adjusting</label>
+    <label><input type="radio" name="q19" value="B">B) Posting</label>
+    <label><input type="radio" name="q19" value="C">C) Closing</label>
+    <label><input type="radio" name="q19" value="D">D) Auditing</label>
+  </div>
+</div>
+
+<!-- 20 -->
+<div class="quiz-block"><h2>20. The final step in the accounting cycle is:</h2>
+  <div class="options">
+    <label><input type="radio" name="q20" value="A">A) Adjusting entries</label>
+    <label><input type="radio" name="q20" value="B">B) Preparing statements</label>
+    <label><input type="radio" name="q20" value="C">C) Closing entries</label>
+    <label><input type="radio" name="q20" value="D">D) Posting</label>
+  </div>
+</div>
+
+<!-- 21 -->
+<div class="quiz-block"><h2>21. Owner invests ₱100,000 cash. What is debited?</h2>
+  <div class="options">
+    <label><input type="radio" name="q21" value="A">A) Capital</label>
+    <label><input type="radio" name="q21" value="B">B) Cash</label>
+    <label><input type="radio" name="q21" value="C">C) Service Income</label>
+    <label><input type="radio" name="q21" value="D">D) Accounts Receivable</label>
+  </div>
+</div>
+
+<!-- 22 -->
+<div class="quiz-block"><h2>22. Bought supplies on account. What is credited?</h2>
+  <div class="options">
+    <label><input type="radio" name="q22" value="A">A) Supplies</label>
+    <label><input type="radio" name="q22" value="B">B) Cash</label>
+    <label><input type="radio" name="q22" value="C">C) Accounts Payable</label>
+    <label><input type="radio" name="q22" value="D">D) Capital</label>
+  </div>
+</div>
+
+<!-- 23 -->
+<div class="quiz-block"><h2>23. Sold goods for ₱15,000 cash. What is debited?</h2>
+  <div class="options">
+    <label><input type="radio" name="q23" value="A">A) Service Income</label>
+    <label><input type="radio" name="q23" value="B">B) Accounts Receivable</label>
+    <label><input type="radio" name="q23" value="C">C) Cash</label>
+    <label><input type="radio" name="q23" value="D">D) Capital</label>
+  </div>
+</div>
+
+<!-- 24 -->
+<div class="quiz-block"><h2>24. Paid ₱5,000 to settle part of Accounts Payable. What is debited?</h2>
+  <div class="options">
+    <label><input type="radio" name="q24" value="A">A) Cash</label>
+    <label><input type="radio" name="q24" value="B">B) Accounts Payable</label>
+    <label><input type="radio" name="q24" value="C">C) Capital</label>
+    <label><input type="radio" name="q24" value="D">D) Advertising Expense</label>
+  </div>
+</div>
+
+<!-- 25 -->
+<div class="quiz-block"><h2>25. Paid advertising expense ₱2,500. What is credited?</h2>
+  <div class="options">
+    <label><input type="radio" name="q25" value="A">A) Cash</label>
+    <label><input type="radio" name="q25" value="B">B) Advertising Expense</label>
+    <label><input type="radio" name="q25" value="C">C) Utilities Expense</label>
+    <label><input type="radio" name="q25" value="D">D) Capital</label>
+  </div>
+</div>
+
+<!-- 26 -->
+<div class="quiz-block"><h2>26. Closing entries reset which accounts?</h2>
+  <div class="options">
+    <label><input type="radio" name="q26" value="A">A) Assets</label>
+    <label><input type="radio" name="q26" value="B">B) Liabilities</label>
+    <label><input type="radio" name="q26" value="C">C) Revenue & Expenses</label>
+    <label><input type="radio" name="q26" value="D">D) Capital</label>
+  </div>
+</div>
+
+<!-- 27 -->
+<div class="quiz-block"><h2>27. If closing entries are NOT prepared:</h2>
+  <div class="options">
+    <label><input type="radio" name="q27" value="A">A) Journal erases</label>
+    <label><input type="radio" name="q27" value="B">B) Income & expenses carry over incorrectly</label>
+    <label><input type="radio" name="q27" value="C">C) Assets increase</label>
+    <label><input type="radio" name="q27" value="D">D) Capital disappears</label>
+  </div>
+</div>
+
+<!-- 28 -->
+<div class="quiz-block"><h2>28. Temporary accounts include:</h2>
+  <div class="options">
+    <label><input type="radio" name="q28" value="A">A) Cash & Capital</label>
+    <label><input type="radio" name="q28" value="B">B) Supplies & Land</label>
+    <label><input type="radio" name="q28" value="C">C) Revenue & Expenses</label>
+    <label><input type="radio" name="q28" value="D">D) Notes Payable</label>
+  </div>
+</div>
+
+<!-- 29 -->
+<div class="quiz-block"><h2>29. The Adjusted Trial Balance is prepared:</h2>
+  <div class="options">
+    <label><input type="radio" name="q29" value="A">A) Before adjusting entries</label>
+    <label><input type="radio" name="q29" value="B">B) After closing entries</label>
+    <label><input type="radio" name="q29" value="C">C) After adjusting entries</label>
+    <label><input type="radio" name="q29" value="D">D) Before journalizing</label>
+  </div>
+</div>
+
+<!-- 30 -->
+<div class="quiz-block"><h2>30. The accounting cycle repeats:</h2>
+  <div class="options">
+    <label><input type="radio" name="q30" value="A">A) Every week</label>
+    <label><input type="radio" name="q30" value="B">B) Every accounting period</label>
+    <label><input type="radio" name="q30" value="C">C) Only once</label>
+    <label><input type="radio" name="q30" value="D">D) Every three years</label>
+  </div>
+</div>
+
+
+<div class="controls">
+  <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+  <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+</div>
+
+</form>
+</main>
+
+<!-- SCORE MODAL -->
+<div class="modal" id="scoreModal">
+  <div class="modal-content">
+    <h2>Quiz Result</h2>
+    <p id="scoreText"></p>
+    <p id="percentText" style="color:#555"></p>
+    <button onclick="closeModal()">OK — Reset Quiz</button>
+  </div>
+</div>
+
+<!-- WARNING MODAL -->
+<div class="modal" id="warningModal">
+  <div class="modal-content">
+    <h2>⚠️ Incomplete Quiz</h2>
+    <p>You must answer <b>all 30 questions</b> before submitting.</p>
+    <button onclick="closeWarning()">OK</button>
+  </div>
+</div>
+
+<script>
+function toggleMenu(){
+  let sidebar = document.getElementById("sidebar");
+  sidebar.classList.toggle("active");
+}
+
+const correctAnswers = {
+  q1:"B", q2:"C", q3:"A", q4:"C", q5:"C",
+  q6:"C", q7:"B", q8:"C", q9:"B", q10:"C",
+  q11:"B", q12:"B", q13:"B", q14:"C", q15:"B",
+  q16:"B", q17:"A", q18:"B", q19:"B", q20:"C",
+  q21:"B", q22:"C", q23:"C", q24:"B", q25:"A",
+  q26:"C", q27:"B", q28:"C", q29:"C", q30:"B"
+};
+
+
+function checkAnswers() {
+  const total = 30;
+  const form = document.getElementById('quizForm');
+  let answered = 0, score = 0;
+
+  for (let i = 1; i <= total; i++) {
+    const ans = form.querySelector(`input[name="q${i}"]:checked`);
+    if (ans) {
+      answered++;
+      if (ans.value === correctAnswers[`q${i}`]) score++;
+    }
+  }
+
+  if (answered < total) {
+    document.getElementById('warningModal').style.display = 'flex';
+    return;
+  }
+
+  const percent = Math.round((score / total) * 100);
+  document.getElementById('scoreText').innerHTML = `You scored <b>${score}</b> out of <b>${total}</b>`;
+  document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+  document.getElementById('scoreModal').style.display = 'flex';
+}
+
+function closeModal(){
+  document.getElementById('scoreModal').style.display='none';
+  document.getElementById('quizForm').reset();
+}
+function closeWarning(){
+  document.getElementById('warningModal').style.display='none';
+}
+</script>
+
+</body>
+</html>

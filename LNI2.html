@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 2 - Common Forms of Negotiable Instruments | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      height: 100%; width: 75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57;
+      transition:.3s; overflow:hidden; z-index:1000;
+    }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;white-space:nowrap; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU BUTTON */
+    .menu-btn {
+      display:none; position:fixed; top:15px; left:15px;
+      background:#0b1e3f; color:#fff; border:none;
+      padding:10px 12px; border-radius:6px; cursor:pointer;
+      z-index:1500; font-size:18px; transition:.3s;
+    }
+
+    /* MAIN CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p{line-height:1.7;color:#333;text-align:justify;margin-bottom:10px;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none; }
+    .back:hover { background:#1e3d7c; }
+
+    /* RESPONSIVE */
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 2 – Common Forms of Negotiable Instruments</h1></header>
+
+  <section class="content">
+
+    <!-- LEARNING OUTCOMES -->
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Identify the common forms of negotiable instruments such as promissory notes, bills of exchange, and cheques.</li>
+        <li>Explain the roles of the parties involved in each type of instrument.</li>
+        <li>Describe the purpose and use of each form of negotiable instrument.</li>
+        <li>Differentiate a cheque from other bills of exchange.</li>
+        <li>Understand the significance of these instruments in business transactions.</li>
+      </ul>
+    </div>
+
+    <!-- PROMISSORY NOTE -->
+    <div class="section-block">
+      <h2>1. Promissory Notes</h2>
+      <p>
+        A <strong>promissory note</strong> is a signed written promise by one party (the debtor or maker)
+        to pay a specified sum of money to another party (the creditor or payee) on a particular date or on demand.
+      </p>
+
+      <h3>Specimen Characteristics</h3>
+      <p>It contains an <strong>unconditional promise</strong> to pay a fixed amount.</p>
+      
+      <h3>Parties to a Promissory Note</h3>
+      <ul>
+        <li><strong>Maker (Drawer/Debtor)</strong> – the person who promises to pay.</li>
+        <li><strong>Payee (Creditor)</strong> – the person to whom payment is to be made.</li>
+      </ul>
+    </div>
+
+    <!-- BILL OF EXCHANGE -->
+    <div class="section-block">
+      <h2>2. Bill of Exchange</h2>
+      <p>
+        A <strong>bill of exchange</strong> is a written unconditional order by one party (drawer)
+        directing another (drawee) to pay a certain amount either on demand or at a future date.
+      </p>
+      <p>
+        It contains an <strong>order</strong> from the creditor to the debtor to pay a third person.
+      </p>
+
+      <h3>Parties to a Bill of Exchange</h3>
+      <ul>
+        <li><strong>Drawer</strong> – the person who orders payment.</li>
+        <li><strong>drawee</strong> – the person ordered to pay.</li>
+        <li><strong>Payee</strong> – the person who receives payment.</li>
+      </ul>
+    </div>
+
+    <!-- CHEQUE -->
+    <div class="section-block">
+      <h2>3. Cheque</h2>
+
+      <p>
+        A <strong>cheque</strong> is a special type of bill of exchange drawn on a banker
+        and payable only on demand.
+      </p>
+
+      <p>Important characteristics:</p>
+      <ul>
+        <li>It is always drawn on a specified banker.</li>
+        <li>It is always payable on demand.</li>
+        <li>It must be signed by the drawer.</li>
+      </ul>
+
+      <h3>Parties to a Cheque</h3>
+      <ul>
+        <li><strong>Drawer</strong> – the person who writes the cheque.</li>
+        <li><strong>Drawee</strong> – the bank on which the cheque is drawn.</li>
+        <li><strong>Payee</strong> – the person entitled to receive payment.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which of the following is always drawn on a bank?</p>
+
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Promissory Note</li>
+        <li onclick="checkAnswer(this,false)">Bill of Exchange</li>
+        <li onclick="checkAnswer(this,true)">Cheque</li>
+        <li onclick="checkAnswer(this,false)">Any negotiable instrument</li>
+      </ul>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="NI.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>

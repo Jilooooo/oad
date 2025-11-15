@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Keyboarding Practice Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background:#f9fbff;min-height:100vh;overflow-x:hidden}
+
+    /* SIDEBAR */
+    .sidebar{
+      position:fixed;
+      top:0;
+      left:0;
+      height:100%;
+      width:60px;
+      background:#0b1e3f;
+      border-right:1px solid #162b57;
+      transition:width .3s,left .3s;
+      overflow:hidden;
+      z-index:1000;
+    }
+    .sidebar:hover{width:240px}
+    .sidebar.active{width:240px;left:0}
+
+    .logo{display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none}
+    .logo img{width:35px;height:35px;filter:brightness(1.2)}
+    .logo h2{color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:opacity .3s}
+    .sidebar:hover .logo h2,.sidebar.active .logo h2{opacity:1}
+
+    .nav-links{list-style:none;margin-top:20px}
+    .nav-links li{display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;color:#cfd8ff;transition:.3s;white-space:nowrap}
+    .nav-links li i{font-size:18px;color:#93b4ff;width:30px;text-align:center}
+    .nav-links li span{opacity:0;transition:opacity .3s}
+    .sidebar:hover .nav-links li span,.sidebar.active .nav-links li span{opacity:1}
+    .nav-links li:hover,.nav-links li.active{background:#1e3d7c;color:#fff;border-radius:10px}
+    .nav-links li:hover i,.nav-links li.active i{color:#fff}
+
+    .main{flex:1;margin-left:80px;padding:40px;transition:margin-left .3s}
+    .sidebar:hover~.main{margin-left:240px}
+    header h1{color:#0b1e3f;margin-bottom:25px;font-size:2rem}
+
+    /* QUIZ DESIGN */
+    .quiz-container{background:#fff;padding:30px;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,.05);display:flex;flex-direction:column;gap:25px}
+    .quiz-block{background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f;transition:.3s}
+    .quiz-block:hover{transform:scale(1.02)}
+    .quiz-block h2{color:#0b1e3f;font-size:1.1rem;margin-bottom:12px}
+    .options{list-style:none;margin-top:10px}
+    .options label{display:block;background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;margin-bottom:8px;cursor:pointer;transition:all .3s ease;user-select:none}
+    .options label:hover{background:#dbe6ff}
+    .options input[type="radio"]{margin-right:10px;transform:scale(1.2);cursor:pointer}
+
+    .controls{display:flex;justify-content:center;gap:12px;margin-top:25px;flex-wrap:wrap}
+    button{background:#0b1e3f;color:#fff;border:none;padding:10px 22px;border-radius:8px;font-weight:600;cursor:pointer}
+    button:hover{background:#1e3d7c}
+
+    /* MODAL */
+    .modal{display:none;position:fixed;z-index:200;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);justify-content:center;align-items:center}
+    .modal-content{background:#fff;padding:28px;border-radius:12px;text-align:center;width:92%;max-width:420px;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+    .modal-content h2{color:#0b1e3f;margin-bottom:8px}
+    .modal-content p{font-size:1.1rem;color:#333;margin:6px 0}
+    .modal-content button{margin-top:18px;background:#0b1e3f;padding:10px 18px;border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
+    .modal-content button:hover{background:#1e3d7c}
+
+    /* MENU BUTTON */
+    .menu-btn{
+      display:none;
+      position:fixed;
+      top:15px;
+      left:15px;
+      background:#0b1e3f;
+      color:#fff;
+      border:none;
+      padding:10px 12px;
+      border-radius:6px;
+      cursor:pointer;
+      z-index:1500;
+      font-size:18px;
+    }
+    .menu-btn:hover{background:#1e3d7c}
+
+    @media(max-width:768px){
+      .menu-btn{display:block}
+      .sidebar{left:-240px;width:240px}
+      .sidebar.active{left:0}
+      .main{margin-left:0!important;padding:20px}
+      .sidebar.active~.main{margin-left:0!important}
+    }
+    /* Disable text selection and dragging */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- MENU BUTTON -->
+  <button class="menu-btn" id="menuBtn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <a href="index.html" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+      <h2>BSOA LEARNING</h2>
+    </a>
+    <ul class="nav-links">
+      <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+      <li class="active" onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+      <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+      <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+    </ul>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <header><h1>Keyboarding Quiz</h1></header>
+    <form id="quizForm" class="quiz-container">
+
+      <!-- Keyboarding 1–30 (multiple choice) -->
+      <div class="quiz-block"><h2>1. Which key combination is used to copy text?</h2>
+        <div class="options">
+          <label><input type="radio" name="q1" value="A">A) Ctrl + X</label>
+          <label><input type="radio" name="q1" value="B">B) Ctrl + C</label>
+          <label><input type="radio" name="q1" value="C">C) Ctrl + V</label>
+          <label><input type="radio" name="q1" value="D">D) Ctrl + Z</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>2. What is the purpose of the numeric keypad?</h2>
+        <div class="options">
+          <label><input type="radio" name="q2" value="A">A) Typing letters faster</label>
+          <label><input type="radio" name="q2" value="B">B) Fast number entry</label>
+          <label><input type="radio" name="q2" value="C">C) Typing symbols only</label>
+          <label><input type="radio" name="q2" value="D">D) Navigation in documents</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>3. Which finger should press the letter J?</h2>
+        <div class="options">
+          <label><input type="radio" name="q3" value="A">A) Right index</label>
+          <label><input type="radio" name="q3" value="B">B) Right middle</label>
+          <label><input type="radio" name="q3" value="C">C) Left index</label>
+          <label><input type="radio" name="q3" value="D">D) Left pinky</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>4. Pressing F5 in a browser will:</h2>
+        <div class="options">
+          <label><input type="radio" name="q4" value="A">A) Open help menu</label>
+          <label><input type="radio" name="q4" value="B">B) Refresh the page</label>
+          <label><input type="radio" name="q4" value="C">C) Close the browser</label>
+          <label><input type="radio" name="q4" value="D">D) Save the document</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>5. What is the first step before typing a professional document?</h2>
+        <div class="options">
+          <label><input type="radio" name="q5" value="A">A) Type as fast as possible</label>
+          <label><input type="radio" name="q5" value="B">B) Set up proper posture and ergonomics</label>
+          <label><input type="radio" name="q5" value="C">C) Ignore formatting</label>
+          <label><input type="radio" name="q5" value="D">D) Only use the right hand</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>6. Which key moves the cursor to the next tab stop?</h2>
+        <div class="options">
+          <label><input type="radio" name="q6" value="A">A) Enter</label>
+          <label><input type="radio" name="q6" value="B">B) Shift</label>
+          <label><input type="radio" name="q6" value="C">C) Tab</label>
+          <label><input type="radio" name="q6" value="D">D) Backspace</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>7. Touch typing means:</h2>
+        <div class="options">
+          <label><input type="radio" name="q7" value="A">A) Typing without looking at the keyboard</label>
+          <label><input type="radio" name="q7" value="B">B) Typing only with thumbs</label>
+          <label><input type="radio" name="q7" value="C">C) Typing only letters A–Z</label>
+          <label><input type="radio" name="q7" value="D">D) Typing faster than 50 WPM</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>8. Which special key deletes the character to the right of the cursor?</h2>
+        <div class="options">
+          <label><input type="radio" name="q8" value="A">A) Backspace</label>
+          <label><input type="radio" name="q8" value="B">B) Delete</label>
+          <label><input type="radio" name="q8" value="C">C) Enter</label>
+          <label><input type="radio" name="q8" value="D">D) Tab</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>9. Which of the following is NOT part of the home row?</h2>
+        <div class="options">
+          <label><input type="radio" name="q9" value="A">A) F</label>
+          <label><input type="radio" name="q9" value="B">B) J</label>
+          <label><input type="radio" name="q9" value="C">C) Q</label>
+          <label><input type="radio" name="q9" value="D">D) D</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>10. To type the symbol &, you need to press:</h2>
+        <div class="options">
+          <label><input type="radio" name="q10" value="A">A) Shift + 6</label>
+          <label><input type="radio" name="q10" value="B">B) Shift + 7</label>
+          <label><input type="radio" name="q10" value="C">C) Shift + 5</label>
+          <label><input type="radio" name="q10" value="D">D) Alt + 6</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>11. Which finger is used to press the letter Z?</h2>
+        <div class="options">
+          <label><input type="radio" name="q11" value="A">A) Left pinky</label>
+          <label><input type="radio" name="q11" value="B">B) Left ring</label>
+          <label><input type="radio" name="q11" value="C">C) Right index</label>
+          <label><input type="radio" name="q11" value="D">D) Right middle</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>12. What is the main purpose of Caps Lock?</h2>
+        <div class="options">
+          <label><input type="radio" name="q12" value="A">A) Type numbers</label>
+          <label><input type="radio" name="q12" value="B">B) Toggle uppercase letters on or off</label>
+          <label><input type="radio" name="q12" value="C">C) Switch keyboard layout</label>
+          <label><input type="radio" name="q12" value="D">D) Move the cursor</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>13. What is the proper posture for long typing sessions?</h2>
+        <div class="options">
+          <label><input type="radio" name="q13" value="A">A) Lean forward, shoulders tense</label>
+          <label><input type="radio" name="q13" value="B">B) Sit upright, shoulders relaxed</label>
+          <label><input type="radio" name="q13" value="C">C) Head down, elbows off the desk</label>
+          <label><input type="radio" name="q13" value="D">D) Legs crossed, monitor too low</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>14. Which key combination undoes the last action?</h2>
+        <div class="options">
+          <label><input type="radio" name="q14" value="A">A) Ctrl + C</label>
+          <label><input type="radio" name="q14" value="B">B) Ctrl + Z</label>
+          <label><input type="radio" name="q14" value="C">C) Ctrl + V</label>
+          <label><input type="radio" name="q14" value="D">D) Ctrl + Y</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>15. Which of the following keys is a function key?</h2>
+        <div class="options">
+          <label><input type="radio" name="q15" value="A">A) Home</label>
+          <label><input type="radio" name="q15" value="B">B) F9</label>
+          <label><input type="radio" name="q15" value="C">C) Backspace</label>
+          <label><input type="radio" name="q15" value="D">D) Enter</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>16. The home row keys for the left hand are:</h2>
+        <div class="options">
+          <label><input type="radio" name="q16" value="A">A) A S D F</label>
+          <label><input type="radio" name="q16" value="B">B) Q W E R</label>
+          <label><input type="radio" name="q16" value="C">C) Z X C V</label>
+          <label><input type="radio" name="q16" value="D">D) J K L ;</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>17. Pressing Alt + F4 will:</h2>
+        <div class="options">
+          <label><input type="radio" name="q17" value="A">A) Open a new document</label>
+          <label><input type="radio" name="q17" value="B">B) Close the current program</label>
+          <label><input type="radio" name="q17" value="C">C) Save the file</label>
+          <label><input type="radio" name="q17" value="D">D) Print the document</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>18. Which key combination types the exclamation mark (!) ?</h2>
+        <div class="options">
+          <label><input type="radio" name="q18" value="A">A) Shift + 1</label>
+          <label><input type="radio" name="q18" value="B">B) Shift + 2</label>
+          <label><input type="radio" name="q18" value="C">C) Ctrl + 1</label>
+          <label><input type="radio" name="q18" value="D">D) Alt + 1</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>19. Typing speed is measured in:</h2>
+        <div class="options">
+          <label><input type="radio" name="q19" value="A">A) Characters per second</label>
+          <label><input type="radio" name="q19" value="B">B) Words per minute (WPM)</label>
+          <label><input type="radio" name="q19" value="C">C) Sentences per hour</label>
+          <label><input type="radio" name="q19" value="D">D) Lines per minute</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>20. Which key should you press to create a new paragraph?</h2>
+        <div class="options">
+          <label><input type="radio" name="q20" value="A">A) Enter</label>
+          <label><input type="radio" name="q20" value="B">B) Tab</label>
+          <label><input type="radio" name="q20" value="C">C) Shift</label>
+          <label><input type="radio" name="q20" value="D">D) Space bar</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>21. Which F-key opens the help menu in most programs?</h2>
+        <div class="options">
+          <label><input type="radio" name="q21" value="A">A) F1</label>
+          <label><input type="radio" name="q21" value="B">B) F2</label>
+          <label><input type="radio" name="q21" value="C">C) F3</label>
+          <label><input type="radio" name="q21" value="D">D) F4</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>22. When typing a memo, which of the following is included?</h2>
+        <div class="options">
+          <label><input type="radio" name="q22" value="A">A) Recipient, sender, date, subject</label>
+          <label><input type="radio" name="q22" value="B">B) Only body text</label>
+          <label><input type="radio" name="q22" value="C">C) Only date and signature</label>
+          <label><input type="radio" name="q22" value="D">D) Only recipient name</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>23. Why is accuracy more important than speed for beginners?</h2>
+        <div class="options">
+          <label><input type="radio" name="q23" value="A">A) Faster typing doesn’t matter</label>
+          <label><input type="radio" name="q23" value="B">B) Accuracy reduces errors and builds proper habits</label>
+          <label><input type="radio" name="q23" value="C">C) Speed alone improves posture</label>
+          <label><input type="radio" name="q23" value="D">D) Accuracy is not important</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>24. Which finger presses the number 5 on the top row?</h2>
+        <div class="options">
+          <label><input type="radio" name="q24" value="A">A) Left index</label>
+          <label><input type="radio" name="q24" value="B">B) Right index</label>
+          <label><input type="radio" name="q24" value="C">C) Left middle</label>
+          <label><input type="radio" name="q24" value="D">D) Right middle</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>25. Which of the following improves typing speed and reduces errors?</h2>
+        <div class="options">
+          <label><input type="radio" name="q25" value="A">A) Long practice once a week</label>
+          <label><input type="radio" name="q25" value="B">B) Frequent short practice sessions</label>
+          <label><input type="radio" name="q25" value="C">C) Looking at the keyboard constantly</label>
+          <label><input type="radio" name="q25" value="D">D) Random typing without drills</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>26. Which special key moves the cursor back one character?</h2>
+        <div class="options">
+          <label><input type="radio" name="q26" value="A">A) Enter</label>
+          <label><input type="radio" name="q26" value="B">B) Backspace</label>
+          <label><input type="radio" name="q26" value="C">C) Delete</label>
+          <label><input type="radio" name="q26" value="D">D) Tab</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>27. Which of these is part of alphabetic key drills?</h2>
+        <div class="options">
+          <label><input type="radio" name="q27" value="A">A) Typing numbers 0–9</label>
+          <label><input type="radio" name="q27" value="B">B) Typing letters A–Z in sequences</label>
+          <label><input type="radio" name="q27" value="C">C) Copy-pasting text</label>
+          <label><input type="radio" name="q27" value="D">D) Using numeric keypad</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>28. Pressing F11 in a browser will:</h2>
+        <div class="options">
+          <label><input type="radio" name="q28" value="A">A) Open help</label>
+          <label><input type="radio" name="q28" value="B">B) Enter full-screen mode</label>
+          <label><input type="radio" name="q28" value="C">C) Refresh the page</label>
+          <label><input type="radio" name="q28" value="D">D) Close the tab</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>29. Why are ergonomic practices important for keyboarding?</h2>
+        <div class="options">
+          <label><input type="radio" name="q29" value="A">A) To improve typing speed only</label>
+          <label><input type="radio" name="q29" value="B">B) To prevent fatigue and repetitive strain injuries</label>
+          <label><input type="radio" name="q29" value="C">C) To memorize keys</label>
+          <label><input type="radio" name="q29" value="D">D) To type only with one hand</label>
+        </div>
+      </div>
+
+      <div class="quiz-block"><h2>30. Which of the following sequences is correct for bottom row key placement?</h2>
+        <div class="options">
+          <label><input type="radio" name="q30" value="A">A) Q W E R T</label>
+          <label><input type="radio" name="q30" value="B">B) Z X C V B N M , . /</label>
+          <label><input type="radio" name="q30" value="C">C) A S D F J K L ;</label>
+          <label><input type="radio" name="q30" value="D">D) 1 2 3 4 5</label>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button type="button" onclick="checkAnswers()">Submit Quiz</button>
+        <button type="button" onclick="document.getElementById('quizForm').reset()" style="background:#6c757d">Reset</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- MODALS -->
+  <div class="modal" id="scoreModal">
+    <div class="modal-content">
+      <h2>Quiz Result</h2>
+      <p id="scoreText"></p>
+      <p id="percentText" style="margin-top:6px;color:#555"></p>
+      <button onclick="closeModal()">OK — Reset Quiz</button>
+    </div>
+  </div>
+  <div class="modal" id="warningModal">
+    <div class="modal-content">
+      <h2>⚠️ Incomplete Quiz</h2>
+      <p>Please answer <b>all 30 questions</b> before submitting.</p>
+      <button onclick="closeWarning()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    // Toggle menu visibility
+    function toggleMenu() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("active");
+
+      // When sidebar is active, prevent body scroll
+      if (sidebar.classList.contains("active")) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "auto";
+      }
+    }
+
+    // Correct answers for Keyboarding 1–30
+    const correctAnswers = {
+      q1:"B", q2:"B", q3:"A", q4:"B", q5:"B",
+      q6:"C", q7:"A", q8:"B", q9:"C", q10:"A",
+      q11:"A", q12:"B", q13:"B", q14:"B", q15:"B",
+      q16:"A", q17:"B", q18:"A", q19:"B", q20:"A",
+      q21:"A", q22:"A", q23:"B", q24:"A", q25:"B",
+      q26:"B", q27:"B", q28:"B", q29:"B", q30:"B"
+    };
+
+    function checkAnswers() {
+      const total = 30;
+      const form = document.getElementById('quizForm');
+      let answered = 0, score = 0;
+      for (let i = 1; i <= total; i++) {
+        const ans = form.querySelector(`input[name="q${i}"]:checked`);
+        if (ans) {
+          answered++;
+          if (ans.value === correctAnswers[`q${i}`]) score++;
+        }
+      }
+      if (answered < total) {
+        document.getElementById('warningModal').style.display = 'flex';
+        return;
+      }
+      const percent = Math.round((score / total) * 100);
+      document.getElementById('scoreText').innerHTML = `You got <b>${score}</b> out of <b>${total}</b>`;
+      document.getElementById('percentText').textContent = `Percentage: ${percent}%`;
+      document.getElementById('scoreModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('scoreModal').style.display = 'none';
+      document.getElementById('quizForm').reset();
+    }
+    function closeWarning() {
+      document.getElementById('warningModal').style.display = 'none';
+    }
+
+    // Disable right-click, copy, paste, selection and common devtools shortcuts
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('copy', e => e.preventDefault());
+    document.addEventListener('cut', e => e.preventDefault());
+    document.addEventListener('paste', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (
+        e.key === 'F12' || // DevTools
+        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || // Ctrl+Shift+I/C/J
+        (e.ctrlKey && e.key === 'U') // Ctrl+U (View Source)
+      ) {
+        e.preventDefault();
+        alert("⚠️ Disabled for security reasons.");
+      }
+    });
+  </script>
+</body>
+</html>

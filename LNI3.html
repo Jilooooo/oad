@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 3 - Negotiation & Endorsement | Negotiable Instruments</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      height: 100%; width: 75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57;
+      transition:.3s; overflow:hidden; z-index:1000;
+    }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;white-space:nowrap; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU */
+    .menu-btn {
+      display:none; position:fixed; top:15px; left:15px;
+      background:#0b1e3f; color:#fff; border:none;
+      padding:10px 12px; border-radius:6px; cursor:pointer;
+      z-index:1500; font-size:18px; transition:.3s;
+    }
+
+    /* CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p{line-height:1.7;color:#333;text-align:justify;margin-bottom:10px;}
+    ul{margin-left:25px;margin-bottom:10px;}
+    h3{margin-top:10px;color:#0b1e3f;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none; }
+    .back:hover { background:#1e3d7c; }
+
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="logo">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 3 – Negotiation & Endorsement of Negotiable Instruments</h1></header>
+
+  <section class="content">
+
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Define negotiation in the context of negotiable instruments.</li>
+        <li>Distinguish between bearer and order instruments and their modes of negotiation.</li>
+        <li>Identify different types of endorsements and their legal effects.</li>
+        <li>Explain the rights and protections of holders and holders in due course.</li>
+        <li>Differentiate between negotiation and assignment.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>Definition & Importance of Negotiation</h2>
+      <p>
+        <strong>Negotiation</strong> is the lawful process by which ownership and possession of a negotiable instrument
+        are transferred from one person to another. The transferee becomes a <em>holder</em> with the legal right to
+        demand payment or enforce the instrument according to its terms. Negotiation allows these instruments to
+        operate as effective substitutes for money by enabling free transferability, enhancing liquidity and trust
+        in commercial transactions.
+      </p>
+    </div>
+
+    <div class="section-block">
+      <h2>Modes and Requirements of Negotiation</h2>
+
+      <h3>Bearer Instruments</h3>
+      <p>
+        Bearer instruments are payable to the bearer or holder. Negotiation of bearer instruments occurs by delivery
+        alone — physical transfer of the instrument suffices. No endorsement is required. This enables rapid transfer,
+        but carries risk if the instrument is lost or stolen.
+      </p>
+      <p><em>Example:</em> A check reading “Pay to bearer ₱5,000” can be negotiated by handing it to someone else.</p>
+
+      <h3>Order Instruments</h3>
+      <p>
+        Order instruments are payable to a specified person or their order. Negotiation requires two steps:
+        <ol>
+          <li><strong>Endorsement</strong> — the current holder signs the instrument (usually on the back), expressing intent to transfer;</li>
+          <li><strong>Delivery</strong> — the endorsed instrument is physically delivered to the transferee.</li>
+        </ol>
+      </p>
+      <p>
+        A bearer instrument can be negotiated by mere delivery; an order instrument requires endorsement and delivery.
+      </p>
+    </div>
+
+    <div class="section-block">
+      <h2>The Concept & Forms of Endorsement</h2>
+      <p>
+        <strong>Endorsement</strong> is the act of signing the instrument to transfer rights. Different forms of endorsement
+        have distinct legal consequences:
+      </p>
+
+      <h3>Blank Endorsement</h3>
+      <p>
+        The endorser signs without naming a transferee. This converts an order instrument into a bearer instrument —
+        further negotiation can occur by delivery alone.
+      </p>
+      <p><em>Example:</em> “Maria Dela Cruz” signed at the back; the note becomes payable to bearer.</p>
+
+      <h3>Special Endorsement</h3>
+      <p>
+        The endorser names the transferee (e.g., “Pay to Anna Lim — (signed) Roberto Bautista”). Only the named transferee
+        (or their endorsement) can negotiate the instrument further.
+      </p>
+
+      <h3>Restrictive Endorsement</h3>
+      <p>
+        Limits the use or negotiation of the instrument (e.g., “For deposit only”). It restricts further transfer or
+        use other than specified.
+      </p>
+
+      <h3>Qualified Endorsement</h3>
+      <p>
+        Adds language like “Without recourse,” which disclaims liability of the endorser in case of dishonor,
+        limiting the endorser’s liability to guarantee payment.
+      </p>
+    </div>
+
+    <div class="section-block">
+      <h2>Rights & Protections of the Holder</h2>
+      <p>
+        A <strong>holder</strong> is entitled to enforce payment according to the instrument’s terms. A special category,
+        the <strong>Holder in Due Course (HDC)</strong>, obtains stronger protection when the instrument is acquired:
+      </p>
+      <ul>
+        <li>For value;</li>
+        <li>In good faith; and</li>
+        <li>Without notice of defects or claims.</li>
+      </ul>
+      <p>
+        An HDC takes the instrument free of many defenses that could be raised against prior holders, promoting confidence
+        in negotiable instruments.
+      </p>
+      <p><em>Example:</em> A buyer who accepts a check in good faith and for value may enforce it even if prior disputes exist.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>Negotiation vs Assignment</h2>
+      <p>
+        Both transfer rights, but negotiation is a privileged statutory mode for negotiable instruments that often
+        confers immediate enforceability and HDC protections. Assignment is a general transfer of rights under a contract
+        and does not automatically grant holder-in-due-course protections.
+      </p>
+      <p><em>Example:</em> Endorsing and delivering a promissory note is negotiation; merely sending a written assignment letter is an assignment.</p>
+    </div>
+
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which form of endorsement converts an order instrument into a bearer instrument?</p>
+
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Special endorsement</li>
+        <li onclick="checkAnswer(this,true)">Blank endorsement</li>
+        <li onclick="checkAnswer(this,false)">Restrictive endorsement</li>
+        <li onclick="checkAnswer(this,false)">Qualified endorsement</li>
+      </ul>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="NI.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>

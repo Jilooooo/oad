@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 3 - Essential Elements of Legal Forms | BSOA LEARNING</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif}
+    body{display:flex;background-color:#f4f8ff;min-height:100vh;overflow-x:hidden;flex-direction:row}
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0;
+      height: 100%; width: 75px;
+      background-color:#0b1e3f; border-right:1px solid #162b57;
+      transition:.3s; overflow:hidden; z-index:1000;
+    }
+    .sidebar:hover { width:240px; }
+    .sidebar.active { left:0; width:240px; }
+
+    .logo { display:flex;align-items:center;gap:10px;padding:15px;text-decoration:none;white-space:nowrap; }
+    .logo img { width:35px;height:35px;filter:brightness(1.2);transition:.3s; }
+    .logo:hover img { transform:scale(1.1); }
+    .logo h2 { color:#fff;font-size:1.2rem;font-weight:600;opacity:0;transition:.3s; }
+
+    .sidebar:hover .logo h2,
+    .sidebar.active .logo h2 { opacity:1; }
+
+    .nav-links { list-style:none;margin-top:20px; }
+    .nav-links li {
+      display:flex;align-items:center;gap:15px;padding:15px;cursor:pointer;
+      color:#cfd8ff;transition:.3s;white-space:nowrap;
+    }
+    .nav-links li i { font-size:18px;color:#93b4ff;width:30px;text-align:center;margin-left:5px; }
+    .nav-links li:hover, .nav-links li.active { background:#1e3d7c;color:#fff;border-radius:10px; }
+    .nav-links li:hover i, .nav-links li.active i { color:#fff; }
+
+    /* MENU */
+    .menu-btn {
+      display:none; position:fixed; top:15px; left:15px;
+      background:#0b1e3f; color:#fff; border:none;
+      padding:10px 12px; border-radius:6px; cursor:pointer;
+      z-index:1500; font-size:18px; transition:.3s;
+    }
+
+    /* CONTENT */
+    .main-content { flex:1;margin-left:95px;padding:40px;transition:.3s; }
+    .sidebar:hover ~ .main-content,
+    .sidebar.active ~ .main-content { margin-left:240px; }
+
+    header h1 { color:#0b1e3f;margin-bottom:25px;font-size:2rem; }
+
+    .content {
+      background:#fff;padding:25px;border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.08);display:grid;gap:25px;
+    }
+
+    .section-block {
+      background:#f8faff;padding:20px;border-radius:10px;
+      border-left:6px solid #0b1e3f;
+    }
+
+    p{line-height:1.7;color:#333;text-align:justify;margin-bottom:10px;}
+    ul{margin-left:25px;margin-bottom:10px;}
+
+    /* QUIZ */
+    .quiz-block { background:#eef4ff;padding:20px;border-radius:12px;border-left:6px solid #0b1e3f; }
+    .quiz-block h2 { margin-bottom:12px;color:#0b1e3f; }
+    .options li {
+      background:#fff;border:1px solid #ddd;padding:10px 15px;border-radius:8px;
+      margin-bottom:8px;cursor:pointer;transition:.3s;
+    }
+    .options li:hover { background:#dbe6ff; }
+    .feedback { margin-top:10px;font-weight:600; }
+    .correct { color:green; }
+    .wrong { color:red; }
+
+    .back { display:inline-block;margin-top:20px;background:#0b1e3f;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none; }
+    .back:hover { background:#1e3d7c; }
+
+    @media(max-width:768px){
+      .menu-btn{display:block;}
+      .sidebar{left:-240px;width:240px;}
+      .sidebar.active{left:0;}
+      .main-content{margin-left:0;padding:20px;}
+      header h1{text-align:center;}
+    }
+  </style>
+</head>
+
+<body>
+
+<button class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html" class="logo">
+    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png">
+    <h2>BSOA LEARNING</h2>
+  </a>
+
+  <ul class="nav-links">
+    <li onclick="window.location.href='learn.html'"><i class="fas fa-book-open"></i><span>SUBJECTS</span></li>
+    <li onclick="window.location.href='quiz.html'"><i class="fas fa-question-circle"></i><span>QUIZZES</span></li>
+    <li onclick="window.location.href='practice.html'"><i class="fas fa-laptop-code"></i><span>PRACTICE</span></li>
+    <li onclick="window.location.href='about.html'"><i class="fas fa-info-circle"></i><span>ABOUT</span></li>
+  </ul>
+</div>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header><h1>Lesson 3 – Essential Elements of Legal Forms</h1></header>
+
+  <section class="content">
+
+    <!-- LEARNING OUTCOMES -->
+    <div class="section-block">
+      <h2>Learning Outcomes</h2>
+      <p>By the end of this lesson, learners will be able to:</p>
+      <ul>
+        <li>Identify and explain the essential elements of a valid legal form.</li>
+        <li>Distinguish between required and optional parts of legal forms.</li>
+        <li>Understand how elements such as consent, capacity, and legality affect enforceability.</li>
+        <li>Recognize when notarization, witnesses, or registration are needed.</li>
+        <li>Apply knowledge by examining examples like lease agreements and contracts.</li>
+      </ul>
+    </div>
+
+    <!-- INTRODUCTION -->
+    <div class="section-block">
+      <h2>Introduction</h2>
+      <p>
+        A legal form is only valid if certain essential elements are present. These elements ensure that
+        the document is legally binding, clearly written, and enforceable by law.
+      </p>
+      <p>
+        Missing or incorrect elements can render a form void, unenforceable, or legally weak.
+        This lesson explains the required and optional elements found in most legal forms.
+      </p>
+    </div>
+
+    <!-- ESSENTIAL ELEMENTS -->
+    <div class="section-block">
+      <h2>1. Essential Elements of a Legal Form</h2>
+
+      <h3>A. Identification of Parties</h3>
+      <ul>
+        <li>Includes names, addresses, and identifying details.</li>
+        <li>Parties must be clearly identified to avoid confusion.</li>
+      </ul>
+
+      <h3>B. Consideration</h3>
+      <ul>
+        <li>Refers to what each party gives or receives (e.g., money, service, property).</li>
+        <li>A contract without consideration is generally invalid.</li>
+      </ul>
+
+      <h3>C. Offer and Acceptance</h3>
+      <ul>
+        <li>One party proposes the terms; the other agrees to them.</li>
+        <li>This agreement is foundational in most legal documents.</li>
+      </ul>
+
+      <h3>D. Legal Purpose</h3>
+      <ul>
+        <li>The form must serve a lawful and valid objective.</li>
+        <li>Any illegal purpose makes the document void.</li>
+      </ul>
+
+      <h3>E. Certainty and Definiteness</h3>
+      <ul>
+        <li>Terms must be clear, specific, and enforceable.</li>
+        <li>Ambiguous terms weaken or invalidate the form.</li>
+      </ul>
+
+      <h3>F. Writing and Signature</h3>
+      <ul>
+        <li>Some forms legally require written format.</li>
+        <li>Signatures authenticate the agreement.</li>
+      </ul>
+    </div>
+
+    <!-- OPTIONAL ELEMENTS -->
+    <div class="section-block">
+      <h2>2. Optional but Recommended Elements</h2>
+
+      <h3>A. Date</h3>
+      <p>Shows when the document was created or became effective.</p>
+
+      <h3>B. Witnesses</h3>
+      <p>Provide added verification and may be required for some forms.</p>
+
+      <h3>C. Notarization</h3>
+      <p>Enhances authenticity; mandatory for certain legal documents.</p>
+    </div>
+
+    <!-- PRACTICAL EXAMPLE -->
+    <div class="section-block">
+      <h2>3. Practical Example</h2>
+      <p>Imagine a Lease Agreement:</p>
+
+      <ul>
+        <li>It must identify the lessor (owner) and lessee (tenant).</li>
+        <li>The consideration is the rental payment.</li>
+        <li>There must be an offer (renting the property) and acceptance (agreement by tenant).</li>
+        <li>The purpose must be legal (leasing property).</li>
+        <li>Terms such as rent, duration, responsibilities must be clear.</li>
+        <li>Both parties must sign the agreement.</li>
+        <li>Optional: witnesses and notarization for added security.</li>
+      </ul>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-block">
+      <h2>🧠 Quick Break Question</h2>
+      <p>Which of the following is an essential element of a valid legal form?</p>
+
+      <ul class="options">
+        <li onclick="checkAnswer(this,false)">Colorful design</li>
+        <li onclick="checkAnswer(this,true)">Offer and acceptance</li>
+        <li onclick="checkAnswer(this,false)">Two witnesses</li>
+        <li onclick="checkAnswer(this,false)">Notarial seal</li>
+      </ul>
+
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <a class="back" href="LF.html">← Back to Module</a>
+
+  </section>
+</main>
+
+<script>
+function toggleMenu(){
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function checkAnswer(element, isCorrect) {
+  const feedback = document.getElementById('feedback');
+  document.querySelectorAll('.options li').forEach(li => li.style.background = '#fff');
+  element.style.background = isCorrect ? '#c8f7c5' : '#f7c5c5';
+  feedback.textContent = isCorrect ? "✅ Correct!" : "❌ Try again!";
+  feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+}
+</script>
+
+</body>
+</html>
